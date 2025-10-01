@@ -1,0 +1,59 @@
+<!-- product table -->
+<div class="bg-white p-4 rounded shadow-md">
+  <!-- Search + Add New Product -->
+  <div class="flex items-center justify-between border-b pb-3">
+    <div class="flex items-center w-full max-w-2xl">
+      <input
+        type="text"
+        placeholder="Enter Product name / SKU / Scan bar code"
+        class="w-full border border-gray-300 rounded-l px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <button class="bg-gray-100 border border-l-0 border-gray-300 px-3 py-1 rounded-r">
+        <i class="fas fa-search text-gray-600 text-sm"></i>
+      </button>
+    </div>
+    <button
+      class="ml-4 text-blue-600 font-medium text-sm flex items-center hover:underline"
+    >
+      <i class="fas fa-plus mr-1"></i> Add new product
+    </button>
+  </div>
+
+  <!-- Product Table -->
+  <div class="overflow-x-auto mt-4">
+    <table class="min-w-full border border-gray-200 rounded-lg shadow-sm">
+      <thead class="bg-green-600 text-white text-xs">
+        <tr class="h-8">
+          <th class="px-3 py-1 text-left">#</th>
+          <th class="px-3 py-1 text-left">Product Name</th>
+          <th class="px-3 py-1 text-left">Purchase Quantity</th>
+          <th class="px-3 py-1 text-left">Purchase Price</th>
+          <th class="px-3 py-1 text-left">Discount Percen</th>
+          <th class="px-3 py-1 text-left">Unit Cost (Before Tax)</th>
+          <th class="px-3 py-1 text-left">Line Total</th>
+          <th class="px-3 py-1 text-left">Profit Margin %</th>
+          <th class="px-3 py-1 text-left">Unit Selling Price (Inc. tax)</th>
+          <th class="px-3 py-1 text-center">
+            <i class="fas fa-trash"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Example Empty Row -->
+        <tr>
+          <td colspan="10" class="text-center text-gray-400 py-3 text-sm">
+            No products added yet
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer Totals -->
+  <div class="flex justify-end text-xs mt-3">
+    <div class="text-right">
+      <p>Total Items: <span class="font-semibold">0.00</span></p>
+      <p>Net Total Amount: <span class="font-semibold">0.00</span></p>
+    </div>
+  </div>
+</div>

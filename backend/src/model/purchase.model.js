@@ -51,11 +51,17 @@ const Purchase = sequelize.define(
       type: DataTypes.DECIMAL,  
       allowNull: false,
     },
+    quantity: {
+  type: DataTypes.INTEGER,
+  allowNull: false,
+  defaultValue: 0,
+},
+
   },
   {
     sequelize,
     modelName: "Purchase",
-    tableName: "purchase",
+    tableName: "purchases",
     timestamps: true,
     paranoid: true,
   }

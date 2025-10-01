@@ -4,7 +4,7 @@ import Products from "../model/products.model.js";
 import BusinessLocation from "../model/business-location.model.js";
 import Contact from "../model/contact.model.js";
 import Discount from "../model/discount.model.js";
-
+import Price from "../model/price.model.js";
 
 // 🔹 Helper: validate FK existence
 const ensureExists = async (Model, id, fieldName) => {
@@ -24,16 +24,27 @@ export const createPurchase = async (req, res) => {
     await ensureExists(Contact, body.contact_id, "contact_id");
     await ensureExists(Discount, body.discount_id, "discount_id");
 
+    // 🔹 Step 1: Purchase create karo
     const purchase = await Purchase.create(body);
+
+    // 🔹 Step 2: Product ki quantity increase karo
+    const product = await Products.findByPk(body.product_id);
+    if (product) {
+      product.quantity = (product.quantity || 0) + (body.quantity || 0); // purchase quantity add hogi
+      await product.save();
+    }
+
     res.status(201).json({
       success: true,
-      message: "Purchase created successfully",
+      message: "Purchase created successfully & Product stock updated",
       data: purchase,
     });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
+    console.log(error)
   }
 };
+ 
 
 // ✅ Get all purchases with relations
 export const getPurchases = async (req, res) => {
@@ -43,7 +54,7 @@ export const getPurchases = async (req, res) => {
         {
           model: Products,
           as: "product",
-          attributes: ["id", "product_name", "quantity"],
+          attributes: ["id", "product_name"],
         },
         {
           model: BusinessLocation,
@@ -77,7 +88,14 @@ export const getPurchaseById = async (req, res) => {
         {
           model: Products,
           as: "product",
-          attributes: ["id", "product_name", "quantity"], // ✅ fixed
+          attributes: ["id", "product_name", ],
+          include: [
+            {
+              model: Price,
+              as: "price", // ✅ association name jo defineAssociations me banaya tha
+              attributes: ["id", "purchase_price"], 
+            },
+          ],
         },
         {
           model: BusinessLocation,
@@ -89,23 +107,30 @@ export const getPurchaseById = async (req, res) => {
           as: "contact",
           attributes: ["id", "first_name", "middle_name", "last_name", "city", "state", "country"],
         },
-                {
-                   model: Discount, 
-                   as: "discount",
-                    attributes: ["id", "discount_type", "discount_amount"]
-                   }, 
-
+        {
+          model: Discount,
+          as: "discount",
+          attributes: ["id", "discount_type", "discount_amount"],
+        },
       ],
     });
 
     if (!purchase) {
       return res.status(404).json({ success: false, error: "Purchase not found" });
     }
-    res.json({ success: true, data: purchase });
+
+    // ✅ purchase price extract karne ka simple way
+    const responseData = {
+      ...purchase.toJSON(),
+      purchase_price: purchase.product?.price?.purchase_price || null,
+    };
+
+    res.json({ success: true, data: responseData });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
 
 
 // ✅ Update purchase

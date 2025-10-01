@@ -1,34 +1,37 @@
 <div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
   <h2 class="text-2xl font-bold mb-6 text-gray-800">Add Purchase</h2>
 
-  <form class="space-y-6">
-
+  <form (ngSubmit)="savePurchase()" #purchaseForm="ngForm" class="space-y-6">
     <!-- Supplier -->
     <div>
-      <label for="supplier" class="block mb-2 font-medium text-gray-700">Supplier</label>
-      <select id="supplier" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+      <label class="block mb-2 font-medium text-gray-700">Supplier</label>
+      <select [(ngModel)]="supplier" name="supplier"
+        class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500">
         <option value="">Select Supplier</option>
         <option value="supplier1">Supplier 1</option>
         <option value="supplier2">Supplier 2</option>
       </select>
     </div>
 
-    <!-- Reference Number -->
+    <!-- Ref No -->
     <div>
-      <label for="refNo" class="block mb-2 font-medium text-gray-700">Reference No</label>
-      <input type="text" id="refNo" placeholder="Enter reference number" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500" />
+      <label class="block mb-2 font-medium text-gray-700">Reference No</label>
+      <input type="text" [(ngModel)]="refNo" name="refNo"
+        class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500" />
     </div>
 
     <!-- Purchase Date -->
     <div>
-      <label for="purchaseDate" class="block mb-2 font-medium text-gray-700">Purchase Date</label>
-      <input type="date" id="purchaseDate" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500" />
+      <label class="block mb-2 font-medium text-gray-700">Purchase Date</label>
+      <input type="date" [(ngModel)]="purchaseDate" name="purchaseDate"
+        class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500" />
     </div>
 
-    <!-- Purchase Status -->
+    <!-- Status -->
     <div>
-      <label for="status" class="block mb-2 font-medium text-gray-700">Purchase Status</label>
-      <select id="status" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+      <label class="block mb-2 font-medium text-gray-700">Purchase Status</label>
+      <select [(ngModel)]="status" name="status"
+        class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500">
         <option value="">Select Status</option>
         <option value="ordered">Ordered</option>
         <option value="received">Received</option>
@@ -36,90 +39,142 @@
       </select>
     </div>
 
-    <!-- Address (Plain text) -->
+    <!-- Location -->
     <div>
-      <label class="block mb-2 font-medium text-gray-700">Address</label>
-      <p class="p-2 border border-gray-200 rounded bg-gray-50">123 Main Street, City, Country</p>
-    </div>
-
-    <!-- Business Location -->
-    <div>
-      <label for="businessLocation" class="block mb-2 font-medium text-gray-700">Business Location</label>
-      <select id="businessLocation" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+      <label class="block mb-2 font-medium text-gray-700">Business Location</label>
+      <select [(ngModel)]="location" name="location"
+        class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500">
         <option value="">Select Location</option>
         <option value="location1">Location 1</option>
         <option value="location2">Location 2</option>
       </select>
     </div>
 
-    <!-- Product Table -->
-    <div class="overflow-x-auto mt-4">
-      <table class="min-w-full border border-gray-200">
-        <thead class="bg-green-600 text-white">
-          <tr>
-            <th class="px-2 py-2">#</th>
-            <th class="px-2 py-2">Product Name</th>
-            <th class="px-2 py-2">Quantity</th>
-            <th class="px-2 py-2">Purchase Price</th>
-            <th class="px-2 py-2">Discount Type</th>
-            <th class="px-2 py-2">Discount Amount</th>
-            <th class="px-2 py-2">Purchase Tax</th>
-            <th class="px-2 py-2">Total Amount</th>
-            <th class="px-2 py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-b">
-            <td class="px-2 py-2">1</td>
-            <td class="px-2 py-2">
-              <input type="text" placeholder="Search product" class="w-full p-1 border border-gray-300 rounded" />
-            </td>
-            <td class="px-2 py-2"><input type="number" class="w-full p-1 border border-gray-300 rounded" /></td>
-            <td class="px-2 py-2"><input type="number" class="w-full p-1 border border-gray-300 rounded" /></td>
-            <td class="px-2 py-2">
-              <select class="w-full p-1 border border-gray-300 rounded">
-                <option value="">Select Type</option>
-                <option value="fixed">Fixed</option>
-                <option value="percentage">Percentage</option>
-              </select>
-            </td>
-            <td class="px-2 py-2"><input type="number" class="w-full p-1 border border-gray-300 rounded" /></td>
-            <td class="px-2 py-2">
-              <select class="w-full p-1 border border-gray-300 rounded">
-                <option value="">Select Tax</option>
-                <option value="5">5%</option>
-                <option value="10">10%</option>
-              </select>
-            </td>
-            <td class="px-2 py-2">0.00</td>
-            <td class="px-2 py-2 text-center"><button class="text-red-600 hover:text-red-800">X</button></td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="bg-white p-4 rounded shadow-md">
+  <!-- Search -->
+  <div class="flex items-center border-b pb-3 relative">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      name="search"
+      placeholder="Enter Product name / SKU / Scan bar code"
+      class="w-full border border-gray-300 rounded-l px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
+    />
+    <button type="button"
+      class="bg-gray-100 border border-l-0 border-gray-300 px-3 py-2 rounded-r">
+      <i class="fas fa-search text-gray-600"></i>
+    </button>
+
+    <!-- Search Dropdown -->
+    <div *ngIf="searchQuery && filteredProducts.length > 0"
+      class="absolute top-10 left-0 bg-white border rounded shadow-md w-96 z-10">
+      <ul>
+        <li *ngFor="let product of filteredProducts" (click)="addProduct(product)"
+          class="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm">
+          {{ product.name }} - Rs. {{ product.price }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Product Table -->
+  <div class="overflow-x-auto mt-4">
+    <table class="min-w-full border border-gray-200 rounded-lg shadow-sm text-sm">
+      <thead class="bg-green-600 text-white">
+        <tr>
+          <th class="px-3 py-2">#</th>
+          <th class="px-3 py-2">Product</th>
+          <th class="px-3 py-2">Qty</th>
+          <th class="px-3 py-2">Purchase Price</th>
+          <th class="px-3 py-2">Discount Type</th>
+          <th class="px-3 py-2">Discount</th>
+          <th class="px-3 py-2">Total</th>
+          <th class="px-3 py-2">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of purchaseItems; let i = index">
+          <td class="px-3 py-2">{{ i + 1 }}</td>
+          <td class="px-3 py-2">{{ item.name }}</td>
+          <td class="px-3 py-2">
+            <input
+              type="number"
+              [(ngModel)]="item.quantity"
+              (change)="calculateTotal(item)"
+              class="w-16 border rounded px-1 text-xs"
+              min="1"
+            />
+          </td>
+          <td class="px-3 py-2">Rs. {{ item.price }}</td>
+          <td class="px-3 py-2">
+            <select
+              [(ngModel)]="item.discountType"
+              (change)="calculateTotal(item)"
+              class="border rounded px-1 text-xs"
+            >
+              <option value="fixed">Fixed</option>
+              <option value="percentage">%</option>
+            </select>
+          </td>
+          <td class="px-3 py-2">
+            <input
+              type="number"
+              [(ngModel)]="item.discountAmount"
+              (change)="calculateTotal(item)"
+              class="w-16 border rounded px-1 text-xs"
+              min="0"
+            />
+          </td>
+          <td class="px-3 py-2">Rs. {{ item.total | number: '1.2-2' }}</td>
+          <td class="px-3 py-2 text-center">
+            <button type="button" (click)="deleteItem(item.id)" class="text-red-600 hover:text-red-800">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="purchaseItems.length === 0">
+          <td colspan="9" class="text-center py-3 text-gray-400">No products added</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer Totals -->
+  <div class="flex justify-end mt-3 text-sm">
+    <div>
+      <p>Total Items: <span class="font-semibold">{{ totalItems }}</span></p>
+      <p>Net Total: <span class="font-semibold">Rs. {{ netTotal | number:'1.2-2' }}</span></p>
+    </div>
+  </div>
+</div>
+
+
+    <!-- Notes -->
+    <div>
+      <label class="block mb-2 font-medium text-gray-700">Notes</label>
+      <textarea [(ngModel)]="notes" name="notes" rows="3"
+        class="w-full border rounded p-2 focus:ring-2 focus:ring-green-500"></textarea>
     </div>
 
-    <!-- Additional Notes -->
+    <!-- Amount Paid -->
     <div>
-      <label for="notes" class="block mb-2 font-medium text-gray-700">Additional Notes</label>
-      <textarea id="notes" rows="3" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+      <label class="block mb-2 font-medium text-gray-700">Paid Amount</label>
+      <input type="number" [(ngModel)]="amountPaid" name="amountPaid"
+        class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500" />
     </div>
 
-    <!-- Amount -->
+    <!-- Date Paid -->
     <div>
-      <label for="amount" class="block mb-2 font-medium text-gray-700">Paid Amount</label>
-      <input type="number" id="amount" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500" />
-    </div>
-
-    <!-- Date Paid On -->
-    <div>
-      <label for="datePaid" class="block mb-2 font-medium text-gray-700">Date Paid On</label>
-      <input type="date" id="datePaid" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500" />
+      <label class="block mb-2 font-medium text-gray-700">Date Paid</label>
+      <input type="date" [(ngModel)]="datePaid" name="datePaid"
+        class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500" />
     </div>
 
     <!-- Payment Method -->
     <div>
-      <label for="paymentMethod" class="block mb-2 font-medium text-gray-700">Payment Method</label>
-      <select id="paymentMethod" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+      <label class="block mb-2 font-medium text-gray-700">Payment Method</label>
+      <select [(ngModel)]="paymentMethod" name="paymentMethod"
+        class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500">
         <option value="">Select Method</option>
         <option value="cash">Cash</option>
         <option value="credit">Credit</option>
@@ -127,8 +182,10 @@
       </select>
     </div>
 
-    <!-- Submit Button -->
-    <button type="submit" class="w-full bg-green-600 text-white font-medium py-2 rounded hover:bg-green-700 transition duration-200">Save Purchase</button>
-
+    <!-- Submit -->
+    <button type="submit"
+      class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
+      Save Purchase
+    </button>
   </form>
 </div>

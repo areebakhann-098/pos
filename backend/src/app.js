@@ -20,7 +20,9 @@ import unitRoutes from "./routes/unit.route.js"
 import priceRoutes from "./routes/price.route.js"
 import variationRoutes from "./routes/variation.route.js"
 import purchaseRoutes from "./routes/purchase.routes.js";
-import categoryRoutes from "./routes/categories.routes.js"
+import categoryRoutes from "./routes/categories.routes.js";
+import saleRoutes from "./routes/sale.routes.js";
+
 
 
 const app = express();
@@ -56,6 +58,8 @@ app.use('/api/v1', priceRoutes);
 app.use('/api/v1', variationRoutes);
 app.use("/api/v1", unitRoutes);
 app.use("/api/v1", purchaseRoutes);
+app.use("/api/v1", saleRoutes);
+
 
 
 
