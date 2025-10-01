@@ -1,0 +1,171 @@
+// controllers/product.controller.js
+import BusinessLocation from "../model/business-location.model.js";
+
+import Products from "../model/products.model.js";
+import {
+  Warranty,
+  Category,
+  TaxRate,
+  Brand,
+  Unit,
+  Variation,
+  Price,
+} from "../model/pos.association.js"; // adjust path
+
+// helper: validate FK existence
+const ensureExists = async (Model, id, fieldName) => {
+  if (id === undefined || id === null) return;
+  const rec = await Model.findByPk(id);
+  if (!rec) throw new Error(`Invalid ${fieldName}: record with id ${id} not found`);
+
+};
+
+
+// ✅ Create Product
+export const createProduct = async (req, res) => {
+  try {
+    const body = req.body;
+
+    // validate required FKs
+    await ensureExists(Warranty, body.warranty_id, "warranty_id");
+    await ensureExists(Category, body.category_id, "category_id");
+    await ensureExists(Brand, body.brands_id, "brands_id");
+    await ensureExists(Unit, body.unit_id, "unit_id");
+    await ensureExists(Variation, body.variation_id, "variation_id");
+    await ensureExists(TaxRate, body.tax_rate_id, "tax_rate_id");
+      await ensureExists(BusinessLocation, body.business_location_id, "business_location_id");
+
+
+    // ✅ pehle price insert karo
+    const priceData = {
+      profit_percent: body.profit_percent,
+      purchase_price: body.purchase_price,
+      sell_price: body.sell_price,
+      sell_price_with_tax: body.sell_price_with_tax,
+    };
+
+    const price = await Price.create(priceData);
+
+    // ✅ ab product create karo
+    const product = await Products.create({
+      ...body,
+      price_id: price.id, // link
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Product created with price",
+      data: { product, price },
+    });
+  } catch (err) {
+    return res.status(400).json({ success: false, message: err.message });
+  }
+};
+
+// ✅ Get all products
+export const getAllProducts = async (req, res) => {
+  try {
+    const products = await Products.findAll({
+      attributes: [
+        "id",
+        "product_name",
+        "product_description",
+        "weight",
+        "quantity",
+        "expiry_date", 
+      ],
+      include: [
+        { model: Warranty, as: "warranty", attributes: ["id", "name"] },
+        { model: Category, as: "Category", attributes: ["id", "name"] },
+        { model: TaxRate, as: "taxRate", attributes: ["id", "name", "amount"] },
+        { model: Brand, as: "Brand", attributes: ["id", "name"] },
+        { model: Unit, as: "unit", attributes: ["id", "name"] },
+        { model: BusinessLocation, as: "businessLocation", attributes: ["id", "name", "city", "country"] },
+  
+        {
+          model: Variation,
+          as: "variation",
+          attributes: ["id", "variation_name", "variation_value"],
+        },
+        {
+          model: Price,
+          as: "price",
+          attributes: ["id", "sell_price", "sell_price_with_tax"],
+        },
+      ],
+    });
+
+    return res.json({ success: true, data: products });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+// ✅ Get product by id
+export const getProductById = async (req, res) => {
+  try {
+    const product = await Products.findByPk(req.params.id, {
+      attributes: [
+        "id",
+        "product_name",
+        "product_description",
+        "weight",
+        "quantity",
+        "expiry_date",
+      ],
+      include: [
+        { model: Warranty, as: "warranty" },
+        { model: Category, as: "Category" },
+        { model: TaxRate, as: "taxRate" },
+        { model: Brand, as: "Brand" },
+        { model: Unit, as: "unit" },
+        { model: Variation, as: "variation" },
+        { model: Price, as: "price" },
+      ],
+    });
+
+    if (!product)
+      return res.status(404).json({ success: false, message: "Product not found" });
+
+    return res.json({ success: true, data: product });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+// ✅ Update product
+export const updateProduct = async (req, res) => {
+  try {
+    const product = await Products.findByPk(req.params.id);
+    if (!product)
+      return res.status(404).json({ success: false, message: "Product not found" });
+
+    const body = req.body;
+    await ensureExists(Warranty, body.warranty_id, "warranty_id");
+    await ensureExists(Category, body.category_id, "category_id");
+    await ensureExists(Brand, body.brands_id, "brands_id");
+    await ensureExists(Unit, body.unit_id, "unit_id");
+    await ensureExists(Variation, body.variation_id, "variation_id");
+    await ensureExists(TaxRate, body.tax_rate_id, "tax_rate_id");
+    await ensureExists(Price, body.price_id, "price_id");
+
+    await product.update(body);
+    return res.json({ success: true, message: "Product updated", data: product });
+  } catch (err) {
+    return res.status(400).json({ success: false, message: err.message });
+  }
+};
+
+// ✅ Delete product
+export const deleteProduct = async (req, res) => {
+  try {
+    const product = await Products.findByPk(req.params.id);
+    if (!product)
+      return res.status(404).json({ success: false, message: "Product not found" });
+
+    await product.destroy();
+    return res.json({ success: true, message: "Product deleted" });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};

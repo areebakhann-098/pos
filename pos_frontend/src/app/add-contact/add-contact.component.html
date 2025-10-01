@@ -1,0 +1,118 @@
+<form class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg space-y-4">
+  
+  <!-- Business Name -->
+  <div>
+    <label class="block mb-1 text-sm font-medium text-gray-700">Supplier Business Name</label>
+    <div class="flex items-center">
+      <span class="inline-flex items-center px-3 bg-gray-200 text-gray-600 rounded-l-md">
+        <!-- Building Icon -->
+        <svg class="w-5 h-9" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10 0L0 5v15h20V5L10 0zM9 18h2v-2H9v2zm0-4h2v-2H9v2zm0-4h2V8H9v2zm-4 4h2v-2H5v2zm0-4h2V8H5v2zm0-4h2V4H5v2zm8 8h2v-2h-2v2zm0-4h2V8h-2v2zm0-4h2V4h-2v2z"/>
+        </svg>
+      </span>
+      <input type="text" placeholder="Business Name" class="flex-1 border border-gray-300 rounded-r-md p-2 focus:ring-blue-500 focus:border-blue-500"/>
+    </div>
+  </div>
+
+  <!-- Contact Type (Dropdown) -->
+  <div>
+    <label class="block mb-1 text-sm font-medium text-gray-700">Contact Type</label>
+    <div class="flex items-center">
+      <span class="inline-flex items-center px-3 bg-gray-200 text-gray-600 rounded-l-md">
+        <!-- Contact Icon -->
+        <svg class="w-5 h-9" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M2 3a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3zm3 1v2h10V4H5zm0 4v2h10V8H5zm0 4v2h10v-2H5z"/>
+        </svg>
+      </span>
+      <select class="flex-1 border border-gray-300 rounded-r-md p-2 focus:ring-blue-500 focus:border-blue-500">
+        <option>Customer</option>
+        <option>Supplier</option>
+        <option>Partner</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Prefix + First/Middle/Last Name -->
+  <div class="grid grid-cols-4 gap-2">
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Prefix</label>
+      <select class="border border-gray-300 rounded-md p-2 w-full">
+        <option>Mr</option>
+        <option>Mrs</option>
+        <option>Miss</option>
+      </select>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">First Name</label>
+      <input type="text" placeholder="First Name" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Middle Name</label>
+      <input type="text" placeholder="Middle Name" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Last Name</label>
+      <input type="text" placeholder="Last Name" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+  </div>
+
+  <!-- Email -->
+  <div>
+    <label class="block mb-1 text-sm font-medium text-gray-700">Email</label>
+    <div class="flex items-center">
+      <span class="inline-flex items-center px-3 bg-gray-200 text-gray-600 rounded-l-md">
+        <!-- Email Icon -->
+        <svg class="w-5 h-9" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M2.94 4.5L10 10.7l7.06-6.2A1 1 0 0 0 16.94 4H3.06a1 1 0 0 0-.12.5z"/>
+          <path d="M18 6.5v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-9l8 7 8-7z"/>
+        </svg>
+      </span>
+      <input type="email" placeholder="example@email.com" class="flex-1 border border-gray-300 rounded-r-md p-2 focus:ring-blue-500 focus:border-blue-500"/>
+    </div>
+  </div>
+
+  <!-- City + State + Country + Zip -->
+  <div class="grid grid-cols-4 gap-2">
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">City</label>
+      <input type="text" placeholder="City" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">State</label>
+      <input type="text" placeholder="State" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Country</label>
+      <input type="text" placeholder="Country" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Zip Code</label>
+      <input type="text" placeholder="Zip Code" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+  </div>
+
+  <!-- DOB + Landline + Mobile + Alternate -->
+  <div class="grid grid-cols-4 gap-2">
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Date of Birth</label>
+      <input type="date" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Landline</label>
+      <input type="tel" placeholder="Landline" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Mobile</label>
+      <input type="tel" placeholder="Mobile" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Alternate Number</label>
+      <input type="tel" placeholder="Alternate Number" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="text-right">
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+  </div>
+</form>

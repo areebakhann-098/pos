@@ -1,0 +1,44 @@
+<form class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg space-y-4">
+
+  <!-- Warranty Name -->
+  <div>
+    <label class="block mb-1 text-sm font-medium text-gray-700">Warranty Name</label>
+    <div class="flex items-center">
+      <span class="inline-flex items-center px-3 bg-gray-200 text-gray-600 rounded-l-md">
+        <!-- Shield Icon -->
+        <svg class="w-5 h-9" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10 0L2 4v6c0 5.25 3.33 9.89 8 10 4.67-.11 8-4.75 8-10V4l-8-4z"/>
+        </svg>
+      </span>
+      <input type="text" placeholder="Warranty Name" class="flex-1 border border-gray-300 rounded-r-md p-2 focus:ring-blue-500 focus:border-blue-500"/>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div>
+    <label class="block mb-1 text-sm font-medium text-gray-700">Description</label>
+    <textarea placeholder="Warranty Description" class="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+  </div>
+
+  <!-- Duration + Duration Type -->
+  <div class="grid grid-cols-2 gap-2">
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Duration</label>
+      <input type="number" placeholder="Duration" class="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"/>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Duration Type</label>
+      <select class="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500">
+        <option>Days</option>
+        <option>Months</option>
+        <option>Years</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="text-right">
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+  </div>
+
+</form>

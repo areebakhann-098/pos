@@ -1,0 +1,115 @@
+<form class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg space-y-4">
+  
+  <!-- Product Name -->
+  <div>
+    <label class="block mb-1 text-sm font-medium text-gray-700">Product Name</label>
+    <div class="flex items-center">
+      <span class="inline-flex items-center px-3 bg-gray-200 text-gray-600 rounded-l-md">
+        <!-- Box Icon -->
+        <svg class="w-5 h-9" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M2 6l8-4 8 4v8l-8 4-8-4V6z"/>
+        </svg>
+      </span>
+      <input type="text" placeholder="Product Name" class="flex-1 border border-gray-300 rounded-r-md p-2 focus:ring-blue-500 focus:border-blue-500"/>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div>
+    <label class="block mb-1 text-sm font-medium text-gray-700">Description</label>
+    <textarea placeholder="Product Description" class="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+  </div>
+
+  <!-- Dropdowns: Warranties, Unit, Variation, Category -->
+  <div class="grid grid-cols-4 gap-2">
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Warranties</label>
+      <select class="border border-gray-300 rounded-md p-2 w-full">
+        <option>6 Months</option>
+        <option>1 Year</option>
+        <option>2 Years</option>
+      </select>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Unit</label>
+      <select class="border border-gray-300 rounded-md p-2 w-full">
+        <option>Piece</option>
+        <option>Kg</option>
+        <option>Liter</option>
+      </select>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Variation</label>
+      <select class="border border-gray-300 rounded-md p-2 w-full">
+        <option>Red</option>
+        <option>Blue</option>
+        <option>Green</option>
+      </select>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Category</label>
+      <select class="border border-gray-300 rounded-md p-2 w-full">
+        <option>Electronics</option>
+        <option>Furniture</option>
+        <option>Clothing</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Sub Category + Brand + Tax + Price -->
+  <div class="grid grid-cols-4 gap-2">
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Sub Category</label>
+      <select class="border border-gray-300 rounded-md p-2 w-full">
+        <option>Mobile</option>
+        <option>Laptop</option>
+        <option>Tablet</option>
+      </select>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Brand</label>
+      <select class="border border-gray-300 rounded-md p-2 w-full">
+        <option>Apple</option>
+        <option>Samsung</option>
+        <option>Dell</option>
+      </select>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Tax (%)</label>
+      <input type="number" placeholder="Tax %" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Price</label>
+      <input type="number" placeholder="Price" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+  </div>
+
+  <!-- Expiry Date + Weight -->
+  <div class="grid grid-cols-2 gap-2">
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Expiry Date</label>
+      <input type="date" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Weight</label>
+      <input type="text" placeholder="Weight" class="border border-gray-300 rounded-md p-2 w-full"/>
+    </div>
+  </div>
+
+  <!-- Business Location -->
+  <div>
+    <label class="block mb-1 text-sm font-medium text-gray-700">Business Location</label>
+    <input type="text" placeholder="Enter Business Location" class="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"/>
+  </div>
+
+  <!-- Product Image -->
+  <div>
+    <label class="block mb-1 text-sm font-medium text-gray-700">Product Image</label>
+    <input type="file" accept="image/*" class="w-full border border-gray-300 rounded-md p-2"/>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="text-right">
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+  </div>
+</form>
