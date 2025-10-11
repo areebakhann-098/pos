@@ -1,51 +1,76 @@
-<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-  <h2 class="text-2xl font-bold mb-6 text-gray-800">Add Discount</h2>
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+  <h2 class="text-xl font-semibold mb-4 text-gray-700">🎟️ Discount Management</h2>
 
-  <form>
-    <!-- Discount Name -->
-    <div class="mb-4">
-      <label for="discountName" class="block mb-2 text-gray-700 font-medium">Discount Name</label>
-      <input
-        type="text"
-        id="discountName"
-        name="discountName"
-        placeholder="Enter discount name"
-        class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
-      />
-    </div>
+  <!-- 🧾 Table -->
+  <table class="min-w-full border border-gray-300 rounded-md overflow-hidden">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="text-left p-3 border-b border-gray-300">Name</th>
+        <th class="text-left p-3 border-b border-gray-300">Type</th>
+        <th class="text-left p-3 border-b border-gray-300">Amount</th>
+        <th class="text-center p-3 border-b border-gray-300">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let d of discounts" class="hover:bg-gray-50">
+        <td class="p-3 border-b border-gray-300">{{ d.name }}</td>
+        <td class="p-3 border-b border-gray-300 capitalize">{{ d.discount_type }}</td>
+        <td class="p-3 border-b border-gray-300">{{ d.discount_amount }}</td>
+        <td class="p-3 border-b border-gray-300 text-center">
+          <button (click)="editDiscount(d)" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 mr-2">Edit</button>
+          <button (click)="deleteDiscount(d.id)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-    <!-- Discount Type -->
-    <div class="mb-4">
-      <label for="discountType" class="block mb-2 text-gray-700 font-medium">Discount Type</label>
-      <select
-        id="discountType"
-        name="discountType"
-        class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
-      >
-        <option value="">Select Type</option>
-        <option value="fixed">Fixed</option>
-        <option value="percentage">Percentage</option>
-      </select>
-    </div>
-
-    <!-- Discount Amount -->
-    <div class="mb-6">
-      <label for="discountAmount" class="block mb-2 text-gray-700 font-medium">Discount Amount</label>
-      <input
-        type="number"
-        id="discountAmount"
-        name="discountAmount"
-        placeholder="Enter discount amount"
-        class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
-      />
-    </div>
-
-    <!-- Submit Button -->
-    <button
-      type="submit"
-      class="w-full bg-red-700 text-white font-medium py-2 rounded hover:bg-red-800 transition duration-200"
+  <!-- ✏️ Form -->
+  <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-3">
+    <input
+      type="text"
+      [(ngModel)]="discount.name"
+      placeholder="Discount Name"
+      class="w-full border border-gray-300 rounded-md p-2"
+    />
+    <select
+      [(ngModel)]="discount.discount_type"
+      class="w-full border border-gray-300 rounded-md p-2"
     >
-      Save Discount
-    </button>
-  </form>
+      <option value="">Select Type</option>
+      <option value="percentage">Percentage</option>
+      <option value="fixed">Fixed</option>
+    </select>
+    <input
+      type="number"
+      [(ngModel)]="discount.discount_amount"
+      placeholder="Amount"
+      class="w-full border border-gray-300 rounded-md p-2"
+    />
+
+    <div class="flex gap-2">
+      <button
+        *ngIf="!isEditMode"
+        (click)="addDiscount()"
+        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+      >
+        Add
+      </button>
+
+      <button
+        *ngIf="isEditMode"
+        (click)="updateDiscount()"
+        class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+      >
+        Update
+      </button>
+
+      <button
+        *ngIf="isEditMode"
+        (click)="cancelEdit()"
+        class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
 </div>

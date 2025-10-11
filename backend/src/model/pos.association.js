@@ -17,6 +17,9 @@ import BusinessLocation from "./business-location.model.js";
 import Purchase from "./purchase.model.js";
 import Discount from "./discount.model.js"; // ✅ import at top
 import Sale from "./sale.model.js";
+import Migration from "./migration.model.js";
+import SaleItem from "./SaleItem.model.js";
+
 // ===============================
 // Contact Relations
 // ===============================
@@ -71,15 +74,13 @@ const defineAssociations = () => {
   TaxRate.hasMany(Products, { foreignKey: "tax_rate_id", as: "products" });
   Products.belongsTo(TaxRate, { foreignKey: "tax_rate_id", as: "taxRate" });
 
-  // Brand ↔ Products
+  // 🏷 Brand ↔ Products
   Brand.hasMany(Products, { foreignKey: "brands_id", as: "products" });
-  Products.belongsTo(Brand, { foreignKey: "brands_id", as: "Brand" });
-
-  // Unit ↔ Products
+Products.belongsTo(Brand, { foreignKey: "brands_id", as: "brand" });
+  // ⚖️ Unit ↔ Products
   Unit.hasMany(Products, { foreignKey: "unit_id", as: "products" });
   Products.belongsTo(Unit, { foreignKey: "unit_id", as: "unit" });
 
-  // Variation ↔ Products
   Variation.hasMany(Products, { foreignKey: "variation_id", as: "products" });
   Products.belongsTo(Variation, {
     foreignKey: "variation_id",
@@ -95,14 +96,33 @@ const defineAssociations = () => {
     foreignKey: "product_id",
     as: "stockAdjustment",
   });
+
   StockAdjustment.belongsTo(Products, {
     foreignKey: "product_id",
-    as: "products",
+    as: "product",
   });
+  Contact.hasMany(StockAdjustment, {
+    foreignKey: "contact_id",
+    as: "stockAdjustment",
+  });
+  StockAdjustment.belongsTo(Contact, {
+    foreignKey: "contact_id",
+    as: "contacts",
+  });
+
+  BusinessLocation.hasMany(StockAdjustment, {
+    foreignKey: "BusinessLocation_id",
+    as: "stockAdjustment",
+  });
+  StockAdjustment.belongsTo(BusinessLocation, {
+    foreignKey: "BusinessLocation_id",
+    as: "businessLocation",
+  });
+
   // Product ↔ BusinessLocation
   BusinessLocation.hasMany(Products, {
     foreignKey: "business_location_id",
-    as: "products",
+    as: "product",
   });
   Products.belongsTo(BusinessLocation, {
     foreignKey: "business_location_id",
@@ -144,8 +164,14 @@ const defineAssociations = () => {
   Contact.hasMany(Sale, { foreignKey: "customer_id", as: "sales" });
 
   // Sale ↔ BusinessLocation
-  Sale.belongsTo(BusinessLocation, { foreignKey: "business_location_id", as: "businessLocation" });
-  BusinessLocation.hasMany(Sale, { foreignKey: "business_location_id", as: "sales" });
+  Sale.belongsTo(BusinessLocation, {
+    foreignKey: "business_location_id",
+    as: "businessLocation",
+  });
+  BusinessLocation.hasMany(Sale, {
+    foreignKey: "business_location_id",
+    as: "sales",
+  });
 
   // Sale ↔ Discount
   Sale.belongsTo(Discount, { foreignKey: "discount_id", as: "discount" });
@@ -154,11 +180,66 @@ const defineAssociations = () => {
   // Sale ↔ TaxRate
   Sale.belongsTo(TaxRate, { foreignKey: "tax_id", as: "tax" });
   TaxRate.hasMany(Sale, { foreignKey: "tax_id", as: "sales" });
- // SaleItem ↔ Product
+  // SaleItem ↔ Product
   Sale.belongsTo(Products, { foreignKey: "product_id", as: "product" });
   Products.hasMany(Sale, { foreignKey: "product_id", as: "sales" });
-};
+  // ===============================
+  // Stock Transfer Relations
+  // ===============================
+  // Migration ↔ Product
+  Migration.belongsTo(Products, { foreignKey: "product_id", as: "product" });
+  Products.hasMany(Migration, { foreignKey: "product_id", as: "migrations" });
 
+  // Migration ↔ From Location
+  Migration.belongsTo(BusinessLocation, {
+    foreignKey: "from_location_id",
+    as: "fromBusinessLocation", // ✅ unique alias
+  });
+  BusinessLocation.hasMany(Migration, {
+    foreignKey: "from_location_id",
+    as: "migrationsFromLocation", // ✅ unique alias
+  });
+
+  // Migration ↔ To Location
+  Migration.belongsTo(BusinessLocation, {
+    foreignKey: "to_location_id",
+    as: "toBusinessLocation", // ✅ unique alias
+  });
+  BusinessLocation.hasMany(Migration, {
+    foreignKey: "to_location_id",
+    as: "migrationsToLocation", // ✅ unique alias
+  });
+};
+const defineSaleAssociations = () => {
+  // 🧾 Sale ↔ SaleItem (One-to-Many)
+  Sale.hasMany(SaleItem, { foreignKey: "sale_id", as: "saleItems" });
+  SaleItem.belongsTo(Sale, { foreignKey: "sale_id", as: "parentSale" });
+
+  // 🧩 SaleItem ↔ Product (Many SaleItems belong to one Product)
+  SaleItem.belongsTo(Products, { foreignKey: "product_id", as: "product" });
+  Products.hasMany(SaleItem, {
+    foreignKey: "product_id",
+    as: "productSaleItems",
+  });
+
+  // 🏢 Sale ↔ BusinessLocation (Each sale belongs to one location)
+  Sale.belongsTo(BusinessLocation, {
+    foreignKey: "business_location_id",
+    as: "saleBusinessLocation", // ✅ unique alias
+  });
+  BusinessLocation.hasMany(Sale, {
+    foreignKey: "business_location_id",
+    as: "locationSales", // ✅ unique alias
+  });
+
+  // 💸 Sale ↔ Discount (Each sale may have one discount)
+  Sale.belongsTo(Discount, { foreignKey: "discount_id", as: "saleDiscount" }); // ✅ changed
+  Discount.hasMany(Sale, { foreignKey: "discount_id", as: "discountSales" }); // ✅ unique alias
+
+  // 🧾 Sale ↔ TaxRate (Each sale may have one tax rate)
+  Sale.belongsTo(TaxRate, { foreignKey: "tax_id", as: "saleTax" }); // ✅ changed
+  TaxRate.hasMany(Sale, { foreignKey: "tax_id", as: "taxSales" }); // ✅ unique alias
+};
 
 // ===============================
 // Exports
@@ -169,6 +250,7 @@ export {
   defineContactBookingRelation,
   defineContactTransactionRelation,
   defineAssociations,
+  defineSaleAssociations,
   Products,
   Warranty,
   Category,
@@ -181,5 +263,7 @@ export {
   BusinessLocation,
   Contact,
   Discount,
-  Sale
+  Sale,
+  Migration,
+  SaleItem,
 };

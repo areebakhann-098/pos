@@ -9,7 +9,7 @@ const Discount = sequelize.define("Discount", {
   },
   
   discount_type: {
-    type: DataTypes.STRING, // e.g. "percentage" | "fixed"
+    type: DataTypes.STRING, 
     allowNull: true,
   },
   discount_amount: {
@@ -18,15 +18,12 @@ const Discount = sequelize.define("Discount", {
     defaultValue: 0.0000,
   },
  
-  is_active: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: true,
-  },
+
  
 }, {
   tableName: "discounts",
   timestamps: true,
+  paranoid: true,
   createdAt: "created_at",
   updatedAt: "updated_at",
 });

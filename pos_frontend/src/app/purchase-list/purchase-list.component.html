@@ -1,0 +1,62 @@
+<div class="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg overflow-x-auto">
+  <h2 class="text-2xl font-bold mb-4 text-gray-700">Purchase List</h2>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="text-center text-gray-500 py-6">
+    Loading purchases...
+  </div>
+
+  <!-- Table -->
+  <table *ngIf="!loading && purchases.length > 0" class="min-w-full border border-gray-300 text-sm rounded-lg">
+    <thead>
+      <tr class="bg-gray-100 text-left">
+        <th class="py-2 px-3 border">#</th>
+        <th class="py-2 px-3 border">Reference No</th>
+        <th class="py-2 px-3 border">Supplier</th>
+        <th class="py-2 px-3 border">Business Location</th>
+        <th class="py-2 px-3 border">Purchase Date</th>
+        <th class="py-2 px-3 border">Status</th>
+        <th class="py-2 px-3 border">Discount</th>
+        <th class="py-2 px-3 border">Total Amount</th>
+        <th class="py-2 px-3 border">Payment Method</th>
+        <th class="py-2 px-3 border text-center">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let p of purchases; let i = index" class="hover:bg-gray-50">
+        <td class="py-2 px-3 border">{{ i + 1 }}</td>
+        <td class="py-2 px-3 border">{{ p.reference_number || '—' }}</td>
+        <td class="py-2 px-3 border">{{ p.contact?.first_name || '—' }}</td>
+        <td class="py-2 px-3 border">{{ p.businessLocation?.name || '—' }}</td>
+        <td class="py-2 px-3 border">{{ p.purchase_date | date: 'mediumDate' }}</td>
+        <td class="py-2 px-3 border capitalize">{{ p.purchase_status }}</td>
+        <td class="py-2 px-3 border">{{ p.discount?.name || 'No Discount' }}</td>
+        <td class="py-2 px-3 border text-right">Rs. {{ p.total_amount || 0 }}</td>
+        <td class="py-2 px-3 border">{{ p.payment_method || '—' }}</td>
+
+        <td class="py-2 px-3 border text-center">
+          <div class="flex justify-center items-center gap-2">
+            <button
+              (click)="onEdit(p)"
+              class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition"
+            >
+              Edit
+            </button>
+            <button
+              (click)="onDelete(p.id)"
+              class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+            >
+              Delete
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- No Data -->
+  <div *ngIf="!loading && purchases.length === 0" class="text-center text-gray-500 mt-4">
+    No purchases found.
+  </div>
+</div>

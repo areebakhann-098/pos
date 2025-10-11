@@ -56,6 +56,7 @@ const Contact = sequelize.define("Contact", {
   created_by: {
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
+    defaultValue: 1
   },
   
 }, {

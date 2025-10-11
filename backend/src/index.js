@@ -8,7 +8,7 @@ import {
   defineRolePermissionRelation,
 } from './model/associations.js';
  import {defineMigrationAssociations} from "./model/migration.associations.js"
- import { defineAssociations } from "./model/pos.association.js";
+import { defineAssociations, defineSaleAssociations } from "./model/pos.association.js";
 
 dotenv.config();
  
@@ -19,7 +19,8 @@ const startServer = async () => {
   defineUserRoleRelation();
   defineRolePermissionRelation();
   defineMigrationAssociations();
-  defineAssociations()
+  defineAssociations();
+  defineSaleAssociations()
 
  
   // ✅ Then connect DB (sync will now include associations)

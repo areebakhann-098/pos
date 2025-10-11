@@ -4,8 +4,6 @@ import { sequelize } from "../config/db.js";
 const Migration = sequelize.define(
   "Migration",
   {
-   
-
     from_location_id: {
       type: DataTypes.INTEGER,
       allowNull: false,

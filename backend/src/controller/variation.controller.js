@@ -3,16 +3,23 @@ import Variation from "../model/variation.model.js";
 // ✅ Create new variation
 export const createVariation = async (req, res) => {
   try {
-    const variation = await Variation.create(req.body);
+    const { name, value } = req.body; // frontend keys
+    const variation = await Variation.create({
+      variation_name: name,
+      variation_value: value,
+    });
+
     res.status(201).json({
       success: true,
       message: "Variation created successfully",
       data: variation,
     });
   } catch (error) {
+    console.error("❌ Error creating variation:", error.message);
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
  
 // ✅ Get all variations
 export const getAllVariations = async (req, res) => {

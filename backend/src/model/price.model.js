@@ -21,10 +21,7 @@ const Price = sequelize.define(
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    sell_price_with_tax: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-    },
+  
   },
   {
     tableName: "prices",

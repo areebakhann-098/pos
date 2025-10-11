@@ -1,0 +1,38 @@
+<div class="max-w-5xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+  <h2 class="text-2xl font-semibold mb-6 text-gray-800">Business Locations</h2>
+
+  <table class="min-w-full border border-gray-300 rounded-md overflow-hidden">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="text-left p-3 border-b">Name</th>
+        <th class="text-left p-3 border-b">City</th>
+        <th class="text-left p-3 border-b">Country</th>
+        <th class="text-left p-3 border-b">Email</th>
+        <th class="text-center p-3 border-b">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let loc of locations" class="hover:bg-gray-50">
+        <td class="p-3 border-b">{{ loc.name }}</td>
+        <td class="p-3 border-b">{{ loc.city }}</td>
+        <td class="p-3 border-b">{{ loc.country }}</td>
+        <td class="p-3 border-b">{{ loc.email }}</td>
+        <td class="p-3 border-b text-center">
+          <button
+            (click)="editLocation(loc)"
+            class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 mr-2"
+          >
+            Edit
+          </button>
+          <button
+            (click)="deleteLocation(loc.id)"
+            class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

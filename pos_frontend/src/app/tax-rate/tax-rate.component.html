@@ -1,36 +1,38 @@
-<div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-  <h2 class="text-2xl font-bold mb-6 text-gray-800">Tax Rate</h2>
+<div class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+  <h2 class="text-xl font-semibold mb-4 text-gray-700">Tax Rates</h2>
 
-  <form class="space-y-6">
+  <!-- 🧾 Table -->
+  <table class="min-w-full border border-gray-300 rounded-md overflow-hidden">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="text-left p-3 border-b border-gray-300">Tax Name</th>
+        <th class="text-left p-3 border-b border-gray-300">Amount (%)</th>
+        <th class="text-center p-3 border-b border-gray-300">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of taxRates" class="hover:bg-gray-50">
+        <td class="p-3 border-b border-gray-300">{{ t.name }}</td>
+        <td class="p-3 border-b border-gray-300">{{ t.amount }}</td>
+        <td class="p-3 border-b border-gray-300 text-center">
+          <button (click)="editTaxRate(t)" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 mr-2">Edit</button>
+          <button (click)="deleteTaxRate(t.id)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-    <!-- Name -->
-    <div>
-      <label for="taxName" class="block mb-2 font-medium text-gray-700">Name</label>
-      <input
-        type="text"
-        id="taxName"
-        placeholder="Enter tax name"
-        class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
-      />
+  <!-- ✏️ Form -->
+  <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-3">
+    <input type="text" [(ngModel)]="tax.name" placeholder="Tax Name" class="w-full border border-gray-300 rounded-md p-2" />
+    <input type="number" [(ngModel)]="tax.amount" placeholder="Tax Amount (%)" class="w-full border border-gray-300 rounded-md p-2" />
+
+    <div class="flex gap-2">
+      <button *ngIf="!isEditMode" (click)="addTaxRate()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add</button>
+
+      <button *ngIf="isEditMode" (click)="updateTaxRate()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Update</button>
+
+      <button *ngIf="isEditMode" (click)="cancelEdit()" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Cancel</button>
     </div>
-
-    <!-- Amount -->
-    <div>
-      <label for="taxAmount" class="block mb-2 font-medium text-gray-700">Amount (%)</label>
-      <input
-        type="number"
-        id="taxAmount"
-        placeholder="Enter tax amount"
-        class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
-      />
-    </div>
-
-    <!-- Submit Button -->
-    <button
-      type="submit"
-      class="w-full bg-green-600 text-white font-medium py-2 rounded hover:bg-green-700 transition duration-200"
-    >
-      Save Tax Rate
-    </button>
-  </form>
+  </div>
 </div>

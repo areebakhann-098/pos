@@ -1,28 +1,48 @@
-<form class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg space-y-4">
-  
-  <!-- Brand Name -->
-  <div>
-    <label class="block mb-1 text-sm font-medium text-gray-700">Brand Name</label>
-    <div class="flex items-center">
-      <span class="inline-flex items-center px-3 bg-gray-200 text-gray-600 rounded-l-md">
-        <!-- Tag Icon -->
-        <svg class="w-5 h-9" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M17.707 9.293l-7-7A1 1 0 0 0 10 2H3a1 1 0 0 0-1 1v7a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l6-6a1 1 0 0 0 0-1.414zM7 7a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
-        </svg>
-      </span>
-      <input type="text" placeholder="Brand Name" class="flex-1 border border-gray-300 rounded-r-md p-2 focus:ring-blue-500 focus:border-blue-500"/>
+<div class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+  <h2 class="text-xl font-semibold mb-4 text-gray-700">Brands</h2>
+
+  <!-- Table -->
+  <table class="min-w-full border border-gray-300 rounded-md overflow-hidden mb-6">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="text-left p-3 border-b">Brand Name</th>
+        <th class="text-left p-3 border-b">Description</th>
+        <th class="text-center p-3 border-b">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let b of brands" class="hover:bg-gray-50">
+        <td class="p-3 border-b">{{ b.name }}</td>
+        <td class="p-3 border-b">{{ b.description }}</td>
+        <td class="p-3 border-b text-center">
+          <button (click)="editBrand(b)" class="bg-yellow-500 text-white px-3 py-1 rounded mr-2 hover:bg-yellow-600">
+            Edit
+          </button>
+          <button (click)="deleteBrand(b.id)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Add / Update Form -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <input type="text" [(ngModel)]="brand.name" placeholder="Brand Name" class="border p-2 rounded w-full" />
+    <input type="text" [(ngModel)]="brand.description" placeholder="Description" class="border p-2 rounded w-full" />
+
+    <div class="flex gap-2 col-span-2 justify-end">
+      <button *ngIf="!isEditMode" (click)="addBrand()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        Add
+      </button>
+
+      <button *ngIf="isEditMode" (click)="updateBrand()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+        Update
+      </button>
+
+      <button *ngIf="isEditMode" (click)="cancelEdit()" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
+        Cancel
+      </button>
     </div>
   </div>
-
-  <!-- Description -->
-  <div>
-    <label class="block mb-1 text-sm font-medium text-gray-700">Description</label>
-    <textarea placeholder="Brand Description" class="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
-  </div>
-
-  <!-- Submit Button -->
-  <div class="text-right">
-    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
-  </div>
-
-</form>
+</div>

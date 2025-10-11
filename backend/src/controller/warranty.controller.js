@@ -3,6 +3,7 @@ import { body, validationResult } from "express-validator";
 
 // CREATE Warranty
 export const createWarranty = async (req, res) => {
+  console.log('Warranty payload:', req.body);
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty())
@@ -63,7 +64,7 @@ export const updateWarranty = async (req, res) => {
     if (!warranty)
       return res.status(404).json({ success: false, message: "Warranty not found" });
 
-    await warranty.update({ name, business_id, description, duration, duration_type });
+    await warranty.update({ name, description, duration, duration_type });
 
     return res.status(200).json({
       success: true,

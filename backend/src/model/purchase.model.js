@@ -21,9 +21,12 @@ const Purchase = sequelize.define(
       type: DATEONLY,
       allowNull: false,
     },
-    purchase_status: {
-      type: DataTypes.ENUM("pending", "ordered"),  
-    },
+   purchase_status: {
+  type: DataTypes.ENUM("pending", "ordered", "received"),
+  allowNull: false,
+  defaultValue: "pending"
+},
+
     bussiness_location_id: {
       type: DataTypes.INTEGER,  
       allowNull: false,

@@ -1,30 +1,78 @@
 <div class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
   <h2 class="text-xl font-semibold mb-4 text-gray-700">Product Variations</h2>
-  
+
+  <!-- Table -->
   <table class="min-w-full border border-gray-300 rounded-md overflow-hidden">
     <thead class="bg-gray-100">
       <tr>
         <th class="text-left p-3 border-b border-gray-300">Variation Name</th>
         <th class="text-left p-3 border-b border-gray-300">Variation Value</th>
-    
+        <th class="text-left p-3 border-b border-gray-300 text-center">
+          Actions
+        </th>
       </tr>
     </thead>
     <tbody>
-      <!-- Example Row -->
-      <tr class="hover:bg-gray-50">
-        <td class="p-3 border-b border-gray-300">
-          <input type="text" placeholder="Color" class="w-full border border-gray-300 rounded-md p-2"/>
+      <tr *ngFor="let v of variations" class="hover:bg-gray-50">
+        <td class="p-3 border-b border-gray-300">{{ v.variation_name }}</td>
+        <td class="p-3 border-b border-gray-300">{{ v.variation_value }}</td>
+
+        <td class="p-3 border-b border-gray-300 text-center">
+          <button
+            (click)="editVariation(v)"
+            class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 mr-2"
+          >
+            Edit
+          </button>
+          <button
+            (click)="deleteVariation(v.id)"
+            class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+          >
+            Delete
+          </button>
         </td>
-        <td class="p-3 border-b border-gray-300">
-          <input type="text" placeholder="Red" class="w-full border border-gray-300 rounded-md p-2"/>
-        </td>
-       
       </tr>
     </tbody>
   </table>
 
-  <!-- Add New Variation Button -->
-  <div class="mt-4 text-right">
-    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add New Variation</button>
+  <!-- Form for Add / Update -->
+  <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-3">
+    <input
+      type="text"
+      [(ngModel)]="variation.name"
+      placeholder="Variation Name"
+      class="w-full border border-gray-300 rounded-md p-2"
+    />
+    <input
+      type="text"
+      [(ngModel)]="variation.value"
+      placeholder="Variation Value"
+      class="w-full border border-gray-300 rounded-md p-2"
+    />
+    <div class="flex gap-2">
+      <button
+        *ngIf="!isEditMode"
+        (click)="addVariation()"
+        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+      >
+        Add
+      </button>
+
+      <button
+        *ngIf="isEditMode"
+        (click)="updateVariation()"
+        class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+      >
+        Update
+      </button>
+
+      <button
+        *ngIf="isEditMode"
+        (click)="cancelEdit()"
+        class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+      >
+        Cancel
+      </button>
+    </div>
   </div>
 </div>

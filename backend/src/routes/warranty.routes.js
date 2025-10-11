@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 
 // Create warranty
-router.post("/warranties", warrantyValidation, createWarranty);
+router.post("/warranties/create", warrantyValidation, createWarranty);
 
 // Get all warranties
 router.get("/warranties", getWarranties);

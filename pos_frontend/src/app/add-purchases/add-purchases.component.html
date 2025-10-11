@@ -3,35 +3,55 @@
 
   <form (ngSubmit)="savePurchase()" #purchaseForm="ngForm" class="space-y-6">
     <!-- Supplier -->
-    <div>
-      <label class="block mb-2 font-medium text-gray-700">Supplier</label>
-      <select [(ngModel)]="supplier" name="supplier"
-        class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500">
-        <option value="">Select Supplier</option>
-        <option value="supplier1">Supplier 1</option>
-        <option value="supplier2">Supplier 2</option>
-      </select>
-    </div>
+   <div>
+  <label class="block mb-2 font-medium text-gray-700">Supplier</label>
+  <select
+    [(ngModel)]="supplier"
+    name="supplier"
+    required
+    class="w-full p-2 border border-gray-300 rounded"
+  >
+    <option value="">Select Supplier</option>
+    <option *ngFor="let s of suppliers" [value]="s.id">
+      {{ s.name }}
+    </option>
+  </select>
+</div>
 
-    <!-- Ref No -->
+
+    <!-- Reference No -->
     <div>
       <label class="block mb-2 font-medium text-gray-700">Reference No</label>
-      <input type="text" [(ngModel)]="refNo" name="refNo"
-        class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500" />
+      <input
+        type="text"
+        [(ngModel)]="refNo"
+        name="refNo"
+        required
+        class="w-full p-2 border rounded"
+      />
     </div>
 
     <!-- Purchase Date -->
     <div>
       <label class="block mb-2 font-medium text-gray-700">Purchase Date</label>
-      <input type="date" [(ngModel)]="purchaseDate" name="purchaseDate"
-        class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500" />
+      <input
+        type="date"
+        [(ngModel)]="purchaseDate"
+        name="purchaseDate"
+        required
+        class="w-full p-2 border rounded"
+      />
     </div>
 
     <!-- Status -->
     <div>
-      <label class="block mb-2 font-medium text-gray-700">Purchase Status</label>
-      <select [(ngModel)]="status" name="status"
-        class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500">
+      <label class="block mb-2 font-medium text-gray-700">Status</label>
+      <select
+        [(ngModel)]="status"
+        name="status"
+        required
+        class="w-full p-2 border rounded"
+      >
         <option value="">Select Status</option>
         <option value="ordered">Ordered</option>
         <option value="received">Received</option>
@@ -41,140 +61,178 @@
 
     <!-- Location -->
     <div>
-      <label class="block mb-2 font-medium text-gray-700">Business Location</label>
-      <select [(ngModel)]="location" name="location"
-        class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500">
-        <option value="">Select Location</option>
-        <option value="location1">Location 1</option>
-        <option value="location2">Location 2</option>
-      </select>
+      <label class="block mb-2 font-medium text-gray-700">Location</label>
+    <select
+  [(ngModel)]="location"
+  name="location"
+  required
+  class="w-full p-2 border rounded"
+>
+  <option value="">Select Location</option>
+  <option *ngFor="let loc of locations" [value]="loc.id">
+    {{ loc.name }}
+  </option>
+</select>
+
+
     </div>
 
-  <div class="bg-white p-4 rounded shadow-md">
-  <!-- Search -->
-  <div class="flex items-center border-b pb-3 relative">
-    <input
-      type="text"
-      [(ngModel)]="searchQuery"
-      name="search"
-      placeholder="Enter Product name / SKU / Scan bar code"
-      class="w-full border border-gray-300 rounded-l px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
-    />
-    <button type="button"
-      class="bg-gray-100 border border-l-0 border-gray-300 px-3 py-2 rounded-r">
-      <i class="fas fa-search text-gray-600"></i>
-    </button>
+    <!-- Product Search -->
+    <div class="bg-white p-4 rounded shadow-md relative">
+      <label class="block mb-2 font-medium text-gray-700">Add Products</label>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        name="search"
+        (input)="onSearchInput()"
+        placeholder="Search Product"
+        class="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+      />
 
-    <!-- Search Dropdown -->
-    <div *ngIf="searchQuery && filteredProducts.length > 0"
-      class="absolute top-10 left-0 bg-white border rounded shadow-md w-96 z-10">
-      <ul>
-        <li *ngFor="let product of filteredProducts" (click)="addProduct(product)"
-          class="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm">
-          {{ product.name }} - Rs. {{ product.price }}
-        </li>
-      </ul>
+      <!-- Dropdown -->
+      <div
+        *ngIf="searchQuery && filteredProducts.length > 0"
+        class="absolute mt-1 left-0 bg-white border rounded shadow-md w-full z-10 max-h-60 overflow-auto"
+      >
+        <ul>
+          <li
+            *ngFor="let product of filteredProducts"
+            (click)="addProduct(product)"
+            class="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+          >
+            {{ product.product_name }} - Rs.
+            {{ product.price?.purchase_price || 0 }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Table -->
+      <div class="overflow-x-auto mt-4">
+        <table class="min-w-full border border-gray-200 rounded-lg text-sm">
+          <thead class="bg-green-600 text-white">
+            <tr>
+              <th class="px-3 py-2">#</th>
+              <th class="px-3 py-2">Product</th>
+              <th class="px-3 py-2">Qty</th>
+              <th class="px-3 py-2">Price</th>
+              <th class="px-3 py-2">Discount</th>
+              <th class="px-3 py-2">Discount Amount</th>
+              <th class="px-3 py-2">Total</th>
+              <th class="px-3 py-2">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let item of purchaseItems; let i = index">
+              <td class="px-3 py-2">{{ i + 1 }}</td>
+              <td class="px-3 py-2">{{ item.name }}</td>
+
+              <td class="px-3 py-2">
+                <input
+                  type="number"
+                  [(ngModel)]="item.quantity"
+                  name="quantity_{{ i }}"
+                  (input)="onQuantityInput(item)"
+                  class="border border-gray-300 rounded-md p-2 text-xs w-full"
+                  min="1"
+                />
+              </td>
+
+              <td class="px-3 py-2">Rs. {{ item.price }}</td>
+
+              <!-- ✅ Discount Dropdown -->
+              <td class="px-3 py-2">
+                <select
+                  [(ngModel)]="item.discount_id"
+                  name="discount_id"
+                  class="border border-gray-300 rounded-md p-2 text-xs w-full"
+                  (change)="onDiscountSelect(item)"
+                >
+                  <option value="">Select Discount</option>
+                  <option *ngFor="let d of discounts" [value]="d.id">
+                    {{ d.name }}
+                  </option>
+                </select>
+              </td>
+
+              <td class="px-3 py-2">
+                <span *ngIf="item.discountAmount"
+                  >Rs. {{ item.discountAmount }}</span
+                >
+              </td>
+
+              <td class="px-3 py-2">Rs. {{ item.total | number : "1.2-2" }}</td>
+
+              <td class="px-3 py-2 text-center">
+                <button
+                  type="button"
+                  (click)="deleteItem(item.id)"
+                  class="text-red-600 hover:text-red-800"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+
+            <tr *ngIf="purchaseItems.length === 0">
+              <td colspan="8" class="text-center py-3 text-gray-400">
+                No products added
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flex justify-end mt-3 text-sm">
+        <div>
+          <p>
+            Total Items: <strong>{{ totalItems }}</strong>
+          </p>
+          <p>
+            Net Total: <strong>Rs. {{ netTotal | number : "1.2-2" }}</strong>
+          </p>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!-- Product Table -->
-  <div class="overflow-x-auto mt-4">
-    <table class="min-w-full border border-gray-200 rounded-lg shadow-sm text-sm">
-      <thead class="bg-green-600 text-white">
-        <tr>
-          <th class="px-3 py-2">#</th>
-          <th class="px-3 py-2">Product</th>
-          <th class="px-3 py-2">Qty</th>
-          <th class="px-3 py-2">Purchase Price</th>
-          <th class="px-3 py-2">Discount Type</th>
-          <th class="px-3 py-2">Discount</th>
-          <th class="px-3 py-2">Total</th>
-          <th class="px-3 py-2">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of purchaseItems; let i = index">
-          <td class="px-3 py-2">{{ i + 1 }}</td>
-          <td class="px-3 py-2">{{ item.name }}</td>
-          <td class="px-3 py-2">
-            <input
-              type="number"
-              [(ngModel)]="item.quantity"
-              (change)="calculateTotal(item)"
-              class="w-16 border rounded px-1 text-xs"
-              min="1"
-            />
-          </td>
-          <td class="px-3 py-2">Rs. {{ item.price }}</td>
-          <td class="px-3 py-2">
-            <select
-              [(ngModel)]="item.discountType"
-              (change)="calculateTotal(item)"
-              class="border rounded px-1 text-xs"
-            >
-              <option value="fixed">Fixed</option>
-              <option value="percentage">%</option>
-            </select>
-          </td>
-          <td class="px-3 py-2">
-            <input
-              type="number"
-              [(ngModel)]="item.discountAmount"
-              (change)="calculateTotal(item)"
-              class="w-16 border rounded px-1 text-xs"
-              min="0"
-            />
-          </td>
-          <td class="px-3 py-2">Rs. {{ item.total | number: '1.2-2' }}</td>
-          <td class="px-3 py-2 text-center">
-            <button type="button" (click)="deleteItem(item.id)" class="text-red-600 hover:text-red-800">
-              <i class="fas fa-trash"></i>
-            </button>
-          </td>
-        </tr>
-        <tr *ngIf="purchaseItems.length === 0">
-          <td colspan="9" class="text-center py-3 text-gray-400">No products added</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Footer Totals -->
-  <div class="flex justify-end mt-3 text-sm">
-    <div>
-      <p>Total Items: <span class="font-semibold">{{ totalItems }}</span></p>
-      <p>Net Total: <span class="font-semibold">Rs. {{ netTotal | number:'1.2-2' }}</span></p>
-    </div>
-  </div>
-</div>
-
-
-    <!-- Notes -->
+    <!-- Payment -->
     <div>
       <label class="block mb-2 font-medium text-gray-700">Notes</label>
-      <textarea [(ngModel)]="notes" name="notes" rows="3"
-        class="w-full border rounded p-2 focus:ring-2 focus:ring-green-500"></textarea>
+      <textarea
+        [(ngModel)]="notes"
+        name="notes"
+        rows="3"
+        class="w-full border rounded p-2"
+      ></textarea>
     </div>
 
-    <!-- Amount Paid -->
     <div>
       <label class="block mb-2 font-medium text-gray-700">Paid Amount</label>
-      <input type="number" [(ngModel)]="amountPaid" name="amountPaid"
-        class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500" />
+      <input
+        type="number"
+        [(ngModel)]="amountPaid"
+        name="amountPaid"
+        class="w-full p-2 border rounded"
+      />
     </div>
 
-    <!-- Date Paid -->
     <div>
       <label class="block mb-2 font-medium text-gray-700">Date Paid</label>
-      <input type="date" [(ngModel)]="datePaid" name="datePaid"
-        class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500" />
+      <input
+        type="date"
+        [(ngModel)]="datePaid"
+        name="datePaid"
+        class="w-full p-2 border rounded"
+      />
     </div>
 
-    <!-- Payment Method -->
     <div>
       <label class="block mb-2 font-medium text-gray-700">Payment Method</label>
-      <select [(ngModel)]="paymentMethod" name="paymentMethod"
-        class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500">
+      <select
+        [(ngModel)]="paymentMethod"
+        name="paymentMethod"
+        class="w-full p-2 border rounded"
+      >
         <option value="">Select Method</option>
         <option value="cash">Cash</option>
         <option value="credit">Credit</option>
@@ -182,9 +240,10 @@
       </select>
     </div>
 
-    <!-- Submit -->
-    <button type="submit"
-      class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
+    <button
+      type="submit"
+      class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+    >
       Save Purchase
     </button>
   </form>
