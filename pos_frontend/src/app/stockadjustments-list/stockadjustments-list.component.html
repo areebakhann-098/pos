@@ -1,0 +1,50 @@
+<div class="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg overflow-x-auto">
+  <h2 class="text-xl font-bold mb-4 text-gray-800">Stock Adjustments List</h2>
+
+  <table class="min-w-full border border-gray-300 rounded-lg text-sm">
+    <thead>
+      <tr class="bg-gray-100 text-left">
+        <th class="py-2 px-3 border">#</th>
+        <th class="py-2 px-3 border">Reference No</th>
+        <th class="py-2 px-3 border">Supplier</th>
+        <th class="py-2 px-3 border">Business Location</th>
+        <th class="py-2 px-3 border">Product</th>
+        <th class="py-2 px-3 border">Quantity</th>
+        <th class="py-2 px-3 border">Recovery Amount</th>
+        <th class="py-2 px-3 border">Date</th>
+        <th class="py-2 px-3 border">Reason</th>
+        <th class="py-2 px-3 border text-center">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let adj of adjustments; let i = index" class="hover:bg-gray-50">
+        <td class="py-2 px-3 border">{{ i + 1 }}</td>
+        <td class="py-2 px-3 border">{{ adj.reference || '—' }}</td>
+        <td class="py-2 px-3 border">
+          {{ adj.contacts ? (adj.contacts.first_name + ' ' + adj.contacts.last_name) : '—' }}
+        </td>
+        <td class="py-2 px-3 border">{{ adj.businessLocation?.name || '—' }}</td>
+        <td class="py-2 px-3 border">{{ adj.product?.product_name || '—' }}</td>
+        <td class="py-2 px-3 border text-center">{{ adj.quantity || 0 }}</td>
+        <td class="py-2 px-3 border text-center">{{ adj.recovery_amount || 0 }}</td>
+        <td class="py-2 px-3 border">{{ adj.date | date }}</td>
+        <td class="py-2 px-3 border">{{ adj.reason || '—' }}</td>
+        <td class="py-2 px-3 border text-center">
+          <div class="flex justify-center gap-2">
+            <button (click)="onEdit(adj)" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
+              Edit
+            </button>
+            <button (click)="onDelete(adj.id)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+              Delete
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="adjustments.length === 0" class="text-center text-gray-500 mt-4">
+    No stock adjustments found.
+  </div>
+</div>

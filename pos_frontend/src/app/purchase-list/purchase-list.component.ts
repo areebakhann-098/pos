@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PurchaseService } from '../core/services/purchase/purchase.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-purchase-list',
@@ -13,21 +14,21 @@ export class PurchaseListComponent implements OnInit {
   purchases: any[] = [];
   loading = true;
 
-  constructor(private purchaseService: PurchaseService) {}
+  constructor(private purchaseService: PurchaseService,  private router: Router) {}
 
   ngOnInit(): void {
     this.getPurchases();
   }
 
-  /** ✅ Fetch all purchases from API */
+  /** ✅ Get all purchases */
   getPurchases(): void {
     this.purchaseService.getPurchases().subscribe({
       next: (res: any) => {
         if (res.success && Array.isArray(res.data)) {
           this.purchases = res.data;
-          console.log('✅ Purchases loaded:', this.purchases);
+          console.log('✅ Purchases Loaded:', this.purchases);
         } else {
-          console.warn('⚠️ Invalid data format:', res);
+          console.warn('⚠️ Invalid response format:', res);
           this.purchases = [];
         }
         this.loading = false;
@@ -39,12 +40,12 @@ export class PurchaseListComponent implements OnInit {
     });
   }
 
-  /** 📝 Edit purchase (future feature) */
   onEdit(purchase: any): void {
-    alert(`Edit clicked for Reference No: ${purchase.reference_number}`);
+    // 👇 Navigate with ID
+    this.router.navigate(['/Purchases/edit', purchase.id]);
   }
 
-  /** 🗑️ Delete purchase */
+  /** 🗑️ Delete Purchase */
   onDelete(id: number): void {
     if (confirm('Are you sure you want to delete this purchase?')) {
       this.purchaseService.deletePurchase(id).subscribe({
@@ -52,7 +53,9 @@ export class PurchaseListComponent implements OnInit {
           this.purchases = this.purchases.filter((p) => p.id !== id);
           alert('✅ Purchase deleted successfully!');
         },
-        error: (err) => console.error('❌ Error deleting purchase:', err),
+        error: (err) => {
+          console.error('❌ Error deleting purchase:', err);
+        },
       });
     }
   }

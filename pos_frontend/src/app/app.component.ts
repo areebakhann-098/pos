@@ -16,14 +16,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [
     NavbarComponent,
-    AddContactComponent,
-    AddProductComponent,
-    VariationsComponent,
-    BrandsComponent,
-    UnitsComponent,
-    CategoriesComponent,
-    WarrantiesComponent,
-    ExpiryComponent,
+    
     RouterLink,
     RouterOutlet
 ],

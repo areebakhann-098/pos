@@ -3,10 +3,7 @@ import { sequelize } from "../config/db.js";
 const StockAdjustment = sequelize.define(
   "StockAdjustment",
   {
-    contact_id:{
-          type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+  
     BusinessLocation_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -32,7 +29,7 @@ const StockAdjustment = sequelize.define(
     quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
 
     recovery_amount: {
-      type: DataTypes.DECIMAL, // ✅ number with decimals
+      type: DataTypes.DECIMAL,
       allowNull: true,
     },
 
@@ -44,9 +41,9 @@ const StockAdjustment = sequelize.define(
   {
     sequelize,
     modelName: "StockAdjustment",
-    tableName: "stockAdjustment", // ✅ custom table name
-    timestamps: true, // ✅ createdAt, updatedAt
-    paranoid: true, // ✅ soft deletes (deletedAt column)
+    tableName: "stockAdjustment",
+    timestamps: true, 
+    paranoid: true, 
   }
 );
 

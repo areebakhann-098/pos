@@ -19,11 +19,20 @@ export const createPurchase = async (req, res) => {
   try {
     const body = req.body;
     console.log( body)
-
+if (!body.products && body.product_id) {
+  body.products = [
+    {
+      product_id: body.product_id,
+      quantity: body.quantity,
+      discount_id: body.discount_id,
+      total_amount: body.total_amount,
+      purchase_price: body.price,
+    },
+  ];
+}
     // 🔸 Validate foreign keys
     await ensureExists(BusinessLocation, body.bussiness_location_id, "bussiness_location_id");
     await ensureExists(Contact, body.contact_id, "contact_id");
-    await ensureExists(Discount, body.discount_id, "discount_id");
 
     // 🔸 Validate products array
     const { products } = body;
@@ -39,7 +48,7 @@ export const createPurchase = async (req, res) => {
 
       const purchase = await Purchase.create({
         contact_id: body.contact_id,
-        discount_id: body.discount_id,
+    discount_id: item.discount_id || 0, // ✅ use per-item discount
         reference_number: body.reference_number,
         purchase_date: body.purchase_date,
         purchase_status: body.purchase_status || "pending",
@@ -154,7 +163,6 @@ export const getPurchaseById = async (req, res) => {
   }
 };
 
-// ✅ Update purchase
 export const updatePurchase = async (req, res) => {
   try {
     const purchase = await Purchase.findByPk(req.params.id);
@@ -163,16 +171,40 @@ export const updatePurchase = async (req, res) => {
 
     const body = req.body;
 
+    // ✅ Validate foreign keys
     await ensureExists(Products, body.product_id, "product_id");
     await ensureExists(BusinessLocation, body.bussiness_location_id, "bussiness_location_id");
     await ensureExists(Contact, body.contact_id, "contact_id");
 
+    // ✅ Find product related to this purchase
+    const product = await Products.findByPk(body.product_id);
+    if (!product) throw new Error("Product not found");
+
+    // ✅ Adjust product stock based on quantity difference
+    const oldQty = purchase.quantity || 0;
+    const newQty = body.quantity || 0;
+
+    if (newQty !== oldQty) {
+      const difference = newQty - oldQty; // can be + or -
+      product.quantity = (product.quantity || 0) + difference;
+      await product.save();
+      console.log(`📦 Product stock updated: ${oldQty} → ${newQty} (diff ${difference})`);
+    }
+
+    // ✅ Update purchase record
     await purchase.update(body);
-    res.json({ success: true, message: "Purchase updated successfully", data: purchase });
+
+    res.json({
+      success: true,
+      message: "✅ Purchase updated successfully & stock adjusted",
+      data: purchase,
+    });
   } catch (error) {
+    console.error("❌ Error updating purchase:", error);
     res.status(400).json({ success: false, error: error.message });
   }
 };
+
 
 // ✅ Delete purchase
 export const deletePurchase = async (req, res) => {

@@ -1,115 +1,157 @@
 <div class="min-h-screen bg-white text-yellow-700">
   <!-- Header -->
-  <div class="flex justify-between items-center bg-red-700 text-white px-6 py-3 shadow-md">
+  <div
+    class="flex justify-between items-center bg-red-700 text-white px-6 py-3 shadow-md"
+  >
     <h1 class="text-xl font-bold">Location: Sajid LLC</h1>
-    <span>{{ today | date : "MM/dd/yyyy HH:mm" }}</span>
+    <span>{{ today | date: "MM/dd/yyyy HH:mm" }}</span>
   </div>
 
   <!-- Main POS Area -->
   <div class="grid grid-cols-3 gap-6 p-6">
-    <!-- Left: Product List Table -->
-   <!-- Left: Product List Table -->
-<div class="col-span-2 bg-white border border-red-200 rounded-lg shadow-lg p-4 flex flex-col h-[80vh]">
-  
-  <!-- Table (scrollable area) -->
-  <div class="overflow-y-auto flex-1">
-    <table class="w-full text-sm">
-      <thead>
-        <tr class="bg-yellow-600 text-white">
-          <th class="p-2 text-left">Product</th>
-          <th class="p-2 text-center">Quantity</th>
-          <th class="p-2 text-right">Subtotal</th>
-          <th class="p-2 text-center">X</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of cart">
-          <td class="p-2">{{ item.name }}</td>
-          <td class="p-2 text-center">{{ item.qty }}</td>
-          <td class="p-2 text-right">{{ item.qty * item.price }}</td>
-          <td class="p-2 text-center">
-            <button (click)="removeFromCart(item.sku)" class="text-red-600 font-bold">
-              X
-            </button>
-          </td>
-        </tr>
-        <tr *ngIf="cart.length === 0">
-          <td colspan="4" class="p-4 text-center text-gray-500">
-            No products added
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Totals + Buttons (fixed bottom inside card) -->
-  <div class="mt-4">
-    <!-- Totals -->
-    <div class="flex justify-between items-center text-sm mb-4">
-      <p>Items: <span class="font-bold">{{ totalItems }}</span></p>
-      <p>Total: <span class="font-bold">{{ totalPrice }}</span></p>
-    </div>
-
-    <!-- Discount & Tax Buttons -->
-    <div class="flex justify-between">
-      <button
-        class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg shadow"
-      >
-        Discount
-      </button>
-      <button
-        class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg shadow"
-      >
-        Tax
-      </button>
-    </div>
-  </div>
-</div>
-
-
-   <!-- Right: Product Grid -->
-<div class="bg-white border border-red-200 rounded-lg shadow-lg p-4">
-  <!-- Title -->
-  <h2 class="text-lg font-semibold text-red-700 mb-3">Products</h2>
-
-  <!-- Dropdowns below title in one line -->
-  <div class="flex gap-3 mb-4">
-    <select
-      class="border border-red-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 flex-1"
-    >
-      <option>All Categories</option>
-      <option>Footwear</option>
-      <option>Groceries</option>
-      <option>Food</option>
-    </select>
-
-    <select
-      class="border border-red-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 flex-1"
-    >
-      <option>All Brands</option>
-      <option>Local</option>
-      <option>Imported</option>
-    </select>
-  </div>
-
-  <!-- Products Grid -->
-  <div class="grid grid-cols-2 gap-4">
+    <!-- Left: Cart Table -->
     <div
-      *ngFor="let p of products"
-      (click)="addToCart(p)"
-      class="border rounded-lg p-3 text-center hover:bg-red-50 cursor-pointer"
+      class="col-span-2 bg-white border border-red-200 rounded-lg shadow-lg p-4 flex flex-col h-[80vh]"
     >
-      <p class="font-bold">{{ p.name }}</p>
-      <span class="text-sm text-gray-500">{{ p.sku }}</span>
-      <p class="text-sm text-red-600 mt-1">Rs. {{ p.price }}</p>
+      <!-- Table -->
+      <div class="overflow-y-auto flex-1">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-yellow-600 text-white">
+              <th class="p-2 text-left">Product</th>
+              <th class="p-2 text-center">Quantity</th>
+              <th class="p-2 text-right">Subtotal</th>
+              <th class="p-2 text-center">X</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of cart">
+              <td class="p-2">{{ item.product_name }}</td>
+              <td class="p-2 text-center">{{ item.qty }}</td>
+              <td class="p-2 text-right">{{ item.qty * item.price }}</td>
+              <td class="p-2 text-center">
+                <button
+                  (click)="removeFromCart(item.id)"
+                  class="text-red-600 font-bold"
+                >
+                  X
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="cart.length === 0">
+              <td colspan="4" class="p-4 text-center text-gray-500">
+                No products added
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Totals + Buttons -->
+      <div class="mt-4">
+        <!-- Subtotal + Discount -->
+        <div class="flex justify-between items-center text-sm mb-2">
+          <p>Items: <span class="font-bold">{{ totalItems }}</span></p>
+          <p>Subtotal: <span class="font-bold">{{ subtotal }}</span></p>
+        </div>
+
+        <div *ngIf="selectedDiscount" class="text-sm text-gray-700 mb-2">
+          <p>
+            Discount Applied:
+            <span class="font-bold text-green-600">{{
+              discountAppliedAmount
+            }}</span>
+            ({{ selectedDiscount.name }})
+          </p>
+        </div>
+
+        <div class="flex justify-between items-center text-sm mb-2">
+          <p class="font-bold text-red-700">After Discount:</p>
+          <p class="font-bold text-red-700">{{ totalAfterDiscount }}</p>
+        </div>
+
+        <div *ngIf="selectedTax" class="text-sm text-gray-700 mb-2">
+          <p>
+            Tax Applied:
+            <span class="font-bold text-blue-600">{{
+              taxAppliedAmount
+            }}</span>
+            ({{ selectedTax.name }})
+          </p>
+        </div>
+
+        <div class="flex justify-between items-center text-sm mb-4">
+          <p class="font-bold text-red-700">Total After Tax:</p>
+          <p class="font-bold text-red-700">{{ totalAfterTax }}</p>
+        </div>
+
+        <!-- Discount & Tax Dropdowns -->
+        <div class="flex justify-between gap-2">
+          <!-- Discount -->
+          <select
+            [(ngModel)]="selectedDiscountId"
+            (change)="onDiscountChange()"
+            class="border border-yellow-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 mt-4 flex-1"
+          >
+            <option [ngValue]="null">Select Discount</option>
+            <option *ngFor="let d of discounts" [ngValue]="d.id">
+              {{ d.name }} -
+              {{ d.discount_amount
+              }}{{ d.discount_type === "percentage" ? "%" : "Rs" }}
+            </option>
+          </select>
+
+          <!-- Tax -->
+          <select
+            [(ngModel)]="selectedTaxId"
+            (change)="onTaxChange()"
+            class="border border-yellow-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 mt-4 flex-1"
+          >
+            <option [ngValue]="null">Select Tax</option>
+            <option *ngFor="let t of taxRates" [ngValue]="t.id">
+              {{ t.name }} - {{ t.amount }}%
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Product Grid -->
+    <div
+      class="bg-white border border-red-200 rounded-lg shadow-lg p-4 overflow-hidden"
+    >
+      <h2 class="text-lg font-semibold text-red-700 mb-3">Products</h2>
+
+      <!-- Category Dropdown -->
+      <div class="flex gap-3 mb-4">
+        <select
+          [(ngModel)]="selectedCategory"
+          class="border border-red-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 flex-1"
+        >
+          <option>All Categories</option>
+          <option *ngFor="let cat of uniqueCategories">{{ cat }}</option>
+        </select>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="grid grid-cols-2 gap-4 overflow-y-auto max-h-[70vh]">
+        <div
+          *ngFor="let p of filteredProducts"
+          (click)="addToCart(p)"
+          class="border rounded-lg p-3 text-center hover:bg-red-50 cursor-pointer"
+        >
+          <p class="font-bold">{{ p.product_name }}</p>
+          <span class="text-sm text-gray-500">{{ p.Category?.name }}</span>
+          <p class="text-sm text-red-600 mt-1">Rs. {{ p.price }}</p>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-  </div>
-
-  <!-- Bottom Action Buttons -->
-  <div class="flex justify-between items-center bg-red-100 border-t border-red-200 px-6 py-4">
+  <!-- Bottom Buttons -->
+  <div
+    class="flex justify-between items-center bg-red-100 border-t border-red-200 px-6 py-4"
+  >
     <div class="flex gap-3">
       <button
         class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg shadow"
@@ -117,21 +159,17 @@
         Draft
       </button>
       <button
-        class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg shadow"
-      >
-        Cash
-      </button>
+  (click)="createSale()"
+  class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg shadow"
+>
+  Cash
+</button>
+
       <button
         class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow"
       >
         Cancel
       </button>
     </div>
-
-    <button
-      class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg shadow"
-    >
-      Recent Transactions
-    </button>
   </div>
 </div>

@@ -6,12 +6,23 @@
     <!-- Business Location -->
     <div>
       <label class="block mb-2 font-medium text-gray-700">Business Location</label>
-      <select formControlName="businessLocation" class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500">
+      <select formControlName="businessLocation" class="w-full p-2 border rounded">
         <option value="">Select Location</option>
-        <option value="location1">Location 1</option>
-        <option value="location2">Location 2</option>
+        <option *ngFor="let loc of locations" [value]="loc.id">{{ loc.name }}</option>
       </select>
     </div>
+  <div>
+  <label class="block mb-2 font-medium text-gray-700">Supplier</label>
+  <select formControlName="supplier"
+          required
+          class="w-full p-2 border border-gray-300 rounded">
+    <option value="">Select Supplier</option>
+    <option *ngFor="let s of suppliers" [value]="s.id">
+      {{ s.name }}
+    </option>
+  </select>
+</div>
+
 
     <!-- Reference Number -->
     <div>
@@ -30,38 +41,62 @@
       <label class="block mb-2 font-medium text-gray-700">Adjustment Type</label>
       <select formControlName="adjustmentType" class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500">
         <option value="">Select Type</option>
-        <option value="increase">Increase</option>
-        <option value="decrease">Decrease</option>
+        <option value="normal">Normal</option>
+        <option value="abnormal">Abnormal</option>
       </select>
     </div>
 
-    <!-- Product Table -->
-    <div class="overflow-x-auto mt-4">
-      <table class="min-w-full border border-gray-200 rounded">
-        <thead class="bg-green-600 text-white">
-          <tr>
-            <th class="px-2 py-2">#</th>
-            <th class="px-2 py-2">Product Name</th>
-            <th class="px-2 py-2">Quantity</th>
-            <th class="px-2 py-2">Unit Cost</th>
-            <th class="px-2 py-2">Line Total</th>
-            <th class="px-2 py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody formArrayName="products">
-          <tr *ngFor="let product of products.controls; let i = index" [formGroupName]="i" class="border-b">
-            <td class="px-2 py-2">{{ i + 1 }}</td>
-            <td class="px-2 py-2"><input formControlName="productName" type="text" placeholder="Product" class="w-full p-1 border rounded" /></td>
-            <td class="px-2 py-2"><input formControlName="quantity" type="number" class="w-full p-1 border rounded" /></td>
-            <td class="px-2 py-2"><input formControlName="unitCost" type="number" class="w-full p-1 border rounded" /></td>
-            <td class="px-2 py-2"><input formControlName="lineTotal" type="number"  class="w-full p-1 border rounded bg-gray-100" /></td>
-            <td class="px-2 py-2 text-center">
-              <button type="button" (click)="removeProduct(i)" class="text-red-600 hover:text-red-800">X</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="button" (click)="addProduct()" class="mt-2 bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">+ Add Row</button>
+    <!-- Product Search -->
+    <div class="bg-white p-4 rounded shadow-md relative">
+      <label class="block mb-2 font-medium text-gray-700">Add Products</label>
+      <input type="text" formControlName="searchQuery"
+             (input)="onSearchInput($event)" 
+             placeholder="Search Product"
+             class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
+
+      <div *ngIf="searchFormControl.value && filteredProducts.length > 0" class="absolute mt-1 left-0 bg-white border rounded shadow-md w-full z-10 max-h-60 overflow-auto">
+        <ul>
+          <li *ngFor="let product of filteredProducts" (click)="addProduct(product)"
+              class="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm">
+            {{ product.product_name || product.name }} - Rs. {{ product.price?.purchase_price || product.purchase_price || 0 }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Products Table -->
+      <div class="overflow-x-auto mt-4">
+        <table class="min-w-full border border-gray-200 rounded-lg text-sm">
+          <thead class="bg-green-600 text-white">
+            <tr>
+              <th class="px-3 py-2">#</th>
+              <th class="px-3 py-2">Product</th>
+              <th class="px-3 py-2">Quantity</th>
+              <th class="px-3 py-2">Price</th>
+              <th class="px-3 py-2">Total</th>
+              <th class="px-3 py-2">Action</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="products">
+            <tr *ngFor="let productCtrl of products.controls; let i = index" [formGroupName]="i">
+              <td class="px-3 py-2">{{ i + 1 }}</td>
+              <td class="px-3 py-2">{{ productCtrl.get('productName')?.value }}</td>
+              <td class="px-3 py-2">
+                <input type="number" formControlName="quantity" min="1"
+                       class="border border-gray-300 rounded-md p-2 text-xs w-full" />
+              </td>
+              <td class="px-3 py-2">Rs. {{ productCtrl.get('unitCost')?.value }}</td>
+              <td class="px-3 py-2">Rs. {{ productCtrl.get('lineTotal')?.value | number:'1.2-2' }}</td>
+              <td class="px-3 py-2 text-center">
+                <button type="button" (click)="removeItem(productCtrl.get('productId')?.value)"
+                        class="text-red-600 hover:text-red-800">🗑</button>
+              </td>
+            </tr>
+            <tr *ngIf="products.length === 0">
+              <td colspan="6" class="text-center py-3 text-gray-400">No products added</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Total Amount Recovered -->
@@ -76,7 +111,6 @@
       <textarea formControlName="reason" rows="3" class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500" placeholder="Enter reason for adjustment"></textarea>
     </div>
 
-    <!-- Submit Button -->
     <button type="submit" class="w-full bg-green-600 text-white font-medium py-2 rounded hover:bg-green-700 transition duration-200">Save Stock Adjustment</button>
   </form>
 </div>

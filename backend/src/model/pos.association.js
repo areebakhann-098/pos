@@ -159,9 +159,9 @@ Products.belongsTo(Brand, { foreignKey: "brands_id", as: "brand" });
   // Sale Relations
   // ===============================
 
-  // Sale ↔ Customer
-  Sale.belongsTo(Contact, { foreignKey: "customer_id", as: "customer" });
-  Contact.hasMany(Sale, { foreignKey: "customer_id", as: "sales" });
+  // // Sale ↔ Customer
+  // Sale.belongsTo(Contact, { foreignKey: "customer_id", as: "customer" });
+  // Contact.hasMany(Sale, { foreignKey: "customer_id", as: "sales" });
 
   // Sale ↔ BusinessLocation
   Sale.belongsTo(BusinessLocation, {
@@ -180,9 +180,9 @@ Products.belongsTo(Brand, { foreignKey: "brands_id", as: "brand" });
   // Sale ↔ TaxRate
   Sale.belongsTo(TaxRate, { foreignKey: "tax_id", as: "tax" });
   TaxRate.hasMany(Sale, { foreignKey: "tax_id", as: "sales" });
-  // SaleItem ↔ Product
-  Sale.belongsTo(Products, { foreignKey: "product_id", as: "product" });
-  Products.hasMany(Sale, { foreignKey: "product_id", as: "sales" });
+  // // SaleItem ↔ Product
+  // Sale.belongsTo(Products, { foreignKey: "product_id", as: "product" });
+  // Products.hasMany(Sale, { foreignKey: "product_id", as: "sales" });
   // ===============================
   // Stock Transfer Relations
   // ===============================

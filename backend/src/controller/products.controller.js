@@ -10,8 +10,9 @@ import {
   Variation,
   Price,
 } from "../model/pos.association.js"; // adjust path
-
+import { Op } from "sequelize";
 // helper: validate FK existence
+
 const ensureExists = async (Model, id, fieldName) => {
   if (id === undefined || id === null) return;
   const rec = await Model.findByPk(id);
@@ -158,6 +159,7 @@ export const getProductById = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const product = await Products.findByPk(req.params.id);
+   
     if (!product)
       return res
         .status(404)
@@ -196,5 +198,74 @@ export const deleteProduct = async (req, res) => {
     return res.json({ success: true, message: "Product deleted" });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const searchProductsByCategory = async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    console.log("🔍 Received Query:", q);
+
+    if (!q || q.trim() === "") {
+      console.log("⚠️ Empty search term received");
+      return res.status(400).json({
+        success: false,
+        message: "Search query required",
+      });
+    }
+
+    const searchTerm = q.trim().toLowerCase();
+    console.log("✅ Cleaned Search Term:", searchTerm);
+
+    // ✅ Verify association first
+    console.log("🧩 Checking Associations...");
+    console.log("Products associations:", Object.keys(Products.associations));
+
+    // ✅ Fetch data
+    console.log("📦 Fetching products by category name...");
+    const products = await Products.findAll({
+      include: [
+        {
+          model: Category,
+          as: "Category", // Make sure your association uses this alias
+          attributes: ["id", "name"],
+          where: {
+            name: { [Op.iLike]: `%${searchTerm}%` },
+          },
+        },
+        {
+          model: Price,
+          as: "price",
+          attributes: ["purchase_price"],
+        },
+      ],
+      attributes: ["id", "product_name", "category_id"],
+      limit: 10,
+    });
+
+    console.log("✅ Raw Sequelize Result:", JSON.stringify(products, null, 2));
+
+    if (!products || products.length === 0) {
+      console.log("⚠️ No products found for category:", searchTerm);
+      return res.status(404).json({
+        success: false,
+        message: "No products found for this category",
+      });
+    }
+
+    console.log(`✅ Found ${products.length} product(s)`);
+    return res.status(200).json({
+      success: true,
+      data: products,
+    });
+  } catch (error) {
+    console.error("❌ Search Error:", error.message);
+    console.error("🔍 Full Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: error.message,
+    });
   }
 };

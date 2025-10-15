@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PurchaseService } from '../core/services/purchase/purchase.service';
-import { DiscountService } from '../core/services/discount/discount.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
+import { PurchaseService } from '../core/services/purchase/purchase.service';
+import { DiscountService } from '../core/services/discount/discount.service';
 import { ContactService } from '../core/services/contact/contact.service';
 import { BusinessLocationService } from '../core/services/business_location/business-location.service';
 
@@ -40,7 +42,8 @@ interface PurchaseItem {
   imports: [CommonModule, FormsModule],
   templateUrl: './add-purchases.component.html',
 })
-export class AddPurchasesComponent {
+export class AddPurchasesComponent implements OnInit {
+  // 🧾 Form fields
   supplier = '';
   refNo = '';
   purchaseDate = '';
@@ -51,74 +54,103 @@ export class AddPurchasesComponent {
   datePaid = '';
   paymentMethod = '';
 
+  // 🔍 Search & Lists
   searchQuery = '';
   filteredProducts: Product[] = [];
   discounts: Discount[] = [];
-suppliers: any[] = [];
-locations: any[] = [];
+  suppliers: any[] = [];
+  locations: any[] = [];
+
+  // 💡 For edit mode
+  isEditMode = false;
+  purchaseId: number | null = null;
+
+  // 🛒 Purchase items
+  purchaseItems: PurchaseItem[] = [];
 
   private searchSubject = new Subject<string>();
-  purchaseItems: PurchaseItem[] = [];
 
   constructor(
     private purchaseService: PurchaseService,
     private discountService: DiscountService,
-      private contactService: ContactService,
-        private businessLocationService: BusinessLocationService 
-
-
+    private contactService: ContactService,
+    private businessLocationService: BusinessLocationService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.setupSearchListener();
   }
 
   ngOnInit() {
     this.getAllDiscounts();
-      this.getSuppliers(); 
-      this.getBusinessLocations(); 
+    this.getSuppliers();
+    this.getBusinessLocations();
 
-
+    // 🟢 Check if route contains an ID (for edit mode)
+    this.route.paramMap.subscribe((params) => {
+      const idParam = params.get('id');
+      if (idParam) {
+        this.isEditMode = true;
+        this.purchaseId = Number(idParam);
+        this.loadPurchaseById(this.purchaseId);
+      }
+    });
   }
-getBusinessLocations() {
-  this.businessLocationService.getAllLocations().subscribe({
-    next: (res: any) => {
-      console.log("📦 Raw Location API Response:", res);
-      
-      // ✅ Adjust key to match backend
-      const data = res.data || res.locations;  
 
-      if (res.success && Array.isArray(data)) {
-        this.locations = data.map((loc: any) => ({
-          id: loc.id,
-          name: loc.name
-        }));
+/** 🔹 Load purchase data for editing */
+loadPurchaseById(id: number): void {
+  this.purchaseService.getPurchaseById(id).subscribe({
+    next: (res: any) => {
+      const purchase = res.data;
+      if (!purchase) return;
+
+      console.log('✅ Full purchase data:', purchase);
+
+      // ✅ Populate form fields
+      this.supplier = String(purchase.contact_id);
+      this.refNo = purchase.reference_number || '';
+      this.purchaseDate = purchase.purchase_date?.split('T')[0] || '';
+      this.status = purchase.purchase_status || '';
+      this.location = String(purchase.bussiness_location_id);
+      this.notes = purchase.additional_notes || '';
+      this.amountPaid = Number(purchase.total_paid_amount) || 0;
+      this.datePaid = purchase.date_paid_on?.split('T')[0] || '';
+      this.paymentMethod = purchase.payment_method || '';
+
+      // ✅ Handle single product (not array)
+      const p = purchase.product;
+      if (p) {
+        const discount = purchase.discount || null;
+        const discountAmount = discount
+          ? Number(discount.discount_amount)
+          : 0;
+        const discountName = discount ? discount.discount_type : 'No Discount';
+        const displayDiscount = discountAmount
+          ? `Rs. ${discountAmount}`
+          : '';
+
+        this.purchaseItems = [
+          {
+            id: p.id,
+            name: p.product_name,
+            quantity: purchase.quantity || 1,
+            price: p.price?.purchase_price || 0,
+            discount_id: purchase.discount_id || null,
+            discountAmount,
+            discountName,
+            displayDiscount,
+            total: Number(purchase.total_amount) || 0,
+          },
+        ];
       }
 
-      console.log("✅ Final Locations Array:", this.locations);
-    },
-    error: (err) => console.error('❌ Error fetching business locations:', err),
-  });
-}
+      console.log('🧾 Purchase items loaded:', this.purchaseItems);
 
-
-
-  getSuppliers() {
-  this.contactService.getContacts().subscribe({
-    next: (res: any) => {
-      if (res.success && Array.isArray(res.data)) {
-        // ✅ Filter only suppliers
-        this.suppliers = res.data
-          .filter((c: any) => c.contact_type === 'Supplier')
-          .map((c: any) => ({
-            id: c.id,
-            name: [c.first_name, c.middle_name, c.last_name]
-              .filter(Boolean) // remove null/undefined
-              .join(' '),
-          }));
-        console.log('✅ Suppliers:', this.suppliers);
-      }
+      // ✅ Recalculate line totals to ensure UI updates correctly
+      this.purchaseItems.forEach((item) => this.updateLineTotal(item));
     },
     error: (err) => {
-      console.error('❌ Error fetching suppliers:', err);
+      console.error('❌ Error loading purchase:', err);
     },
   });
 }
@@ -181,9 +213,7 @@ getBusinessLocations() {
 
   /** 🧾 Discount selection */
   onDiscountSelect(item: PurchaseItem) {
-   const selectedDiscount = this.discounts.find(
-    (d) => d.id === +(item.discount_id || 0)
-  );
+    const selectedDiscount = this.discounts.find((d) => d.id === +(item.discount_id || 0));
 
     if (selectedDiscount) {
       item.discountName = selectedDiscount.name;
@@ -198,70 +228,51 @@ getBusinessLocations() {
     this.updateLineTotal(item);
   }
 
-onQuantityInput(item: PurchaseItem): void {
-  console.log("🟡 Quantity field changed for:", item.name);
-  console.log("➡️ New Quantity:", item.quantity);
-  this.updateLineTotal(item);
-}
+  /** 🔢 Quantity changed */
+  onQuantityInput(item: PurchaseItem): void {
+    this.updateLineTotal(item);
+  }
 
-updateLineTotal(item: PurchaseItem): void {
-  const quantity = Number(item.quantity) || 0;
-  const price = Number(item.price) || 0;
-  const discount = Number(item.discountAmount) || 0;
+  /** 🧮 Update total after discount */
+  updateLineTotal(item: PurchaseItem): void {
+    const quantity = Number(item.quantity) || 0;
+    const price = Number(item.price) || 0;
+    const discount = Number(item.discountAmount) || 0;
 
-  // 🧮 Step 1: Calculate subtotal
-  const subtotal = quantity * price;
+    const subtotal = quantity * price;
+    const discountValue = (subtotal * discount) / 100;
+    const totalAfterDiscount = subtotal - discountValue;
 
-  // 🧮 Step 2: Calculate discount as a percentage
-  const discountValue = (subtotal * discount) / 100;
+    item.total = totalAfterDiscount > 0 ? totalAfterDiscount : 0;
+  }
 
-  // 🧮 Step 3: Apply discount
-  const totalAfterDiscount = subtotal - discountValue;
-
-  // 🧮 Step 4: Ensure final total is never negative
-  item.total = totalAfterDiscount > 0 ? totalAfterDiscount : 0;
-
-
-}
-
-
-
-  /** 🗑️ Delete product row */
+  /** 🗑️ Delete product */
   deleteItem(id: number): void {
     this.purchaseItems = this.purchaseItems.filter((p) => p.id !== id);
   }
 
   /** 📦 Total items */
-get totalItems(): number {
-  return this.purchaseItems.length;
-}
+  get totalItems(): number {
+    return this.purchaseItems.length;
+  }
 
   /** 💵 Net total */
   get netTotal(): number {
     return this.purchaseItems.reduce((sum, item) => sum + item.total, 0);
   }
-savePurchase(): void {
-  if (
-    !this.supplier ||
-    !this.refNo ||
-    !this.purchaseDate ||
-    !this.status ||
-    !this.location ||
-    this.purchaseItems.length === 0
-  ) {
-    alert('Please fill all required fields and add at least one product.');
-    return;
-  }
 
-  // 🧮 Calculate total quantity
-  const totalQuantity = this.purchaseItems.reduce(
-    (sum, item) => sum + (Number(item.quantity) || 0),
-    0
-  );
+  /** 💾 Save or Update purchase */
+  savePurchase(): void {
+    if (!this.supplier || !this.refNo || !this.purchaseDate || !this.status || !this.location) {
+      alert('Please fill all required fields and add at least one product.');
+      return;
+    }
+
+const firstItem = this.purchaseItems[0]; // ✅ Take the first product from array
+
 const payload = {
   contact_id: Number(this.supplier),
-  discount_id: Number(this.purchaseItems[0]?.discount_id) || null, 
-  reference_number: this.refNo,
+reference_number: Number(this.refNo),
   purchase_date: this.purchaseDate,
   purchase_status: this.status,
   bussiness_location_id: Number(this.location),
@@ -269,30 +280,41 @@ const payload = {
   total_paid_amount: Number(this.amountPaid),
   date_paid_on: this.datePaid,
   payment_method: this.paymentMethod,
-  products: this.purchaseItems.map((item) => ({
-    product_id: Number(item.id), 
-    quantity: Number(item.quantity),
-    total_amount: Number(item.total),
-  })),
+
+  // ✅ Add single product fields (NOT array)
+  product_id: firstItem.id,
+  quantity: firstItem.quantity,
+  price: firstItem.price,
+  discount_id: firstItem.discount_id || null,
+  total_amount: firstItem.total,
 };
 
-  console.log('📦 Final Payload Sent:', payload);
 
-  // 🚀 Send full payload once
-  this.purchaseService.createPurchase(payload).subscribe({
-    next: (res: any) => {
-      console.log('✅ Purchase saved successfully:', res);
-      alert('✅ Purchase saved successfully!');
-      this.resetForm();
-    },
-    error: (err) => {
-      console.error('❌ Error saving purchase:', err);
-      alert('❌ Failed to save purchase. Check console for details.');
-    },
-  });
-}
-
-
+    if (this.isEditMode && this.purchaseId) {
+      // ✏️ UPDATE
+      this.purchaseService.updatePurchase(this.purchaseId, payload).subscribe({
+        next: () => {
+          alert('✅ Purchase updated successfully!');
+          this.router.navigate(['/Purchase_list']);
+        },
+        error: (err) => {
+          console.error('❌ Error updating purchase:', err);
+        },
+      });
+    } else {
+      // ➕ CREATE
+      this.purchaseService.createPurchase(payload).subscribe({
+        next: () => {
+          alert('✅ Purchase created successfully!');
+          this.resetForm();
+          this.router.navigate(['/Purchase_list']);
+        },
+        error: (err) => {
+          console.error('❌ Error creating purchase:', err);
+        },
+      });
+    }
+  }
 
   /** 🔄 Reset form */
   private resetForm(): void {
@@ -308,16 +330,43 @@ const payload = {
     this.paymentMethod = '';
   }
 
-  /** 🏷️ Fetch all discounts */
+  /** 📦 Fetch locations */
+  getBusinessLocations() {
+    this.businessLocationService.getAllLocations().subscribe({
+      next: (res: any) => {
+        const data = res.data || res.locations;
+        if (res.success && Array.isArray(data)) {
+          this.locations = data.map((loc: any) => ({ id: loc.id, name: loc.name }));
+        }
+      },
+      error: (err) => console.error('❌ Error fetching business locations:', err),
+    });
+  }
+
+  /** 👥 Fetch suppliers */
+  getSuppliers() {
+    this.contactService.getContacts().subscribe({
+      next: (res: any) => {
+        if (res.success && Array.isArray(res.data)) {
+          this.suppliers = res.data
+            .filter((c: any) => c.contact_type === 'Supplier')
+            .map((c: any) => ({
+              id: c.id,
+              name: [c.first_name, c.middle_name, c.last_name].filter(Boolean).join(' '),
+            }));
+        }
+      },
+      error: (err) => console.error('❌ Error fetching suppliers:', err),
+    });
+  }
+
+  /** 🎟 Fetch discounts */
   getAllDiscounts() {
     this.discountService.getDiscounts().subscribe({
       next: (res: any) => {
         this.discounts = Array.isArray(res.data) ? res.data : [];
-        console.log('✅ Discounts:', this.discounts);
       },
-      error: (err) => {
-        console.error('❌ Error fetching discounts:', err);
-      },
+      error: (err) => console.error('❌ Error fetching discounts:', err),
     });
   }
 }

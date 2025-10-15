@@ -246,16 +246,19 @@
         class="border border-gray-300 rounded-md p-2 w-full"
       />
     </div>
-    <div>
-      <label class="block mb-1 text-sm font-medium text-gray-700">Quantity</label>
-      <input
-        type="number"
-        [(ngModel)]="productData.quantity"
-        name="quantity"
-        placeholder="Quantity"
-        class="border border-gray-300 rounded-md p-2 w-full"
-      />
-    </div>
+ <div>
+  <label class="block mb-1 text-sm font-medium text-gray-700">Quantity</label>
+  <input
+    type="number"
+    [(ngModel)]="productData.quantity"
+    name="quantity"
+    placeholder="Quantity"
+    [value]="0"
+    [readonly]="true"
+    class="border border-gray-300 rounded-md p-2 w-full bg-gray-100 text-gray-600 cursor-not-allowed"
+  />
+</div>
+
   </div>
 
   <!-- 🏢 Business Location -->
@@ -280,7 +283,6 @@
   <!-- 🚀 Submit -->
   <div class="text-right">
    <button
-  (click)="onSubmit()"
   class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
 >
   {{ isEditMode ? 'Update Product' : 'Add Product' }}

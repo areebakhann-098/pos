@@ -6,6 +6,7 @@ import {
   updateProduct,
   deleteProduct,
   
+  searchProductsByCategory
 } from "../controller/products.controller.js";
 
 const router = express.Router();
@@ -23,6 +24,7 @@ router.get("/product/detail/:id", getProductById);      // GET    /api/product/d
 router.put("/product/update/:id", updateProduct);       // PUT    /api/product/update/:id
 
 // Delete Product
-router.delete("/product/delete/:id", deleteProduct);    // DELETE /api/product/delete/:id
+router.delete("/product/delete/:id", deleteProduct);    // DELETE /api/product/delete/:i
+router.get("/products/search-products", searchProductsByCategory);
 
 export default router;

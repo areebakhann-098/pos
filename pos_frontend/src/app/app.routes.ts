@@ -136,10 +136,38 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'stocktransfer_list',
+    loadComponent: () =>
+      import('./stocktransfer-list/stocktransfer-list.component').then(
+        (m) => m.StocktransferListComponent
+      ),
+  },
+   {
+    path: 'stockadjustments_list',
+    loadComponent: () =>
+      import('./stockadjustments-list/stockadjustments-list.component').then(
+        (m) => m.StockadjustmentsListComponent
+      ),
+  },
+  {
   path: 'add-contact/edit/:id',
   loadComponent: () =>
     import('./add-contact/add-contact.component').then(
       (m) => m.AddContactComponent
+    ),
+},
+ {
+  path: 'stockadjustments/edit/:id',
+  loadComponent: () =>
+    import('./stock-adjustments/stock-adjustments.component').then(
+      (m) => m.StockAdjustmentsComponent
+    ),
+},
+ {
+  path: 'stocktransfer/edit/:id',
+  loadComponent: () =>
+    import('./stock-transfer/stock-transfer.component').then(
+      (m) => m.StockTransferComponent
     ),
 },
 
@@ -150,4 +178,12 @@ export const routes: Routes = [
         (m) => m.AddProductComponent
       ),
   },
+  {
+  path: 'Purchases/edit/:id',
+  loadComponent: () =>
+    import('./add-purchases/add-purchases.component').then(
+      (m) => m.AddPurchasesComponent
+    ),
+},
+
 ];
