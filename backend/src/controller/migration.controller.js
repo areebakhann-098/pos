@@ -18,6 +18,7 @@ export const createMigration = async (req, res) => {
       shipment_charges,
       additional_notes,
       products,
+      total_amount
     } = req.body;
 
     // ✅ Validation
@@ -57,6 +58,7 @@ export const createMigration = async (req, res) => {
           date,
           shipment_charges,
           additional_notes,
+          total_amount
         },
         { transaction: t }
       );

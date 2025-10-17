@@ -19,7 +19,8 @@ import Discount from "./discount.model.js"; // ✅ import at top
 import Sale from "./sale.model.js";
 import Migration from "./migration.model.js";
 import SaleItem from "./SaleItem.model.js";
-
+import SaleReturn from "./saleReturn.model.js";
+import SaleReturnItem from "./saleReturnItem.model.js"
 // ===============================
 // Contact Relations
 // ===============================
@@ -239,6 +240,29 @@ const defineSaleAssociations = () => {
   // 🧾 Sale ↔ TaxRate (Each sale may have one tax rate)
   Sale.belongsTo(TaxRate, { foreignKey: "tax_id", as: "saleTax" }); // ✅ changed
   TaxRate.hasMany(Sale, { foreignKey: "tax_id", as: "taxSales" }); // ✅ unique alias
+
+
+    // 🔁 Sale ↔ SaleReturn
+  Sale.hasMany(SaleReturn, { foreignKey: "sale_id", as: "returns" });
+  SaleReturn.belongsTo(Sale, { foreignKey: "sale_id", as: "originalSale" });
+
+  // 🧾 SaleReturn ↔ SaleReturnItem
+  SaleReturn.hasMany(SaleReturnItem, { foreignKey: "sale_return_id", as: "returnItems" });
+  SaleReturnItem.belongsTo(SaleReturn, { foreignKey: "sale_return_id", as: "parentReturn" });
+
+  // 🧩 SaleReturnItem ↔ Product
+  SaleReturnItem.belongsTo(Products, { foreignKey: "product_id", as: "product" });
+  Products.hasMany(SaleReturnItem, { foreignKey: "product_id", as: "productReturns" });
+
+  // 🏢 SaleReturn ↔ BusinessLocation
+  SaleReturn.belongsTo(BusinessLocation, {
+    foreignKey: "business_location_id",
+    as: "returnLocation",
+  });
+  BusinessLocation.hasMany(SaleReturn, {
+    foreignKey: "business_location_id",
+    as: "locationReturns",
+  });
 };
 
 // ===============================
@@ -266,4 +290,6 @@ export {
   Sale,
   Migration,
   SaleItem,
+    SaleReturn,          // ✅ add this
+  SaleReturnItem  
 };

@@ -215,7 +215,7 @@
           <ul id="dropdown-sell" class="hidden py-2 space-y-2 bg-red-800">
             <li>
               <a
-                href="#"
+                [routerLink]="['sales_list']"
                 class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
                 ><i class="fas fa-list mr-2"></i>All Sales</a
               >
@@ -228,30 +228,11 @@
                 ><i class="fas fa-plus-circle mr-2"></i>POS</a
               >
             </li>
+          
             <li>
               <a
-                href="#"
-                class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
-                ><i class="fas fa-desktop mr-2"></i>List POS</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
-                ><i class="fas fa-file-alt mr-2"></i>Add Draft</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
-                ><i class="fas fa-list-alt mr-2"></i>List Draft</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
+              
+                [routerLink]="['sale-return']"
                 class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
                 ><i class="fas fa-undo-alt mr-2"></i>List Sell Return</a
               >
@@ -354,53 +335,36 @@
                 Reports</a
               >
             </li>
+           
+            
+      
             <li>
               <a
-                href="#"
-                class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
-                ><i class="fas fa-shopping-basket mr-2"></i>Purchase and
-                Sales</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
-                ><i class="fas fa-receipt mr-2"></i>Tax Report</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
-                ><i class="fas fa-handshake mr-2"></i>Supplier and Customer
-                Report</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
-                ><i class="fas fa-folder mr-2"></i>Categories</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
+               [routerLink]="['Stock-report']"
                 class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
                 ><i class="fas fa-boxes mr-2"></i>Stocks Report</a
               >
             </li>
             <li>
               <a
-                href="#"
+                [routerLink]="['adjustment-report']"
+
                 class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
                 ><i class="fas fa-adjust mr-2"></i>Stock Adjustment Report</a
               >
             </li>
+              <li>
+              <a
+                [routerLink]="['trasnfer-report']"
+
+                class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
+                ><i class="fas fa-adjust mr-2"></i>Stock Transfer Report</a
+              >
+            </li>
             <li>
               <a
-                href="#"
+        
+                 [routerLink]="['Purchase-report']"
                 class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
                 ><i class="fas fa-shopping-cart mr-2"></i>Product Purchase
                 Report</a
@@ -408,26 +372,19 @@
             </li>
             <li>
               <a
-                href="#"
+                 [routerLink]="['productsale_list']"
                 class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
                 ><i class="fas fa-store mr-2"></i>Product Sell Report</a
               >
             </li>
-            <li>
+              <li>
               <a
-                href="#"
+                 [routerLink]="['sale-return-report']"
                 class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
-                ><i class="fas fa-credit-card mr-2"></i>Purchase Payment
-                Report</a
+                ><i class="fas fa-store mr-2"></i>Sale Return Report</a
               >
             </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-red-900"
-                ><i class="fas fa-money-check mr-2"></i>Sell Payment Report</a
-              >
-            </li>
+        
           </ul>
         </li>
 

@@ -238,7 +238,7 @@ export class StockAdjustmentsComponent implements OnInit {
   const payload = {
     contact_id: this.stockForm.value.supplier,
     business_location: this.stockForm.value.businessLocation,
-    reference: this.stockForm.value.refNo,
+    reference_no: this.stockForm.value.refNo,
     adjustment_date: this.stockForm.value.adjustmentDate,
     adjustment_type: this.stockForm.value.adjustmentType,
     reason: this.stockForm.value.reason,

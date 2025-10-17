@@ -1,0 +1,70 @@
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg overflow-x-auto">
+  <h2 class="text-xl font-bold mb-4">Stock Report</h2>
+   <!-- Totals Above Table -->
+  <div class="mb-4 p-4 bg-gray-100 rounded-lg flex justify-between text-sm font-semibold">
+    <div>Total Quantity: <span class="text-blue-600">{{ totalQty }}</span></div>
+    <div>Total Purchase Price: <span class="text-green-600">{{ totalPurchasePrice | number:'1.0-2' }}</span></div>
+    <div>Total Sell Price: <span class="text-red-600">{{ totalSellPrice | number:'1.0-2' }}</span></div>
+     <div>Total Profit: <span class="text-purple-600">{{ totalProfit | number:'1.0-2' }}</span></div>
+
+  </div>
+
+  <table class="min-w-full border border-gray-300 rounded-lg text-sm">
+    <thead>
+      <tr class="bg-gray-100 text-left">
+        <th class="py-2 px-3 border">#</th>
+        <th class="py-2 px-3 border">Name</th>
+        <th class="py-2 px-3 border">Warranty</th>
+        <th class="py-2 px-3 border">Unit</th>
+        <th class="py-2 px-3 border">Variation</th>
+        <th class="py-2 px-3 border">Variation Value</th>
+        <th class="py-2 px-3 border">Category</th>
+        <th class="py-2 px-3 border">Sub Category</th>
+        <th class="py-2 px-3 border">Brand</th>
+        <th class="py-2 px-3 border">Tax Rate</th>
+        <th class="py-2 px-3 border">Business Location</th>
+        <th class="py-2 px-3 border">Expiry Date</th>
+        <th class="py-2 px-3 border">Weight</th>
+        <th class="py-2 px-3 border text-right">Quantity</th>
+        <th class="py-2 px-3 border text-right">Purchase Price</th>
+        <th class="py-2 px-3 border">Profit %</th>
+        <th class="py-2 px-3 border text-right">Sell Price</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let product of products; let i = index" class="hover:bg-gray-50">
+        <td class="py-2 px-3 border">{{ i + 1 }}</td>
+        <td class="py-2 px-3 border">{{ product.product_name }}</td>
+        <td class="py-2 px-3 border">{{ product.warranty?.name || '—' }}</td>
+        <td class="py-2 px-3 border">{{ product.unit?.name || '—' }}</td>
+        <td class="py-2 px-3 border">{{ product.variation?.variation_name || '—' }}</td>
+        <td class="py-2 px-3 border">{{ product.variation?.variation_value || '—' }}</td>
+        <td class="py-2 px-3 border">{{ product.Category?.name || '—' }}</td>
+        <td class="py-2 px-3 border">{{ product.Category?.sub_category || '—' }}</td>
+        <td class="py-2 px-3 border">{{ product.brand?.name || '—' }}</td>
+        <td class="py-2 px-3 border">{{ product.taxRate?.name || '—' }}</td>
+        <td class="py-2 px-3 border">{{ product.businessLocation?.name || '—' }}</td>
+        <td class="py-2 px-3 border">{{ product.expiry_date || '—' }}</td>
+        <td class="py-2 px-3 border">{{ product.weight || 0 }}</td>
+        <td class="py-2 px-3 border text-right">{{ product.quantity }}</td>
+        <td class="py-2 px-3 border text-right">{{ product.purchase_price | number:'1.0-2' }}</td>
+        <td class="py-2 px-3 border">{{ product.price?.profit_percent || '—' }}</td>
+        <td class="py-2 px-3 border text-right">{{ product.sell_price | number:'1.0-2' }}</td>
+      </tr>
+
+      <!-- Totals Row -->
+      <tr class="bg-gray-200 font-semibold">
+        <td colspan="13" class="py-2 px-3 border text-right">Total:</td>
+        <td class="py-2 px-3 border text-right">{{ totalQty }}</td>
+        <td class="py-2 px-3 border text-right">{{ totalPurchasePrice | number:'1.0-2' }}</td>
+        <td class="py-2 px-3 border">—</td>
+        <td class="py-2 px-3 border text-right">{{ totalSellPrice | number:'1.0-2' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="products.length === 0" class="text-center text-gray-500 mt-4">
+    No products found.
+  </div>
+</div>

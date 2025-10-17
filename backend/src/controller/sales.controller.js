@@ -6,6 +6,7 @@ import Products from "../model/products.model.js";
 import Price from "../model/price.model.js";
 import SaleItem from "../model/SaleItem.model.js";
 
+
 // =============================
 // CREATE SALE (with stock update)
 // =============================

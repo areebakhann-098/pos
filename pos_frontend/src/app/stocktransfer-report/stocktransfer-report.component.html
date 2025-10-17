@@ -1,0 +1,63 @@
+<div class="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg overflow-x-auto">
+  <h2 class="text-xl font-bold mb-4 text-gray-800">Stock Transfer Report</h2>
+
+  <!-- ✅ Totals Above Table -->
+  <div class="mb-4 p-4 bg-gray-100 rounded-lg flex justify-between flex-wrap text-sm font-semibold">
+    <div>Total Quantity: <span class="text-blue-600">{{ totalQty }}</span></div>
+    <div>Total Shipment Charges: <span class="text-orange-600">{{ totalShipment | number:'1.0-2' }}</span></div>
+    <div>Total Amount: <span class="text-green-600">{{ totalAmount | number:'1.0-2' }}</span></div>
+  </div>
+
+  <!-- ✅ Table -->
+  <table class="min-w-full border border-gray-300 rounded-lg text-sm">
+    <thead>
+      <tr class="bg-gray-100 text-left">
+        <th class="py-2 px-3 border">#</th>
+        <th class="py-2 px-3 border">Reference No</th>
+        <th class="py-2 px-3 border">From Location</th>
+        <th class="py-2 px-3 border">To Location</th>
+        <th class="py-2 px-3 border">Product</th>
+        <th class="py-2 px-3 border text-center">Quantity</th>
+        <th class="py-2 px-3 border">Date</th>
+        <th class="py-2 px-3 border">Status</th>
+        <th class="py-2 px-3 border text-right">Shipment Charges</th>
+        <th class="py-2 px-3 border">Notes</th>
+        <th class="py-2 px-3 border text-right">Total Amount</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let transfer of stockTransfers; let i = index" class="hover:bg-gray-50">
+        <td class="py-2 px-3 border">{{ i + 1 }}</td>
+        <td class="py-2 px-3 border">{{ transfer.reference_no }}</td>
+        <td class="py-2 px-3 border">{{ transfer.fromLocation?.name || '—' }}</td>
+        <td class="py-2 px-3 border">{{ transfer.toLocation?.name || '—' }}</td>
+        <td class="py-2 px-3 border">{{ transfer.product?.product_name || '—' }}</td>
+        <td class="py-2 px-3 border text-center">{{ transfer.quantity || 0 }}</td>
+        <td class="py-2 px-3 border">{{ transfer.date | date }}</td>
+        <td class="py-2 px-3 border capitalize">{{ transfer.status || 'pending' }}</td>
+        <td class="py-2 px-3 border text-right">Rs. {{ transfer.shipment_charges || 0 }}</td>
+        <td class="py-2 px-3 border">{{ transfer.additional_notes || '—' }}</td>
+        <td class="py-2 px-3 border text-right font-semibold text-green-600">
+          Rs. {{ transfer.total_amount || 0 | number:'1.0-2' }}
+        </td>
+      </tr>
+
+      <!-- ✅ Totals Row Below Table -->
+      <tr class="bg-gray-200 font-semibold">
+        <td colspan="5" class="py-2 px-3 border text-right">Total:</td>
+        <td class="py-2 px-3 border text-center">{{ totalQty }}</td>
+        <td colspan="2" class="py-2 px-3 border"></td>
+        <td class="py-2 px-3 border text-right">Rs. {{ totalShipment | number:'1.0-2' }}</td>
+        <td class="py-2 px-3 border"></td>
+        <td class="py-2 px-3 border text-right text-green-600">
+          Rs. {{ totalAmount | number:'1.0-2' }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="stockTransfers.length === 0" class="text-center text-gray-500 mt-4">
+    No stock transfers found.
+  </div>
+</div>

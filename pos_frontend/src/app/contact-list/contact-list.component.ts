@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ContactService } from '../core/services/contact/contact.service';
 
 @Component({
   selector: 'app-contact-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './contact-list.component.html',
   styleUrls: ['./contact-list.component.css']
 })

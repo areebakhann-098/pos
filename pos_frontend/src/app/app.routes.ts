@@ -8,6 +8,21 @@ export const routes: Routes = [
         (m) => m.AddContactComponent
       ),
   },
+  {
+    path: 'contact_list',
+    loadComponent: () =>
+      import('./contact-list/contact-list.component').then(
+        (m) => m.ContactListComponent
+      ),
+  },
+   {
+  path: 'add-contact/edit/:id',
+  loadComponent: () =>
+    import('./add-contact/add-contact.component').then(
+      (m) => m.AddContactComponent
+    ),
+},
+
 
   {
     path: 'Variations',
@@ -128,13 +143,7 @@ export const routes: Routes = [
         (m) => m.PurchaseListComponent
       ),
   },
-  {
-    path: 'contact_list',
-    loadComponent: () =>
-      import('./contact-list/contact-list.component').then(
-        (m) => m.ContactListComponent
-      ),
-  },
+  
   {
     path: 'stocktransfer_list',
     loadComponent: () =>
@@ -150,12 +159,20 @@ export const routes: Routes = [
       ),
   },
   {
-  path: 'add-contact/edit/:id',
-  loadComponent: () =>
-    import('./add-contact/add-contact.component').then(
-      (m) => m.AddContactComponent
-    ),
-},
+    path: 'sales_list',
+    loadComponent: () =>
+      import('./sale-list/sale-list.component').then(
+        (m) => m.SaleListComponent
+      ),
+  },
+   {
+    path: 'productsale_list',
+    loadComponent: () =>
+      import('./productsell-report/productsell-report.component').then(
+        (m) => m.ProductsellReportComponent
+      ),
+  },
+ 
  {
   path: 'stockadjustments/edit/:id',
   loadComponent: () =>
@@ -185,5 +202,55 @@ export const routes: Routes = [
       (m) => m.AddPurchasesComponent
     ),
 },
+  {
+  path: 'Purchase-report',
+  loadComponent: () =>
+    import('./purchase-report/purchase-report.component').then(
+      (m) => m.PurchaseReportComponent
+    ),
+},
+ {
+  path: 'Stock-report',
+  loadComponent: () =>
+    import('./stock-report/stock-report.component').then(
+      (m) => m.StockReportComponent
+    ),
+},
+{
+  path: 'adjustment-report',
+  loadComponent:() => 
+    import('./adjustments-report/adjustments-report.component') .then (
+      (m) => m.AdjustmentsReportComponent
 
+    )
+
+},
+{
+  path: 'trasnfer-report',
+  loadComponent:() => 
+    import('./stocktransfer-report/stocktransfer-report.component') .then (
+      (m) => m.StocktransferReportComponent
+
+    )
+
+}
+,
+{
+  path: 'sale-return',
+  loadComponent:() => 
+    import('./sale-return/sale-return.component') .then (
+      (m) => m.SaleReturnComponent
+
+    )
+
+},
+{
+  path: 'sale-return-report',
+  loadComponent:() => 
+    import('./sale-return-report/sale-return-report.component') .then (
+      (m) => m.SaleReturnReportComponent
+
+    )
+
+}
 ];

@@ -209,6 +209,8 @@ saveTransfer(): void {
     from_location_id: this.fromLocation,
     to_location_id: this.toLocation,
     reference_no: this.referenceNo,
+      total_amount: this.totalAmount, // ✅ NEW FIELD ADDED HERE
+
     date: this.date,
     status: this.status,
     shipment_charges: this.shippingCharges,

@@ -1,0 +1,6 @@
+input, textarea {
+  outline: none;
+}
+table th, table td {
+  text-align: left;
+}

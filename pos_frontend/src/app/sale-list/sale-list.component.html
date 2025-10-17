@@ -1,0 +1,95 @@
+<div class="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg overflow-x-auto">
+  <h2 class="text-xl font-bold mb-4">Sale List</h2>
+
+  <table class="min-w-full border border-gray-300 rounded-lg text-sm">
+    <thead>
+      <tr class="bg-gray-100 text-left">
+        <th class="py-2 px-3 border">#</th>
+        <th class="py-2 px-3 border">Sale Date</th>
+        <th class="py-2 px-3 border">Business Location</th>
+        <th class="py-2 px-3 border">Total Items</th>
+        <th class="py-2 px-3 border">Total Amount</th>
+        <th class="py-2 px-3 border">Discount</th>
+        <th class="py-2 px-3 border">Tax</th>
+        <th class="py-2 px-3 border">Final Amount</th>
+        <th class="py-2 px-3 border">Payment Method</th>
+        <th class="py-2 px-3 border">Amount Paid</th>
+        <th class="py-2 px-3 border text-center">Details</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <ng-container *ngFor="let sale of sales; let i = index">
+        <!-- 🔹 Main Sale Row -->
+        <tr class="hover:bg-gray-50">
+          <td class="py-2 px-3 border">{{ i + 1 }}</td>
+          <td class="py-2 px-3 border">
+            {{ sale.sale_date | date: 'MM/dd/yyyy HH:mm' }}
+          </td>
+          <td class="py-2 px-3 border">
+            {{ sale.saleBusinessLocation?.name || '—' }}
+          </td>
+          <td class="py-2 px-3 border">{{ sale.total_items }}</td>
+          <td class="py-2 px-3 border">{{ sale.total_amount | number: '1.0-2' }}</td>
+          <td class="py-2 px-3 border">
+            {{ sale.saleDiscount?.name || '—' }}
+          </td>
+          <td class="py-2 px-3 border">
+            {{ sale.saleTax?.name || '—' }}
+          </td>
+          <td class="py-2 px-3 border">{{ sale.final_amount | number: '1.0-2' }}</td>
+          <td class="py-2 px-3 border">{{ sale.payment_method }}</td>
+          <td class="py-2 px-3 border">{{ sale.amount_paid | number: '1.0-2' }}</td>
+
+          <!-- 🔹 Expand Button -->
+          <td class="py-2 px-3 border text-center">
+            <button
+              (click)="toggleSaleDetails(i)"
+              class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+            >
+              {{ expandedIndex === i ? 'Hide' : 'View' }}
+            </button>
+          </td>
+        </tr>
+
+        <!-- 🔽 Collapsible Sale Details Row -->
+       <!-- 🔽 Collapsible Sale Details Row -->
+<tr *ngIf="expandedIndex === i" class="bg-gray-50">
+  <td colspan="11" class="p-4 border">
+    <h3 class="font-semibold mb-2">🛒 Sale Items</h3>
+    <table class="min-w-full border border-gray-300 text-xs">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="py-1 px-2 border">#</th>
+          <th class="py-1 px-2 border">Product Name</th>
+          <th class="py-1 px-2 border">Quantity</th>
+          <th class="py-1 px-2 border">Price</th>
+          <th class="py-1 px-2 border">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of sale.saleItems; let j = index">
+          <td class="py-1 px-2 border">{{ j + 1 }}</td>
+          <!-- 👇 Show product name instead of product_id -->
+          <td class="py-1 px-2 border">
+            {{ item.product?.product_name || '—' }}
+          </td>
+          <td class="py-1 px-2 border">{{ item.quantity }}</td>
+          <td class="py-1 px-2 border">{{ item.price | number: '1.0-2' }}</td>
+          <td class="py-1 px-2 border">
+            {{ item.quantity * item.price | number: '1.0-2' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+
+      </ng-container>
+    </tbody>
+  </table>
+
+  <div *ngIf="sales.length === 0" class="text-center text-gray-500 mt-4">
+    No sales found.
+  </div>
+</div>

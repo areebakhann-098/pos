@@ -1,4 +1,4 @@
-<div class="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg overflow-x-auto">
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg overflow-x-auto">
   <h2 class="text-xl font-bold mb-4 text-gray-800">Stock Transfer List</h2>
 
   <table class="min-w-full border border-gray-300 rounded-lg text-sm">
@@ -19,6 +19,8 @@
         <th class="py-2 px-3 border">Status</th>
         <th class="py-2 px-3 border">Shipment Charges</th>
         <th class="py-2 px-3 border">Notes</th>
+                <th class="py-2 px-3 border">Total Amount</th>
+
         <th class="py-2 px-3 border text-center">Actions</th>
       </tr>
     </thead>
@@ -43,8 +45,14 @@
 
         <td class="py-2 px-3 border">{{ transfer.date | date }}</td>
         <td class="py-2 px-3 border capitalize">{{ transfer.status || 'pending' }}</td>
-        <td class="py-2 px-3 border">Rs. {{ transfer.shipment_charges || 0 }}</td>
-        <td class="py-2 px-3 border">{{ transfer.additional_notes || '—' }}</td>
+     <td class="py-2 px-3 border">Rs. {{ transfer.shipment_charges || 0 }}</td>
+<td class="py-2 px-3 border">{{ transfer.additional_notes || '—' }}</td>
+
+<!-- ✅ Show Total Amount -->
+<td class="py-2 px-3 border text-right font-semibold text-green-600">
+  Rs. {{ transfer.total_amount || 0 | number:'1.0-2' }}
+</td>
+
 
         <td class="py-2 px-3 border text-center">
           <div class="flex justify-center gap-2">

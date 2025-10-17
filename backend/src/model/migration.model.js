@@ -37,6 +37,11 @@ const Migration = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+   total_amount: {               
+      type: DataTypes.NUMERIC(10, 2),
+      allowNull: false,
+      defaultValue: 0.00,
+    },
   },
   {
     sequelize,

@@ -1,11 +1,28 @@
 <div class="min-h-screen bg-white text-yellow-700">
   <!-- Header -->
-  <div
-    class="flex justify-between items-center bg-red-700 text-white px-6 py-3 shadow-md"
-  >
-    <h1 class="text-xl font-bold">Location: Sajid LLC</h1>
-    <span>{{ today | date: "MM/dd/yyyy HH:mm" }}</span>
+<div class="flex justify-between items-center bg-red-700 text-white px-6 py-3 shadow-md">
+   <!-- Location Selector -->
+  <div class="flex items-center gap-3">
+    <label for="location" class="font-medium ">Select Location:</label>
+    <select
+      id="location"
+      [(ngModel)]="selectedBusinessLocationId"
+      (change)="onLocationChange()"
+      class="border border-yellow-400 text-black rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+    >
+      <option [ngValue]="null">Select Location</option>
+      <option *ngFor="let location of businessLocations" [ngValue]="location.id">
+        {{ location.name }}
+      </option>
+    </select>
   </div>
+
+
+  <!-- Date & Time -->
+  <span class="text-sm font-semibold">
+    {{ today | date: 'MM/dd/yyyy HH:mm' }}
+  </span>
+</div>
 
   <!-- Main POS Area -->
   <div class="grid grid-cols-3 gap-6 p-6">

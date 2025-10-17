@@ -5,6 +5,10 @@ import { ProductService } from '../core/services/product/product.service';
 import { DiscountService } from '../core/services/discount/discount.service';
 import { TaxRateService } from '../core/services/tax_rate/tax-rate.service';
 import { SaleService } from '../core/services/sale/sale.service'; // ✅ import service
+import { BusinessLocationService } from '../core/services/business_location/business-location.service';
+
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 interface Product {
   id: number;
@@ -55,18 +59,41 @@ export class PosComponent implements OnInit {
   totalAfterDiscount: number = 0;
   taxAppliedAmount: number = 0;
   totalAfterTax: number = 0;
+  businessLocations: any[] = [];
+  selectedBusinessLocationId: number | null = null;
 
   constructor(
     private productService: ProductService,
     private discountService: DiscountService,
     private taxRateService: TaxRateService,
-    private saleService: SaleService // ✅ Inject SaleService
+    private saleService: SaleService,
+    private businessLocationService: BusinessLocationService
   ) {}
 
   ngOnInit(): void {
     this.getAllProducts();
     this.getAllDiscounts();
     this.getAllTaxRates();
+    this.getAllBusinessLocations();
+  }
+  getAllBusinessLocations(): void {
+    this.businessLocationService.getAllLocations().subscribe({
+      next: (res: any) => {
+        // Some endpoints return `res.businessLocations`, others `res.locations`
+        this.businessLocations = res.businessLocations || res.locations || [];
+        console.log('📍 Locations fetched in POS:', this.businessLocations);
+      },
+      error: (err) => console.error('❌ Error fetching locations:', err),
+    });
+  }
+
+  onLocationChange() {
+    const selected = this.businessLocations.find(
+      (loc) => loc.id === this.selectedBusinessLocationId
+    );
+    if (selected) {
+      console.log('📍 Selected Location:', selected.name, '| ID:', selected.id);
+    }
   }
 
   // ✅ Fetch products
@@ -131,31 +158,39 @@ export class PosComponent implements OnInit {
     this.calculateTotal();
   }
 
-  calculateTotal() {
-    this.subtotal = this.cart.reduce((sum, p) => sum + p.qty * p.price, 0);
+calculateTotal() {
+  this.subtotal = this.cart.reduce((sum, p) => sum + p.qty * p.price, 0);
 
-    if (this.selectedDiscount) {
-      if (this.selectedDiscount.discount_type === 'percentage') {
-        this.discountAppliedAmount =
-          (this.subtotal * +this.selectedDiscount.discount_amount) / 100;
-      } else {
-        this.discountAppliedAmount = +this.selectedDiscount.discount_amount;
-      }
+  if (this.selectedDiscount) {
+    if (this.selectedDiscount.discount_type === 'percentage') {
+      this.discountAppliedAmount =
+        (this.subtotal * +this.selectedDiscount.discount_amount) / 100;
     } else {
-      this.discountAppliedAmount = 0;
+      this.discountAppliedAmount = +this.selectedDiscount.discount_amount;
     }
-
-    this.totalAfterDiscount = this.subtotal - this.discountAppliedAmount;
-
-    if (this.selectedTax) {
-      this.taxAppliedAmount =
-        (this.totalAfterDiscount * this.selectedTax.amount) / 100;
-    } else {
-      this.taxAppliedAmount = 0;
-    }
-
-    this.totalAfterTax = this.totalAfterDiscount + this.taxAppliedAmount;
+  } else {
+    this.discountAppliedAmount = 0;
   }
+
+  this.totalAfterDiscount = this.subtotal - this.discountAppliedAmount;
+
+  if (this.selectedTax) {
+    this.taxAppliedAmount =
+      (this.totalAfterDiscount * this.selectedTax.amount) / 100;
+  } else {
+    this.taxAppliedAmount = 0;
+  }
+
+  this.totalAfterTax = this.totalAfterDiscount + this.taxAppliedAmount;
+
+  // ✅ Round to 2 decimal places (fixed)
+  this.subtotal = +this.subtotal.toFixed(2);
+  this.discountAppliedAmount = +this.discountAppliedAmount.toFixed(2);
+  this.totalAfterDiscount = +this.totalAfterDiscount.toFixed(2);
+  this.taxAppliedAmount = +this.taxAppliedAmount.toFixed(2);
+  this.totalAfterTax = +this.totalAfterTax.toFixed(2);
+}
+
 
   // ✅ Save Sale when Cash button is clicked
   createSale() {
@@ -166,7 +201,7 @@ export class PosComponent implements OnInit {
 
     const salePayload = {
       sale_date: new Date(),
-      business_location_id: 1, // ✅ static for now
+      business_location_id: this.selectedBusinessLocationId, // ✅ Dynamic location
       total_items: this.totalItems,
       total_amount: this.subtotal,
       discount_id: this.selectedDiscount?.id || null,
@@ -186,7 +221,11 @@ export class PosComponent implements OnInit {
       next: (res) => {
         console.log('✅ Sale saved:', res);
         alert('Sale completed successfully!');
-        this.cart = []; // 🧹 Clear cart
+
+        // ✅ Generate receipt PDF
+        this.generateSaleReport(res.data || salePayload);
+
+        this.cart = [];
         this.selectedDiscountId = null;
         this.selectedTaxId = null;
         this.calculateTotal();
@@ -197,6 +236,108 @@ export class PosComponent implements OnInit {
       },
     });
   }
+  generateSaleReport(sale: any) {
+  const selectedLocation = this.businessLocations.find(
+    (b) => b.id === this.selectedBusinessLocationId
+  );
+
+  const doc = new jsPDF({
+    unit: 'mm',
+    format: [80, 200], // ✅ 80mm thermal size
+  });
+
+  // 🔹 Header: Business Info
+  doc.setFontSize(10);
+  doc.text(selectedLocation?.name || 'Business Name', 40, 8, { align: 'center' });
+  doc.setFontSize(8);
+  doc.text(
+    `${selectedLocation?.landmark || ''}, ${selectedLocation?.city || ''}`,
+    40,
+    12,
+    { align: 'center' }
+  );
+  doc.text(
+    `Ph: ${selectedLocation?.mobile || ''}`,
+    40,
+    16,
+    { align: 'center' }
+  );
+  doc.text(
+    `Email: ${selectedLocation?.email || ''}`,
+    40,
+    20,
+    { align: 'center' }
+  );
+
+  // 🔹 Line separator
+  doc.line(5, 23, 75, 23);
+
+  // 🔹 Date & Invoice Info
+  doc.setFontSize(8);
+  doc.text(`Date: ${new Date().toLocaleString()}`, 5, 27);
+  doc.text(`Invoice #: ${sale.id || 'N/A'}`, 60, 27);
+
+  // 🔹 Table Header
+  doc.setFontSize(8);
+  let y = 32;
+  doc.text('Item', 5, y);
+  doc.text('Qty', 35, y);
+  doc.text('Rate', 50, y);
+  doc.text('Total', 65, y);
+  doc.line(5, y + 1, 75, y + 1);
+
+  // 🔹 Table Body
+  y += 5;
+  this.cart.forEach((item) => {
+    doc.text(item.product_name.substring(0, 15), 5, y);
+    doc.text(String(item.qty), 38, y);
+    doc.text(item.price.toFixed(2), 50, y, { align: 'right' });
+    doc.text((item.qty * item.price).toFixed(2), 75, y, { align: 'right' });
+    y += 5;
+  });
+
+  doc.line(5, y - 2, 75, y - 2);
+
+  // 🔹 Summary
+  y += 3;
+  doc.text(`Subtotal: Rs. ${this.subtotal.toFixed(2)}`, 5, y);
+  y += 4;
+  if (this.selectedDiscount) {
+    doc.text(
+      `Discount (${this.selectedDiscount.name}): -Rs. ${this.discountAppliedAmount.toFixed(2)}`,
+      5,
+      y
+    );
+    y += 4;
+  }
+  if (this.selectedTax) {
+    doc.text(
+      `Tax (${this.selectedTax.name}): +Rs. ${this.taxAppliedAmount.toFixed(2)}`,
+      5,
+      y
+    );
+    y += 4;
+  }
+
+  doc.setFontSize(9);
+  doc.text(`Total Payable: Rs. ${this.totalAfterTax.toFixed(2)}`, 5, y);
+  y += 6;
+
+  // 🔹 Payment Method
+  doc.setFontSize(8);
+  doc.text(`Payment Method: Cash`, 5, y);
+  y += 8;
+
+  // 🔹 Footer
+  doc.setFontSize(8);
+  doc.text('Thank you for shopping with us!', 40, y, { align: 'center' });
+  y += 4;
+  doc.text('Powered by Areeba/Usman POS System', 40, y, { align: 'center' });
+
+  // 🔹 Open in new tab
+  doc.output('dataurlnewwindow');
+}
+
 
   get uniqueCategories(): string[] {
     return Array.from(
