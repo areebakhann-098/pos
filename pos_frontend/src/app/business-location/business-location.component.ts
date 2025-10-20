@@ -18,6 +18,8 @@ export class BusinessLocationComponent implements OnInit {
     zip_code: '',
     country: '',
     email: '',
+        mobile: '', // ✅ Added mobile here
+
     state: '',
     landmark: ''
   };
@@ -45,6 +47,7 @@ export class BusinessLocationComponent implements OnInit {
     this.locationService.getLocationById(id).subscribe({
       next: (res: any) => {
        this.location = {
+                  mobile: res.message.mobile, 
   name: res.message.name,
   city: res.message.city,
   zip_code: res.message.zip_code,
@@ -92,7 +95,8 @@ export class BusinessLocationComponent implements OnInit {
       country: '',
       email: '',
       state: '',
-      landmark: ''
+      landmark: '',
+       mobile: '',
     };
     this.isEditMode = false;
     this.editId = null;

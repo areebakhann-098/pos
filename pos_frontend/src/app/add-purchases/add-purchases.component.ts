@@ -106,7 +106,7 @@ loadPurchaseById(id: number): void {
 
       console.log('✅ Full purchase data:', purchase);
 
-      // ✅ Populate form fields
+      //  Populate form fields
       this.supplier = String(purchase.contact_id);
       this.refNo = purchase.reference_number || '';
       this.purchaseDate = purchase.purchase_date?.split('T')[0] || '';
@@ -117,7 +117,7 @@ loadPurchaseById(id: number): void {
       this.datePaid = purchase.date_paid_on?.split('T')[0] || '';
       this.paymentMethod = purchase.payment_method || '';
 
-      // ✅ Handle single product (not array)
+      //  Handle single product (not array)
       const p = purchase.product;
       if (p) {
         const discount = purchase.discount || null;
@@ -144,19 +144,19 @@ loadPurchaseById(id: number): void {
         ];
       }
 
-      console.log('🧾 Purchase items loaded:', this.purchaseItems);
+      console.log('Purchase items loaded:', this.purchaseItems);
 
-      // ✅ Recalculate line totals to ensure UI updates correctly
+      // Recalculate line totals to ensure UI updates correctly
       this.purchaseItems.forEach((item) => this.updateLineTotal(item));
     },
     error: (err) => {
-      console.error('❌ Error loading purchase:', err);
+      console.error('Error loading purchase:', err);
     },
   });
 }
 
 
-  /** 🔍 Setup product search listener */
+  /**  Setup product search listener */
   private setupSearchListener(): void {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -211,7 +211,7 @@ loadPurchaseById(id: number): void {
     this.filteredProducts = [];
   }
 
-  /** 🧾 Discount selection */
+  /**  Discount selection */
   onDiscountSelect(item: PurchaseItem) {
     const selectedDiscount = this.discounts.find((d) => d.id === +(item.discount_id || 0));
 
@@ -228,12 +228,12 @@ loadPurchaseById(id: number): void {
     this.updateLineTotal(item);
   }
 
-  /** 🔢 Quantity changed */
+  /** Quantity changed */
   onQuantityInput(item: PurchaseItem): void {
     this.updateLineTotal(item);
   }
 
-  /** 🧮 Update total after discount */
+  /** Update total after discount */
   updateLineTotal(item: PurchaseItem): void {
     const quantity = Number(item.quantity) || 0;
     const price = Number(item.price) || 0;
@@ -246,29 +246,29 @@ loadPurchaseById(id: number): void {
     item.total = totalAfterDiscount > 0 ? totalAfterDiscount : 0;
   }
 
-  /** 🗑️ Delete product */
+  /**  Delete product */
   deleteItem(id: number): void {
     this.purchaseItems = this.purchaseItems.filter((p) => p.id !== id);
   }
 
-  /** 📦 Total items */
+  /**  Total items */
   get totalItems(): number {
     return this.purchaseItems.length;
   }
 
-  /** 💵 Net total */
+  /**  Net total */
   get netTotal(): number {
     return this.purchaseItems.reduce((sum, item) => sum + item.total, 0);
   }
 
-  /** 💾 Save or Update purchase */
+  /**  Save or Update purchase */
   savePurchase(): void {
     if (!this.supplier || !this.refNo || !this.purchaseDate || !this.status || !this.location) {
       alert('Please fill all required fields and add at least one product.');
       return;
     }
 
-const firstItem = this.purchaseItems[0]; // ✅ Take the first product from array
+const firstItem = this.purchaseItems[0]; 
 
 const payload = {
   contact_id: Number(this.supplier),
@@ -291,10 +291,10 @@ reference_number: Number(this.refNo),
 
 
     if (this.isEditMode && this.purchaseId) {
-      // ✏️ UPDATE
+      //  UPDATE
       this.purchaseService.updatePurchase(this.purchaseId, payload).subscribe({
         next: () => {
-          alert('✅ Purchase updated successfully!');
+          alert(' Purchase updated successfully!');
           this.router.navigate(['/Purchase_list']);
         },
         error: (err) => {
@@ -316,7 +316,7 @@ reference_number: Number(this.refNo),
     }
   }
 
-  /** 🔄 Reset form */
+  /**  Reset form */
   private resetForm(): void {
     this.purchaseItems = [];
     this.supplier = '';
@@ -330,7 +330,7 @@ reference_number: Number(this.refNo),
     this.paymentMethod = '';
   }
 
-  /** 📦 Fetch locations */
+  /**  Fetch locations */
   getBusinessLocations() {
     this.businessLocationService.getAllLocations().subscribe({
       next: (res: any) => {

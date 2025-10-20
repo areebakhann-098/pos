@@ -35,4 +35,8 @@ getAllVariations(): Observable<{ success: boolean; data: any[] }> {
   deleteVariation(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/delete/${id}`);
   }
+   // ✅ Add values to existing variation
+  addValues(id: number, data: { values: string[] }): Observable<any> {
+    return this.http.post(`${this.baseUrl}/${id}/add-values`, data);
+  }
 }

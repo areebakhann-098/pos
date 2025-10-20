@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 export class AdjustmentsReportComponent implements OnInit {
   adjustments: any[] = [];
 
-  // ✅ Totals
+  // Totals
   totalNormal = 0;
   totalAbnormal = 0;
   totalAdjustments = 0;
@@ -28,7 +28,7 @@ export class AdjustmentsReportComponent implements OnInit {
     this.getAllAdjustments();
   }
 
-  /** ✅ Get all stock adjustments and calculate totals */
+  /** Get all stock adjustments and calculate totals */
   getAllAdjustments(): void {
     this.adjustmentsService.getAllAdjustments().subscribe({
       next: (res: any) => {
@@ -40,7 +40,7 @@ export class AdjustmentsReportComponent implements OnInit {
     });
   }
 
-  /** ✅ Calculate summary totals */
+  /** Calculate summary totals */
   calculateTotals(): void {
     this.totalNormal = this.adjustments.filter(a => a.adjustment_type === 'normal').length;
     this.totalAbnormal = this.adjustments.filter(a => a.adjustment_type === 'abnormal').length;

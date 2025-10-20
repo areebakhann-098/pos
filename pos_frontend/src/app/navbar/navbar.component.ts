@@ -1,16 +1,19 @@
-import { Component, OnInit} from '@angular/core';
-import { initFlowbite } from 'flowbite';
+import { Component, signal } from '@angular/core';
 import { CalculatorComponent } from '../calculator/calculator.component';
-
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CalculatorComponent],
+  standalone: true,
+  imports: [CalculatorComponent, CommonModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit{
-  ngOnInit(): void {
-    initFlowbite();
+export class NavbarComponent {
+  sidebarOpen = signal(true);    // sidebar toggle
+  toggleDropdown = false;        // profile dropdown toggle
+
+  toggleSidebar() {
+    this.sidebarOpen.update(v => !v);
   }
 }

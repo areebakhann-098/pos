@@ -61,7 +61,7 @@ export class BrandsComponent implements OnInit {
     this.brand = { name: b.name, description: b.description };
   }
 
-  // 🔹 Update brand
+  // Update brand
   updateBrand() {
     if (!this.editId) return;
 

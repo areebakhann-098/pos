@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StockAdjustmentsService } from '../core/services/stock_adjustments/stock-adjustements.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-stockadjustments-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './stockadjustments-list.component.html',
   styleUrls: ['./stockadjustments-list.component.css']
 })

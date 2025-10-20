@@ -20,7 +20,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./add-product.component.css'],
 })
 export class AddProductComponent implements OnInit {
-   brands: any[] = [];
+  brands: any[] = [];
   units: any[] = [];
   categories: any[] = [];
   subcategories: any[] = [];
@@ -28,6 +28,7 @@ export class AddProductComponent implements OnInit {
   warranties: any[] = [];
   taxRates: any[] = [];
   locations: any[] = [];
+  selectedVariationValues: any[] = [];
 
   productData: any = {
     product_name: '',
@@ -35,7 +36,7 @@ export class AddProductComponent implements OnInit {
     warranty_id: '',
     unit_id: '',
     variation_id: '',
-      variation_value: '', 
+    variation_value: '',
     category_id: '',
     sub_category_id: '',
     brands_id: '',
@@ -84,46 +85,57 @@ export class AddProductComponent implements OnInit {
       }
     });
   }
-loadProductData(id: number) {
-  this.productService.getProductById(id).subscribe({
-    next: (res: any) => {
-      const product = res?.data;
-      console.log("🧾 Product for edit:", product); // 👀 Debug this once
 
-      if (product) {
-        this.productData = {
-          product_name: product.product_name,
-          product_description: product.product_description,
-          warranty_id: product.warranty_id || product.warranty?.id || '',
-          unit_id: product.unit_id || product.unit?.id || '',
-          variation_id:  product.variation?.id || '',
-         variation_value: product.variation?.id || product.variation.variation_value || '',
-          category_id: product.category_id || product.Category?.id || '',
-          sub_category_id: product.sub_category_id || product.Category?.id || '',
-          brands_id: product.brands_id || product.brand?.id || '',
-          tax_rate_id: product.taxRate?.id || '',
-          business_location_id: product.businessLocation?.id || '',
-          expiry_date: product.expiry_date,
-          weight: product.weight,
-          quantity: product.quantity,
-          profit_percent: product.price?.profit_percent,
-          purchase_price: product.price?.purchase_price,
-          sell_price: product.price?.sell_price,
-        };
-      }
-    },
-    error: (err) => console.error('❌ Error fetching product:', err),
-  });
-}
+  // ✅ Load Product for Edit
+  loadProductData(id: number) {
+    this.productService.getProductById(id).subscribe({
+      next: (res: any) => {
+        const product = res?.data;
+        console.log("🧾 Product for edit:", product);
 
+        if (product) {
+          this.productData = {
+            product_name: product.product_name,
+            product_description: product.product_description,
+            warranty_id: product.warranty_id || product.warranty?.id || '',
+            unit_id: product.unit_id || product.unit?.id || '',
+            variation_id: product.variation?.id || '',
+            variation_value: product.variation_value || '',
+            category_id: product.category_id || product.Category?.id || '',
+            sub_category_id: product.sub_category_id || product.SubCategory?.id || '',
+            brands_id: product.brands_id || product.brand?.id || '',
+            tax_rate_id: product.taxRate?.id || '',
+            business_location_id: product.businessLocation?.id || '',
+            expiry_date: product.expiry_date,
+            weight: product.weight,
+            quantity: product.quantity,
+            profit_percent: product.price?.profit_percent,
+            purchase_price: product.price?.purchase_price,
+            sell_price: product.price?.sell_price,
+          };
 
+          if (product.variation?.id) {
+            this.onVariationChange(); // preload variation values
+          }
+        }
+      },
+      error: (err) => console.error('❌ Error fetching product:', err),
+    });
+  }
+
+  // ✅ Variation Change
+  onVariationChange() {
+    const selected = this.variations.find(v => v.id == this.productData.variation_id);
+    this.selectedVariationValues = selected ? selected.values || [] : [];
+    this.productData.variation_value = ''; // reset
+  }
 
   // ✅ Submit Product
   onSubmit() {
     if (this.isEditMode && this.productId) {
       // ✏️ Update existing product
       this.productService.updateProduct(this.productId, this.productData).subscribe({
-        next: (res) => {
+        next: () => {
           alert('✅ Product updated successfully!');
           this.router.navigate(['/product_list']);
         },
@@ -135,7 +147,7 @@ loadProductData(id: number) {
     } else {
       // ➕ Create new product
       this.productService.createProduct(this.productData).subscribe({
-        next: (res) => {
+        next: () => {
           alert('✅ Product added successfully!');
           this.router.navigate(['/product_list']);
         },
@@ -196,22 +208,22 @@ loadProductData(id: number) {
       error: (err) => console.error('Error fetching locations:', err),
     });
   }
+
+  // ✅ Auto Price Calculation
   calculateSellPrice() {
-  const purchase = Number(this.productData.purchase_price) || 0;
-  const profit = Number(this.productData.profit_percent) || 0;
+    const purchase = Number(this.productData.purchase_price) || 0;
+    const profit = Number(this.productData.profit_percent) || 0;
 
-  // 💰 Base sell price before tax
-  let sellPrice = purchase + (purchase * profit / 100);
+    // 💰 Base sell price before tax
+    let sellPrice = purchase + (purchase * profit / 100);
 
-  // 🧾 If tax is selected, add tax to the sell price
-  const selectedTax = this.taxRates.find(t => t.id == this.productData.tax_rate_id);
-  if (selectedTax && selectedTax.amount) {
-    const taxAmount = Number(selectedTax.amount);
-    sellPrice += (sellPrice * taxAmount / 100);
+    // 🧾 If tax is selected, add tax to the sell price
+    const selectedTax = this.taxRates.find(t => t.id == this.productData.tax_rate_id);
+    if (selectedTax && selectedTax.amount) {
+      const taxAmount = Number(selectedTax.amount);
+      sellPrice += (sellPrice * taxAmount / 100);
+    }
+
+    this.productData.sell_price = Number(sellPrice.toFixed(2));
   }
-
-  this.productData.sell_price = Number(sellPrice.toFixed(2)); // rounded value
-}
-
-
 }

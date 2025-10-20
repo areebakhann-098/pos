@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StockTransferService } from '../core/services/stock_transfer/stock-transfer.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-stocktransfer-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './stocktransfer-list.component.html',
   styleUrls: ['./stocktransfer-list.component.css'],
 })

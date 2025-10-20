@@ -282,7 +282,7 @@ calculateTotal() {
   let y = 32;
   doc.text('Item', 5, y);
   doc.text('Qty', 35, y);
-  doc.text('Rate', 50, y);
+  doc.text('Rate', 45, y);
   doc.text('Total', 65, y);
   doc.line(5, y + 1, 75, y + 1);
 
@@ -290,9 +290,9 @@ calculateTotal() {
   y += 5;
   this.cart.forEach((item) => {
     doc.text(item.product_name.substring(0, 15), 5, y);
-    doc.text(String(item.qty), 38, y);
-    doc.text(item.price.toFixed(2), 50, y, { align: 'right' });
-    doc.text((item.qty * item.price).toFixed(2), 75, y, { align: 'right' });
+    doc.text(String(item.qty), 35, y); // Qty - left aligned
+    doc.text(item.price.toFixed(2), 55, y, { align: 'right' }); 
+    doc.text((item.qty * item.price).toFixed(2), 75, y, { align: 'right' }); // Total
     y += 5;
   });
 

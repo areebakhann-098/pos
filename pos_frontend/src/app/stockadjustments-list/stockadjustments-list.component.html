@@ -1,6 +1,15 @@
 <div class="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg overflow-x-auto">
-  <h2 class="text-xl font-bold mb-4 text-gray-800">Stock Adjustments List</h2>
-
+ <div
+    class="flex justify-between items-center mb-4 sticky top-0 bg-white py-3 z-10 border-b border-gray-200"
+  >
+    <h2 class="text-xl font-bold">Stock Adjustments List</h2>
+    <button
+      class="bg-blue-600 text-white px-3 h-9 rounded hover:bg-blue-700 text-sm"
+      [routerLink]="['/stockadjustments']"
+    >
+      + Add Adjustments
+    </button>
+  </div>
   <table class="min-w-full border border-gray-300 rounded-lg text-sm">
     <thead>
       <tr class="bg-gray-100 text-left">
@@ -28,7 +37,7 @@
         <td class="py-2 px-3 border">{{ adj.businessLocation?.name || '—' }}</td>
         <td class="py-2 px-3 border">{{ adj.product?.product_name || '—' }}</td>
 
-        <!-- ✅ Show Adjustment Type -->
+        <!-- Show Adjustment Type -->
         <td class="py-2 px-3 border text-center">
           <span
             class="px-2 py-1 rounded text-white"
@@ -44,8 +53,13 @@
         <td class="py-2 px-3 border text-center">{{ adj.quantity || 0 }}</td>
         <td class="py-2 px-3 border text-center">{{ adj.recovery_amount || 0 }}</td>
         <td class="py-2 px-3 border">{{ adj.date | date }}</td>
-        <td class="py-2 px-3 border">{{ adj.reason || '—' }}</td>
-        <td class="py-2 px-3 border text-center">
+<td class="py-2 px-3 border w-64">  
+  <div class="max-h-24 overflow-y-auto whitespace-pre-wrap">
+    {{ adj.reason || '—' }}
+  </div>
+</td>
+
+                <td class="py-2 px-3 border text-center">
           <div class="flex justify-center gap-2">
             <button (click)="onEdit(adj)" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
               Edit

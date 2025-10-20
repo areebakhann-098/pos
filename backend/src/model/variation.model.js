@@ -4,23 +4,17 @@ import { sequelize } from "../config/db.js";
 const Variation = sequelize.define(
   "Variation",
   {
-
     variation_name: {
       type: DataTypes.STRING,
-      allowNull: false, // e.g. Size, Color
-    },
-
-    variation_value: {
-      type: DataTypes.STRING,
-      allowNull: false, 
+      allowNull: false, // e.g. Color, Size
     },
   },
   {
-    tableName: "variation",
+    tableName: "variations",
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
-    paranoid: true, // ✅ soft delete
+    paranoid: true,
     deletedAt: "deleted_at",
   }
 );

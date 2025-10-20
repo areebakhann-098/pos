@@ -1,6 +1,15 @@
 <div class="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg overflow-x-auto">
-  <h2 class="text-xl font-bold mb-4">Sale List</h2>
-
+  <div
+    class="flex justify-between items-center mb-4 sticky top-0 bg-white py-3 z-10 border-b border-gray-200"
+  >
+    <h2 class="text-xl font-bold">Sale List</h2>
+    <button
+      class="bg-blue-600 text-white px-3 h-9 rounded hover:bg-blue-700 text-sm"
+      [routerLink]="['/POS']"
+    >
+      + Add Sale
+    </button>
+  </div>
   <table class="min-w-full border border-gray-300 rounded-lg text-sm">
     <thead>
       <tr class="bg-gray-100 text-left">

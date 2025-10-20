@@ -33,7 +33,16 @@
       <input type="email" [(ngModel)]="location.email" name="email" placeholder="Enter email"
         class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500" />
     </div>
-
+ <div>
+      <label class="block mb-2 font-medium text-gray-700">Mobile</label>
+      <input
+        type="text"
+        [(ngModel)]="location.mobile"
+        name="mobile"
+        placeholder="Enter mobile number"
+        class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+      />
+    </div>
     <div>
       <label class="block mb-2 font-medium text-gray-700">State</label>
       <input type="text" [(ngModel)]="location.state" name="state" placeholder="Enter state name"

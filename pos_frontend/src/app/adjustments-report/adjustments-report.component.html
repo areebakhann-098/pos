@@ -1,7 +1,7 @@
 <div class="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg overflow-x-auto">
   <h2 class="text-xl font-bold mb-4 text-gray-800">Stock Adjustments Report</h2>
 
-  <!-- ✅ Summary Section -->
+  <!--  Summary Section -->
   <div class="mb-4 p-4 bg-gray-100 rounded-lg flex justify-between flex-wrap text-sm font-semibold">
     <div class="space-y-1">
       <div>Total Normal: <span class="text-blue-600">{{ totalNormal }}</span></div>
@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <!-- ✅ Table -->
+  <!--  Table -->
   <table class="min-w-full border border-gray-300 rounded-lg text-sm">
     <thead>
       <tr class="bg-gray-100 text-left">
@@ -25,7 +25,7 @@
         <th class="py-2 px-3 border">Supplier</th>
         <th class="py-2 px-3 border">Business Location</th>
         <th class="py-2 px-3 border">Product</th>
-        <th class="py-2 px-3 border">Adjustment Type</th> <!-- ✅ Added -->
+        <th class="py-2 px-3 border">Adjustment Type</th> 
         <th class="py-2 px-3 border text-center">Quantity</th>
         <th class="py-2 px-3 border text-center">Recovery Amount</th>
         <th class="py-2 px-3 border">Date</th>
@@ -43,7 +43,7 @@
         <td class="py-2 px-3 border">{{ adj.businessLocation?.name || '—' }}</td>
         <td class="py-2 px-3 border">{{ adj.product?.product_name || '—' }}</td>
 
-        <!-- ✅ New Adjustment Type Column -->
+        <!--  New Adjustment Type Column -->
         <td class="py-2 px-3 border text-center">
           <span [ngClass]="{
             'text-blue-600 font-bold': adj.adjustment_type === 'normal',

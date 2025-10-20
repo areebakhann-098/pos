@@ -3,35 +3,22 @@
   (ngSubmit)="onSubmit()"
   #formRef="ngForm"
 >
-  <!-- 🏷️ Product Name -->
+  <!-- Product Name -->
   <div>
-    <label class="block mb-1 text-sm font-medium text-gray-700"
-      >Product Name</label
-    >
-    <div class="flex items-center">
-      <span
-        class="inline-flex items-center px-3 bg-gray-200 text-gray-600 rounded-l-md"
-      >
-        <svg class="w-5 h-9" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M2 6l8-4 8 4v8l-8 4-8-4V6z" />
-        </svg>
-      </span>
-      <input
-        type="text"
-        [(ngModel)]="productData.product_name"
-        name="product_name"
-        placeholder="Product Name"
-        required
-        class="flex-1 border border-gray-300 rounded-r-md p-2 focus:ring-blue-500 focus:border-blue-500"
-      />
-    </div>
+    <label class="block mb-1 text-sm font-medium text-gray-700">Product Name</label>
+    <input
+      type="text"
+      [(ngModel)]="productData.product_name"
+      name="product_name"
+      placeholder="Product Name"
+      required
+      class="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+    />
   </div>
 
-  <!-- 📝 Description -->
+  <!-- Description -->
   <div>
-    <label class="block mb-1 text-sm font-medium text-gray-700"
-      >Description</label
-    >
+    <label class="block mb-1 text-sm font-medium text-gray-700">Description</label>
     <textarea
       [(ngModel)]="productData.product_description"
       name="product_description"
@@ -40,253 +27,170 @@
     ></textarea>
   </div>
 
-  <!-- 📦 Warranty | Unit | Variation | Variation Value -->
+  <!-- Warranty | Unit | Variation | Variation Value -->
   <div class="grid grid-cols-4 gap-3">
     <!-- Warranty -->
     <div>
-      <label class="block mb-1 text-sm font-medium text-gray-700"
-        >Warranty</label
-      >
-      <select
-        [(ngModel)]="productData.warranty_id"
-        name="warranty_id"
-        class="border border-gray-300 rounded-md p-2 w-full"
-      >
+      <label class="block mb-1 text-sm font-medium text-gray-700">Warranty</label>
+      <select [(ngModel)]="productData.warranty_id" name="warranty_id" class="border border-gray-300 rounded-md p-2 w-full">
         <option value="">Select Warranty</option>
-        <option *ngFor="let w of warranties" [value]="w.id">
-          {{ w.name || w.warranty_name }}
-        </option>
+        <option *ngFor="let w of warranties" [value]="w.id">{{ w.name || w.warranty_name }}</option>
       </select>
     </div>
 
     <!-- Unit -->
     <div>
       <label class="block mb-1 text-sm font-medium text-gray-700">Unit</label>
-      <select
-        [(ngModel)]="productData.unit_id"
-        name="unit_id"
-        class="border border-gray-300 rounded-md p-2 w-full"
-      >
+      <select [(ngModel)]="productData.unit_id" name="unit_id" class="border border-gray-300 rounded-md p-2 w-full">
         <option value="">Select Unit</option>
-        <option *ngFor="let u of units" [value]="u.id">
-          {{ u.name || u.unit_name }}
-        </option>
+        <option *ngFor="let u of units" [value]="u.id">{{ u.name || u.unit_name }}</option>
       </select>
     </div>
 
     <!-- Variation -->
     <div>
-      <label class="block mb-1 text-sm font-medium text-gray-700"
-        >Variation</label
-      >
+      <label class="block mb-1 text-sm font-medium text-gray-700">Variation</label>
       <select
         [(ngModel)]="productData.variation_id"
         name="variation_id"
         class="border border-gray-300 rounded-md p-2 w-full"
+        (change)="onVariationChange()"
       >
         <option value="">Select Variation</option>
-        <option *ngFor="let v of variations" [value]="v.id">
-          {{ v.variation_name }}
-        </option>
+        <option *ngFor="let v of variations" [value]="v.id">{{ v.variation_name }}</option>
       </select>
     </div>
 
     <!-- Variation Value -->
     <div>
-      <label class="block mb-1 text-sm font-medium text-gray-700"
-        >Variation Value</label
-      >
+      <label class="block mb-1 text-sm font-medium text-gray-700">Variation Value</label>
       <select
         [(ngModel)]="productData.variation_value"
         name="variation_value"
         class="border border-gray-300 rounded-md p-2 w-full"
       >
         <option value="">Select Value</option>
-        <option *ngFor="let v of variations" [value]="v.id">
-          {{ v.variation_value }}
+        <option *ngFor="let val of selectedVariationValues" [value]="val.value_name">
+          {{ val.value_name }}
         </option>
       </select>
     </div>
   </div>
 
-  <!-- 🗂️ Category | Sub Category | Brand | Tax -->
+  <!-- Category | Sub Category | Brand | Tax -->
   <div class="grid grid-cols-4 gap-3">
     <div>
-      <label class="block mb-1 text-sm font-medium text-gray-700"
-        >Category</label
-      >
-      <select
-        [(ngModel)]="productData.category_id"
-        name="category_id"
-        class="border border-gray-300 rounded-md p-2 w-full"
-      >
+      <label class="block mb-1 text-sm font-medium text-gray-700">Category</label>
+      <select [(ngModel)]="productData.category_id" name="category_id" class="border border-gray-300 rounded-md p-2 w-full">
         <option value="">Select Category</option>
-        <option *ngFor="let c of categories" [value]="c.id">
-          {{ c.name }}
-        </option>
+        <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
       </select>
     </div>
 
     <div>
-      <label class="block mb-1 text-sm font-medium text-gray-700"
-        >Sub Category</label
-      >
-      <select
-        [(ngModel)]="productData.sub_category_id"
-        name="sub_category_id"
-        class="border border-gray-300 rounded-md p-2 w-full"
-      >
+      <label class="block mb-1 text-sm font-medium text-gray-700">Sub Category</label>
+      <select [(ngModel)]="productData.sub_category_id" name="sub_category_id" class="border border-gray-300 rounded-md p-2 w-full">
         <option value="">Select Sub Category</option>
-        <option *ngFor="let sub of categories" [value]="sub.id">
-          {{ sub.sub_category }}
-        </option>
+        <option *ngFor="let sub of categories" [value]="sub.id">{{ sub.sub_category }}</option>
       </select>
     </div>
 
     <div>
       <label class="block mb-1 text-sm font-medium text-gray-700">Brand</label>
-      <select
-        [(ngModel)]="productData.brands_id"
-        name="brands_id"
-        class="border border-gray-300 rounded-md p-2 w-full"
-      >
+      <select [(ngModel)]="productData.brands_id" name="brands_id" class="border border-gray-300 rounded-md p-2 w-full">
         <option value="">Select Brand</option>
-        <option *ngFor="let b of brands" [value]="b.id">
-          {{ b.name || b.brand_name }}
-        </option>
+        <option *ngFor="let b of brands" [value]="b.id">{{ b.name || b.brand_name }}</option>
       </select>
     </div>
 
     <div>
       <label class="block mb-1 text-sm font-medium text-gray-700">Tax (%)</label>
-     <select
-  [(ngModel)]="productData.tax_rate_id"
-  name="tax_rate_id"
-  class="border border-gray-300 rounded-md p-2 w-full"
-  (change)="calculateSellPrice()"
->
-  <option value="">Select Tax</option>
-  <option *ngFor="let t of taxRates" [value]="t.id">
-    {{ t.name }} ({{ t.amount }}%)
-  </option>
-</select>
-
+      <select
+        [(ngModel)]="productData.tax_rate_id"
+        name="tax_rate_id"
+        class="border border-gray-300 rounded-md p-2 w-full"
+        (change)="calculateSellPrice()"
+      >
+        <option value="">Select Tax</option>
+        <option *ngFor="let t of taxRates" [value]="t.id">
+          {{ t.name }} ({{ t.amount }}%)
+        </option>
+      </select>
     </div>
   </div>
 
-  <!-- 💰 Price Section -->
-  <div class="grid grid-cols-3 gap-3">
-   <!-- Purchase Price -->
-<div>
-  <label class="block mb-1 text-sm font-medium text-gray-700">
-    Purchase Price
-  </label>
-  <input
-    type="number"
-    [(ngModel)]="productData.purchase_price"
-    name="purchase_price"
-    (input)="calculateSellPrice()"
-    placeholder="Purchase Price"
-    class="border border-gray-300 rounded-md p-2 w-full"
-  />
-</div>
-
-<!-- Profit Margin % -->
-<div>
-  <label class="block mb-1 text-sm font-medium text-gray-700">
-    Profit Margin %
-  </label>
-  <input
-    type="number"
-    [(ngModel)]="productData.profit_percent"
-    name="profit_percent"
-    (input)="calculateSellPrice()"
-    placeholder="Profit Margin"
-    class="border border-gray-300 rounded-md p-2 w-full"
-  />
-</div>
-
-<!-- Sale Price (Auto Calculated) -->
-<div>
-  <label class="block mb-1 text-sm font-medium text-gray-700">
-    Sale Price
-  </label>
-  <input
-    type="number"
-    [(ngModel)]="productData.sell_price"
-    name="sell_price"
-    placeholder="Sale Price"
-    class="border border-gray-300 rounded-md p-2 w-full bg-gray-100"
-    readonly
-  />
-</div>
-
-  </div>
-
-  <!-- ⏳ Expiry Date | ⚖️ Weight | 📦 Quantity -->
+  <!-- Price Section -->
   <div class="grid grid-cols-3 gap-3">
     <div>
-      <label class="block mb-1 text-sm font-medium text-gray-700"
-        >Expiry Date</label
-      >
+      <label class="block mb-1 text-sm font-medium text-gray-700">Purchase Price</label>
       <input
-        type="date"
-        [(ngModel)]="productData.expiry_date"
-        name="expiry_date"
+        type="number"
+        [(ngModel)]="productData.purchase_price"
+        name="purchase_price"
+        (input)="calculateSellPrice()"
         class="border border-gray-300 rounded-md p-2 w-full"
       />
+    </div>
+
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Profit Margin %</label>
+      <input
+        type="number"
+        [(ngModel)]="productData.profit_percent"
+        name="profit_percent"
+        (input)="calculateSellPrice()"
+        class="border border-gray-300 rounded-md p-2 w-full"
+      />
+    </div>
+
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Sale Price</label>
+      <input
+        type="number"
+        [(ngModel)]="productData.sell_price"
+        name="sell_price"
+        class="border border-gray-300 rounded-md p-2 w-full bg-gray-100"
+        readonly
+      />
+    </div>
+  </div>
+
+  <!-- Expiry Date | Weight | Quantity -->
+  <div class="grid grid-cols-3 gap-3">
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Expiry Date</label>
+      <input type="date" [(ngModel)]="productData.expiry_date" name="expiry_date" class="border border-gray-300 rounded-md p-2 w-full" />
     </div>
     <div>
       <label class="block mb-1 text-sm font-medium text-gray-700">Weight</label>
+      <input type="number" [(ngModel)]="productData.weight" name="weight" class="border border-gray-300 rounded-md p-2 w-full" />
+    </div>
+    <div>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Quantity</label>
       <input
         type="number"
-        [(ngModel)]="productData.weight"
-        name="weight"
-        placeholder="Weight"
-        class="border border-gray-300 rounded-md p-2 w-full"
+        [(ngModel)]="productData.quantity"
+        name="quantity"
+        [value]="0"
+        readonly
+        class="border border-gray-300 rounded-md p-2 w-full bg-gray-100 text-gray-600 cursor-not-allowed"
       />
     </div>
- <div>
-  <label class="block mb-1 text-sm font-medium text-gray-700">Quantity</label>
-  <input
-    type="number"
-    [(ngModel)]="productData.quantity"
-    name="quantity"
-    placeholder="Quantity"
-    [value]="0"
-    [readonly]="true"
-    class="border border-gray-300 rounded-md p-2 w-full bg-gray-100 text-gray-600 cursor-not-allowed"
-  />
-</div>
-
   </div>
 
-  <!-- 🏢 Business Location -->
+  <!-- Business Location -->
   <div>
-    <label class="block mb-1 text-sm font-medium text-gray-700"
-      >Business Location</label
-    >
-    <select
-      [(ngModel)]="productData.business_location_id"
-      name="business_location_id"
-      class="border border-gray-300 rounded-md p-2 w-full"
-    >
+    <label class="block mb-1 text-sm font-medium text-gray-700">Business Location</label>
+    <select [(ngModel)]="productData.business_location_id" name="business_location_id" class="border border-gray-300 rounded-md p-2 w-full">
       <option value="">Select Location</option>
-      <option *ngFor="let l of locations" [value]="l.id">
-        {{ l.name }}
-      </option>
+      <option *ngFor="let l of locations" [value]="l.id">{{ l.name }}</option>
     </select>
   </div>
 
-  <!-- 📸 Image Upload (optional) -->
- 
-  <!-- 🚀 Submit -->
+  <!-- Submit -->
   <div class="text-right">
-   <button
-  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
->
-  {{ isEditMode ? 'Update Product' : 'Add Product' }}
-</button>
-
+    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      {{ isEditMode ? 'Update Product' : 'Add Product' }}
+    </button>
   </div>
 </form>

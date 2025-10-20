@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { ProductService } from '../core/services/product/product.service';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
 export class ProductListComponent {
   products: any[] = [];
+    loading: boolean = true; // ✅ Add this line
+
 
   constructor(private productService: ProductService, private router: Router) {}
 

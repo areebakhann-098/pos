@@ -1,90 +1,104 @@
-<div
-  class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg overflow-x-auto"
->
-  <h2 class="text-xl font-bold mb-4">Product List</h2>
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+  <!-- Fixed Header Section -->
+  <div
+    class="flex justify-between items-center mb-4 sticky top-0 bg-white py-3 z-10 border-b border-gray-200"
+  >
+    <h2 class="text-xl font-bold">📦 Product List</h2>
+    <button
+      class="bg-blue-600 text-white px-3 h-9 rounded hover:bg-blue-700 text-sm"
+      [routerLink]="['/AddProducts']"
+    >
+      + Add Product
+    </button>
+  </div>
 
-  <table class="min-w-full border border-gray-300 rounded-lg text-sm">
-    <thead>
-      <tr class="bg-gray-100 text-left">
-        <th class="py-2 px-3 border">#</th>
-        <th class="py-2 px-3 border">Name</th>
-        <th class="py-2 px-3 border">Description</th>
-        <th class="py-2 px-3 border">Warranty</th>
-        <th class="py-2 px-3 border">Unit</th>
-        <th class="py-2 px-3 border">Variation</th>
-        <th class="py-2 px-3 border">Variation Value</th>
-        <th class="py-2 px-3 border">Category</th>
-        <th class="py-2 px-3 border">Sub Category</th>
-        <th class="py-2 px-3 border">Brand</th>
-        <th class="py-2 px-3 border">Tax Rate</th>
-        <th class="py-2 px-3 border">Business Location</th>
-        <th class="py-2 px-3 border">Expiry Date</th>
-        <th class="py-2 px-3 border">Weight</th>
-        <th class="py-2 px-3 border">Quantity</th>
-        <th class="py-2 px-3 border">Purchase Price</th>
-        <th class="py-2 px-3 border">Profit %</th>
-        <th class="py-2 px-3 border">Sell Price</th>
-        <th class="py-2 px-3 border text-center">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="let product of products; let i = index"
-        class="hover:bg-gray-50"
-      >
-        <td class="py-2 px-3 border">{{ i + 1 }}</td>
-        <td class="py-2 px-3 border">{{ product.product_name }}</td>
-<td
-  class="py-2 px-3 border max-w-[250px] whitespace-nowrap break-words overflow-y-auto"
->
-  {{ product.product_description }}
-</td>
-        <td class="py-2 px-3 border">{{ product.warranty?.name || "—" }}</td>
-        <td class="py-2 px-3 border">{{ product.unit?.name || "—" }}</td>
-        <td class="py-2 px-3 border">
-          {{ product.variation?.variation_name || "—" }}
-        </td>
-        <td class="py-2 px-3 border">
-          {{ product.variation?.variation_value || "—" }}
-        </td>
-        <td class="py-2 px-3 border">{{ product.Category?.name || "—" }}</td>
-        <td class="py-2 px-3 border">
-          {{ product.Category?.sub_category || "—" }}
-        </td>
-        <td class="py-2 px-3 border">{{ product.brand?.name || "—" }}</td>
-        <td class="py-2 px-3 border">{{ product.taxRate?.name || "—" }}</td>
-        <td class="py-2 px-3 border">
-          {{ product.businessLocation?.name || "—" }}
-        </td>
-        <td class="py-2 px-3 border">{{ product.expiry_date || "—" }}</td>
-        <td class="py-2 px-3 border">{{ product.weight || 0 }}</td>
-        <td class="py-2 px-3 border">{{ product.quantity || 0 }}</td>
-        <td class="py-2 px-3 border">
-          {{ product.price.purchase_price || "—" }}
-        </td>
-        <td class="py-2 px-3 border">{{ product.price.profit_percent || "—" }}</td>
-        <td class="py-2 px-3 border">{{ product.price.sell_price || "—" }}</td>
-        <td class="py-2 px-3 border text-center">
-          <div class="flex justify-center items-center gap-2">
-            <button
-              (click)="onEdit(product)"
-              class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
-            >
-              Edit
-            </button>
-            <button
-              (click)="onDelete(product.id)"
-              class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-            >
-              Delete
-            </button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Scrollable Table Container -->
+  <div class="max-h-[70vh] overflow-y-auto">
+    <table class="min-w-full border border-gray-300 rounded-lg text-sm">
+      <thead class="bg-gray-100 sticky top-0 z-10">
+        <tr class="text-left">
+          <th class="py-2 px-3 border">#</th>
+          <th class="py-2 px-3 border">Name</th>
+          <th class="py-2 px-3 border">Description</th>
+          <th class="py-2 px-3 border">Warranty</th>
+          <th class="py-2 px-3 border">Unit</th>
+          <th class="py-2 px-3 border">Variation</th>
+          <th class="py-2 px-3 border">Variation Value</th>
+          <th class="py-2 px-3 border">Category</th>
+          <th class="py-2 px-3 border">Sub Category</th>
+          <th class="py-2 px-3 border">Brand</th>
+          <th class="py-2 px-3 border">Tax Rate</th>
+          <th class="py-2 px-3 border">Business Location</th>
+          <th class="py-2 px-3 border">Expiry Date</th>
+          <th class="py-2 px-3 border">Weight</th>
+          <th class="py-2 px-3 border">Quantity</th>
+          <th class="py-2 px-3 border">Purchase Price</th>
+          <th class="py-2 px-3 border">Profit %</th>
+          <th class="py-2 px-3 border">Sell Price</th>
+          <th class="py-2 px-3 border text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let product of products; let i = index"
+          class="hover:bg-gray-50"
+        >
+          <td class="py-2 px-3 border">{{ i + 1 }}</td>
+          <td class="py-2 px-3 border">{{ product.product_name }}</td>
+          <td
+            class="py-2 px-3 border max-w-[250px] whitespace-nowrap break-words overflow-y-auto"
+          >
+            {{ product.product_description }}
+          </td>
+          <td class="py-2 px-3 border">{{ product.warranty?.name || "—" }}</td>
+          <td class="py-2 px-3 border">{{ product.unit?.name || "—" }}</td>
+          <td class="py-2 px-3 border">
+            {{ product.variation?.variation_name || "—" }}
+          </td>
+          <td class="py-2 px-3 border">
+            {{ product.variation?.variation_value || "—" }}
+          </td>
+          <td class="py-2 px-3 border">{{ product.Category?.name || "—" }}</td>
+          <td class="py-2 px-3 border">
+            {{ product.Category?.sub_category || "—" }}
+          </td>
+          <td class="py-2 px-3 border">{{ product.brand?.name || "—" }}</td>
+          <td class="py-2 px-3 border">{{ product.taxRate?.name || "—" }}</td>
+          <td class="py-2 px-3 border">
+            {{ product.businessLocation?.name || "—" }}
+          </td>
+          <td class="py-2 px-3 border">{{ product.expiry_date || "—" }}</td>
+          <td class="py-2 px-3 border">{{ product.weight || 0 }}</td>
+          <td class="py-2 px-3 border">{{ product.quantity || 0 }}</td>
+          <td class="py-2 px-3 border">
+            {{ product.price.purchase_price || "—" }}
+          </td>
+          <td class="py-2 px-3 border">
+            {{ product.price.profit_percent || "—" }}
+          </td>
+          <td class="py-2 px-3 border">{{ product.price.sell_price || "—" }}</td>
+          <td class="py-2 px-3 border text-center">
+            <div class="flex justify-center items-center gap-2">
+              <button
+                (click)="onEdit(product)"
+                class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+              >
+                Edit
+              </button>
+              <button
+                (click)="onDelete(product.id)"
+                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-  <div *ngIf="products.length === 0" class="text-center text-gray-500 mt-4">
-    No products found.
+    <div *ngIf="products.length === 0" class="text-center text-gray-500 mt-4">
+      No products found.
+    </div>
   </div>
 </div>

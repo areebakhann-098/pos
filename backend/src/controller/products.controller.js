@@ -9,6 +9,7 @@ import {
   TaxRate,
   Variation,
   Price,
+  VariationValue,
 } from "../model/pos.association.js"; // adjust path
 import { Op } from "sequelize";
 // helper: validate FK existence
@@ -91,7 +92,14 @@ export const getAllProducts = async (req, res) => {
         {
           model: Variation,
           as: "variation",
-          attributes: ["id", "variation_name", "variation_value"],
+          attributes: ["id", "variation_name", ],
+              include: [
+            {
+              model: VariationValue,
+              as: "values",
+              attributes: ["id", "value_name"],
+            },
+          ],
         },
         {
           model: Price,

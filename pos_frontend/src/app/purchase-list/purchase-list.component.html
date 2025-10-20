@@ -1,98 +1,130 @@
-<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg overflow-x-auto">
-  <h2 class="text-2xl font-bold mb-4 text-gray-700">Purchase List</h2>
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+  <!-- Fixed Header Section -->
+  <div
+    class="flex justify-between items-center mb-4 sticky top-0 bg-white py-3 z-10 border-b border-gray-200"
+  >
+    <h2 class="text-xl font-bold">🧾 Purchase List</h2>
 
-  <!-- Loading State -->
-  <div *ngIf="loading" class="text-center text-gray-500 py-6">
-    Loading purchases...
+    <button
+      class="bg-blue-600 text-white px-3 h-9 rounded hover:bg-blue-700 text-sm"
+      [routerLink]="['/Purchases']"
+    >
+      + Add Purchase
+    </button>
   </div>
 
-  <!-- Purchase Table -->
-  <table
-    *ngIf="!loading && purchases.length > 0"
-    class="min-w-full border border-gray-300 rounded-lg text-sm"
-  >
-    <thead>
-      <tr class="bg-gray-100 text-left">
-        <th class="py-2 px-3 border">#</th>
-        <th class="py-2 px-3 border">Reference No</th>
-        <th class="py-2 px-3 border">Supplier</th>
-        <th class="py-2 px-3 border">Business Location</th>
-        <th class="py-2 px-3 border">Product</th>
-        <th class="py-2 px-3 border text-right">Quantity</th>
-        <th class="py-2 px-3 border">Purchase Date</th>
-        <th class="py-2 px-3 border">Status</th>
-        <th class="py-2 px-3 border">Discount</th>
-        <th class="py-2 px-3 border text-right">Total Amount</th>
-        <th class="py-2 px-3 border text-right">Paid Amount</th>
-        <th class="py-2 px-3 border">Paid On</th>
-        <th class="py-2 px-3 border">Payment Method</th>
-        <th class="py-2 px-3 border">Notes</th>
-        <th class="py-2 px-3 border text-center">Actions</th>
-      </tr>
-    </thead>
+  <!-- Scrollable Table Container -->
+  <div class="max-h-[70vh] overflow-y-auto">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="text-center text-gray-500 py-6">
+      Loading purchases...
+    </div>
 
-    <tbody>
-      <tr
-        *ngFor="let p of purchases; let i = index"
-        class="hover:bg-gray-50 transition-colors"
-      >
-        <td class="py-2 px-3 border">{{ i + 1 }}</td>
-        <td class="py-2 px-3 border font-medium text-gray-700">
-          {{ p.reference_number || '—' }}
-        </td>
-        <td class="py-2 px-3 border">{{ p.contact?.first_name || '—' }}</td>
-        <td class="py-2 px-3 border">{{ p.businessLocation?.name || '—' }}</td>
-        <td class="py-2 px-3 border">{{ p.product?.product_name || '—' }}</td>
-        <td class="py-2 px-3 border text-right">{{ p.quantity || 0 }}</td>
-        <td class="py-2 px-3 border">{{ p.purchase_date | date: 'mediumDate' }}</td>
+    <!-- Purchase Table -->
+    <table
+      *ngIf="!loading && purchases.length > 0"
+      class="min-w-full border border-gray-300 rounded-lg text-sm"
+    >
+      <thead class="bg-gray-100 sticky top-0 z-10">
+        <tr class="text-left">
+          <th class="py-2 px-3 border">#</th>
+          <th class="py-2 px-3 border">Reference No</th>
+          <th class="py-2 px-3 border">Supplier</th>
+          <th class="py-2 px-3 border">Business Location</th>
+          <th class="py-2 px-3 border">Product</th>
+          <th class="py-2 px-3 border text-right">Quantity</th>
+          <th class="py-2 px-3 border">Purchase Date</th>
+          <th class="py-2 px-3 border">Status</th>
+          <th class="py-2 px-3 border">Discount</th>
+          <th class="py-2 px-3 border text-right">Total Amount</th>
+          <th class="py-2 px-3 border text-right">Paid Amount</th>
+          <th class="py-2 px-3 border">Paid On</th>
+          <th class="py-2 px-3 border">Payment Method</th>
+          <th class="py-2 px-3 border">Notes</th>
+          <th class="py-2 px-3 border text-center">Actions</th>
+        </tr>
+      </thead>
 
-        <!-- Status Badge -->
-        <td class="py-2 px-3 border">
-          <span
-            class="px-2 py-1 text-xs font-semibold rounded-full"
-            [ngClass]="{
-              'bg-yellow-100 text-yellow-700': p.purchase_status === 'pending',
-              'bg-blue-100 text-blue-700': p.purchase_status === 'ordered',
-              'bg-green-100 text-green-700': p.purchase_status === 'received'
-            }"
+      <tbody>
+        <tr
+          *ngFor="let p of purchases; let i = index"
+          class="hover:bg-gray-50 transition-colors"
+        >
+          <td class="py-2 px-3 border">{{ i + 1 }}</td>
+          <td class="py-2 px-3 border font-medium text-gray-700">
+            {{ p.reference_number || '—' }}
+          </td>
+          <td class="py-2 px-3 border">{{ p.contact?.first_name || '—' }}</td>
+          <td class="py-2 px-3 border">{{ p.businessLocation?.name || '—' }}</td>
+          <td class="py-2 px-3 border">{{ p.product?.product_name || '—' }}</td>
+          <td class="py-2 px-3 border text-right">{{ p.quantity || 0 }}</td>
+          <td class="py-2 px-3 border">
+            {{ p.purchase_date | date: 'mediumDate' }}
+          </td>
+
+          <!-- Status Badge -->
+          <td class="py-2 px-3 border">
+            <span
+              class="px-2 py-1 text-xs font-semibold rounded-full"
+              [ngClass]="{
+                'bg-yellow-100 text-yellow-700': p.purchase_status === 'pending',
+                'bg-blue-100 text-blue-700': p.purchase_status === 'ordered',
+                'bg-green-100 text-green-700': p.purchase_status === 'received'
+              }"
+            >
+              {{ p.purchase_status }}
+            </span>
+          </td>
+
+          <td class="py-2 px-3 border">
+            {{ p.discount?.name || 'No Discount' }}
+          </td>
+          <td class="py-2 px-3 border text-right">
+            Rs. {{ p.total_amount || 0 }}
+          </td>
+          <td class="py-2 px-3 border text-right">
+            Rs. {{ p.total_paid_amount || 0 }}
+          </td>
+          <td class="py-2 px-3 border">
+            {{ p.date_paid_on | date: 'mediumDate' }}
+          </td>
+          <td class="py-2 px-3 border capitalize">
+            {{ p.payment_method || '—' }}
+          </td>
+          <td
+            class="py-2 px-3 border truncate max-w-[120px]"
+            title="{{ p.additional_notes }}"
           >
-            {{ p.purchase_status }}
-          </span>
-        </td>
+            {{ p.additional_notes || '—' }}
+          </td>
 
-        <td class="py-2 px-3 border">{{ p.discount?.name || 'No Discount' }}</td>
-        <td class="py-2 px-3 border text-right">Rs. {{ p.total_amount || 0 }}</td>
-        <td class="py-2 px-3 border text-right">Rs. {{ p.total_paid_amount || 0 }}</td>
-        <td class="py-2 px-3 border">{{ p.date_paid_on | date: 'mediumDate' }}</td>
-        <td class="py-2 px-3 border capitalize">{{ p.payment_method || '—' }}</td>
+          <!-- Actions -->
+          <td class="py-2 px-3 border text-center">
+            <div class="flex justify-center items-center gap-2">
+              <button
+                (click)="onEdit(p)"
+                class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition"
+              >
+                Edit
+              </button>
+              <button
+                (click)="onDelete(p.id)"
+                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-        <td class="py-2 px-3 border truncate max-w-[120px]" title="{{ p.additional_notes }}">
-          {{ p.additional_notes || '—' }}
-        </td>
-
-        <!-- Actions -->
-        <td class="py-2 px-3 border text-center">
-          <div class="flex justify-center items-center gap-2">
-            <button
-              (click)="onEdit(p)"
-              class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition"
-            >
-              Edit
-            </button>
-            <button
-              (click)="onDelete(p.id)"
-              class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
-            >
-              Delete
-            </button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- No Data -->
-  <div *ngIf="!loading && purchases.length === 0" class="text-center text-gray-500 mt-4">
-    No purchases found.
+    <!-- No Data -->
+    <div
+      *ngIf="!loading && purchases.length === 0"
+      class="text-center text-gray-500 mt-4"
+    >
+      No purchases found.
+    </div>
   </div>
 </div>

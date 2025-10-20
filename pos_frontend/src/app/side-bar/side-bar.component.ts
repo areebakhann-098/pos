@@ -1,21 +1,18 @@
-import { Component, signal } from '@angular/core';
-import { NavbarComponent } from './navbar/navbar.component';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Component, Input, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { SideBarComponent } from "./side-bar/side-bar.component";
-import { DashboardComponent } from './dashboard/dashboard.component';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-side-bar',
   standalone: true,
-  imports: [NavbarComponent, RouterOutlet, CommonModule, SideBarComponent],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  imports: [CommonModule, RouterLink],
+  templateUrl: './side-bar.component.html',
+  styleUrls: ['./side-bar.component.css']
 })
-export class AppComponent {
-  title = 'pos-frontend';
+export class SideBarComponent {
+  @Input() sidebarOpen = signal(true);
 
- // Dropdown open/close signals
+  // Submenu signals
   userMenuOpen = signal(false);
   contactMenuOpen = signal(false);
   productMenuOpen = signal(false);

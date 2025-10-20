@@ -252,5 +252,19 @@ export const routes: Routes = [
 
     )
 
-}
+},
+  // ✅ Dashboard route
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./dashboard/dashboard.component').then(
+        (m) => m.DashboardComponent
+      ),
+  },
+
+  // ✅ Wildcard route (for 404 handling)
+  {
+    path: '**',
+    redirectTo: 'dashboard',
+  },
 ];

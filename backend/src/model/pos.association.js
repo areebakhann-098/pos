@@ -21,6 +21,8 @@ import Migration from "./migration.model.js";
 import SaleItem from "./SaleItem.model.js";
 import SaleReturn from "./saleReturn.model.js";
 import SaleReturnItem from "./saleReturnItem.model.js"
+import VariationValue from "./variationValue.model.js"
+
 // ===============================
 // Contact Relations
 // ===============================
@@ -53,6 +55,9 @@ const defineContactTransactionRelation = () => {
 // Product Relations
 // ===============================
 const defineAssociations = () => {
+  // ✅ Relationship
+Variation.hasMany(VariationValue, { foreignKey: "variation_id", as: "values" });
+VariationValue.belongsTo(Variation, { foreignKey: "variation_id", as: "variation" });
   // Warranty ↔ Products
   Warranty.hasMany(Products, { foreignKey: "warranty_id", as: "products" });
   Products.belongsTo(Warranty, { foreignKey: "warranty_id", as: "warranty" });
@@ -82,12 +87,18 @@ Products.belongsTo(Brand, { foreignKey: "brands_id", as: "brand" });
   Unit.hasMany(Products, { foreignKey: "unit_id", as: "products" });
   Products.belongsTo(Unit, { foreignKey: "unit_id", as: "unit" });
 
-  Variation.hasMany(Products, { foreignKey: "variation_id", as: "products" });
-  Products.belongsTo(Variation, {
-    foreignKey: "variation_id",
-    as: "variation",
-  });
 
+// ✅ One Variation has many Products
+Variation.hasMany(Products, {
+  foreignKey: "variation_id",
+  as: "products",
+});
+
+// ✅ One Product belongs to a single Variation
+Products.belongsTo(Variation, {
+  foreignKey: "variation_id",
+  as: "variation",
+});
   // Price ↔ Products
   Price.hasMany(Products, { foreignKey: "price_id", as: "products" });
   Products.belongsTo(Price, { foreignKey: "price_id", as: "price" });
@@ -291,5 +302,6 @@ export {
   Migration,
   SaleItem,
     SaleReturn,          // ✅ add this
-  SaleReturnItem  
+  SaleReturnItem,
+  VariationValue
 };
