@@ -20,7 +20,7 @@ export class ProductListComponent {
     this.getAllProducts();
   }
 onEdit(product: any) {
-    this.router.navigate(['/addproduct/edit/:id'], {
+    this.router.navigate(['/home/addproduct/edit/:id'], {
       queryParams: { id: product.id },
     });
   }

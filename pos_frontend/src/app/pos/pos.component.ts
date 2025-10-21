@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../core/services/product/product.service';
 import { DiscountService } from '../core/services/discount/discount.service';
 import { TaxRateService } from '../core/services/tax_rate/tax-rate.service';
-import { SaleService } from '../core/services/sale/sale.service'; // ✅ import service
+import { SaleService } from '../core/services/sale/sale.service'; 
 import { BusinessLocationService } from '../core/services/business_location/business-location.service';
 
 import jsPDF from 'jspdf';
@@ -201,7 +201,7 @@ calculateTotal() {
 
     const salePayload = {
       sale_date: new Date(),
-      business_location_id: this.selectedBusinessLocationId, // ✅ Dynamic location
+      business_location_id: this.selectedBusinessLocationId,
       total_items: this.totalItems,
       total_amount: this.subtotal,
       discount_id: this.selectedDiscount?.id || null,
@@ -243,7 +243,7 @@ calculateTotal() {
 
   const doc = new jsPDF({
     unit: 'mm',
-    format: [80, 200], // ✅ 80mm thermal size
+    format: [80, 200], 
   });
 
   // 🔹 Header: Business Info

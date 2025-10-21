@@ -31,7 +31,7 @@ export class ContactListComponent {
 
   // Edit Contact
   onEdit(contact: any) {
-this.router.navigate(['/add-contact/edit', contact.id]);
+this.router.navigate(['/home/add-contact/edit', contact.id]);
   }
 
 

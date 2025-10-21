@@ -295,7 +295,7 @@ reference_number: Number(this.refNo),
       this.purchaseService.updatePurchase(this.purchaseId, payload).subscribe({
         next: () => {
           alert(' Purchase updated successfully!');
-          this.router.navigate(['/Purchase_list']);
+          this.router.navigate(['/home/Purchase_list']);
         },
         error: (err) => {
           console.error('❌ Error updating purchase:', err);
@@ -307,7 +307,7 @@ reference_number: Number(this.refNo),
         next: () => {
           alert('✅ Purchase created successfully!');
           this.resetForm();
-          this.router.navigate(['/Purchase_list']);
+          this.router.navigate(['/home/Purchase_list']);
         },
         error: (err) => {
           console.error('❌ Error creating purchase:', err);

@@ -39,7 +39,7 @@ export class StocktransferListComponent implements OnInit {
 
   /** ✏️ Edit transfer */
   onEdit(transfer: any): void {
-    this.router.navigate(['/stocktransfer/edit', transfer.id]);
+    this.router.navigate(['/home/stocktransfer/edit', transfer.id]);
   }
 
   /** 🗑️ Delete transfer */

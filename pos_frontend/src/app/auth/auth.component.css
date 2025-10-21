@@ -1,0 +1,6 @@
+/* Optional small custom styles */
+@media (max-width: 768px) {
+  .auth-container {
+    flex-direction: column;
+  }
+}

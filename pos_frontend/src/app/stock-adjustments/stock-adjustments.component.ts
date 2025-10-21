@@ -252,7 +252,7 @@ export class StockAdjustmentsComponent implements OnInit {
       next: () => {
         alert('✅ Stock Adjustment updated successfully!');
         this.resetForm();
-        this.router.navigate(['/stockadjustments_list']);
+        this.router.navigate(['/home/stockadjustments_list']);
       },
       error: (err) => {
         console.error('❌ Error updating adjustment:', err);
@@ -264,7 +264,7 @@ export class StockAdjustmentsComponent implements OnInit {
       next: () => {
         alert('✅ Stock Adjustment created successfully!');
         this.resetForm();
-        this.router.navigate(['/stockadjustments_list']);
+        this.router.navigate(['/home/stockadjustments_list']);
       },
       error: (err) => {
         console.error('❌ Error saving adjustment:', err);

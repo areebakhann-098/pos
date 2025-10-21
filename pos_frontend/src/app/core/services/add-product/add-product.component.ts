@@ -137,7 +137,7 @@ export class AddProductComponent implements OnInit {
       this.productService.updateProduct(this.productId, this.productData).subscribe({
         next: () => {
           alert('✅ Product updated successfully!');
-          this.router.navigate(['/home/product_list']);
+          this.router.navigate(['/product_list']);
         },
         error: (err) => {
           console.error('❌ Error updating product:', err);
@@ -149,7 +149,7 @@ export class AddProductComponent implements OnInit {
       this.productService.createProduct(this.productData).subscribe({
         next: () => {
           alert('✅ Product added successfully!');
-          this.router.navigate(['/home/product_list']);
+          this.router.navigate(['/product_list']);
         },
         error: (err) => {
           console.error('❌ Error adding product:', err);
@@ -226,4 +226,4 @@ export class AddProductComponent implements OnInit {
 
     this.productData.sell_price = Number(sellPrice.toFixed(2));
   }
-} 
+}

@@ -1,7 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { PourchaseChartComponent } from '../components/pourchase-chart/pourchase-chart.component';
-import { SaleChartComponent } from "../components/sale-chart/sale-chart.component";
-
+import { SaleChartComponent } from '../components/sale-chart/sale-chart.component';
 
 @Component({
   selector: 'app-dashboard',

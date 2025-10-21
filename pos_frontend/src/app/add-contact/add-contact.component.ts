@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ContactService } from '../core/services/contact/contact.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ContactService } from '../core/services/contact/contact.service';
 
 @Component({
   selector: 'app-add-contact',
@@ -88,7 +88,7 @@ loadContactData(id: number) {
       this.contactService.updateContact(this.contactId, this.contactForm.value).subscribe({
         next: () => {
           alert('✅ Contact updated successfully!');
-          this.router.navigate(['/contact_list']);
+          this.router.navigate(['/home/contact_list']);
         },
         error: (err) => {
           console.error('❌ Error updating contact:', err);
@@ -101,7 +101,7 @@ loadContactData(id: number) {
         next: () => {
           alert('✅ Contact added successfully!');
           this.contactForm.reset();
-          this.router.navigate(['/contact_list']);
+          this.router.navigate(['/home/contact_list']);
         },
         error: (err) => {
           console.error('❌ Error adding contact:', err);

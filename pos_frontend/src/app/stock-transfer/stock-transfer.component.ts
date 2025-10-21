@@ -228,7 +228,7 @@ saveTransfer(): void {
     this.stockTransferService.updateStockTransfer(this.transferId, payload).subscribe({
       next: () => {
         alert('✅ Stock Transfer updated successfully!');
-        this.router.navigate(['/stocktransfer_list']); // go to list
+        this.router.navigate(['/home/stocktransfer_list']); // go to list
       },
       error: (err) => {
         console.error('❌ Error updating stock transfer:', err);
@@ -241,7 +241,7 @@ saveTransfer(): void {
       next: () => {
         alert('✅ Stock Transfer created successfully!');
         this.resetForm();
-        this.router.navigate(['/stocktransfer_list']); // go to list
+        this.router.navigate(['/home/stocktransfer_list']); // go to list
       },
       error: (err) => {
         console.error('❌ Error creating stock transfer:', err);

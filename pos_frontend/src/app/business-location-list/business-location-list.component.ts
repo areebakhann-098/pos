@@ -46,6 +46,6 @@ export class BusinessLocationListComponent implements OnInit {
 
   editLocation(loc: any) {
     // Navigate to the form with the location ID
-    this.router.navigate(['/businessLocation/edit', loc.id]);
+    this.router.navigate(['/home/businessLocation/edit', loc.id]);
   }
 }

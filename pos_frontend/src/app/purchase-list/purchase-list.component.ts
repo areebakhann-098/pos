@@ -42,7 +42,7 @@ export class PurchaseListComponent implements OnInit {
 
   onEdit(purchase: any): void {
     // 👇 Navigate with ID
-    this.router.navigate(['/Purchases/edit', purchase.id]);
+    this.router.navigate(['/home/Purchases/edit', purchase.id]);
   }
 
   /** 🗑️ Delete Purchase */

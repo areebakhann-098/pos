@@ -1,0 +1,43 @@
+<div class="min-h-screen flex">
+  <!-- Left Side (Image Section) -->
+  <div
+    class="hidden md:flex w-1/2 bg-cover bg-center"
+    style="background-image: url('home-bg.jpg');"
+  >
+    <!-- Optional overlay text -->
+    <div class="bg-black bg-opacity-50 flex flex-col justify-center items-center w-full text-white text-center px-6">
+      <h1 class="text-4xl font-bold text-red-600 mb-2">Point Of Sale System</h1>
+      <p class="text-lg font-medium text-gray-200">Manage Sales | Purchases | Reports</p>
+    </div>
+  </div>
+
+  <!-- Right Side (Auth Form Section) -->
+  <div class="flex w-full md:w-1/2 justify-center items-center bg-gray-100 py-4 px-4">
+    <div class="rounded-xl p-5 w-full max-w-md">
+      <!-- Dynamic Form -->
+      <div>
+        <ng-container *ngIf="isLoginView(); else registerTemplate">
+          <app-login></app-login>
+        </ng-container>
+
+        <ng-template #registerTemplate>
+          <app-register (registerSuccess)="onRegisterSuccess()"></app-register>
+        </ng-template>
+      </div>
+
+      <!-- Toggle Button -->
+      <div class="text-center mt-8">
+        <button
+          (click)="toggleView()"
+          class="text-blue-600 hover:underline font-medium"
+        >
+          {{
+            isLoginView()
+              ? "Don't have an account? Register"
+              : "Already have an account? Login"
+          }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

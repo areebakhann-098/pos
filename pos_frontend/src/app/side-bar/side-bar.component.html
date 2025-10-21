@@ -45,12 +45,12 @@
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
         <ul *ngIf="contactMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['/AddContacts']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-truck me-2"></i>Suppliers</a></li>
-          <li><a [routerLink]="['/contact_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-user-friends me-2"></i>Supplier List</a></li>
+          <li><a [routerLink]="['/home/AddContacts']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-truck me-2"></i>Suppliers</a></li>
+          <li><a [routerLink]="['/home/contact_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-user-friends me-2"></i>Supplier List</a></li>
         </ul>
       </li>
 
-      <!-- Products -->
+         <!-- Products -->
       <li>
         <button class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition" (click)="toggle('product')">
           <i class="fas fa-box w-5 h-5"></i>
@@ -58,13 +58,13 @@
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
         <ul *ngIf="productMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['product_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Products</a></li>
-          <li><a [routerLink]="['AddProducts']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Products</a></li>
-          <li><a [routerLink]="['Variations']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-code-branch me-2"></i>Variations</a></li>
-          <li><a [routerLink]="['Units']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-balance-scale me-2"></i>Units</a></li>
-          <li><a [routerLink]="['Categories']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-folder me-2"></i>Categories</a></li>
-          <li><a [routerLink]="['Brands']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-copyright me-2"></i>Brands</a></li>
-          <li><a [routerLink]="['Warranties']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-shield-alt me-2"></i>Warranties</a></li>
+          <li><a [routerLink]="['/home/product_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Products</a></li>
+          <li><a [routerLink]="['/home/AddProducts']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Products</a></li>
+          <li><a [routerLink]="['/home/Variations']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-code-branch me-2"></i>Variations</a></li>
+          <li><a [routerLink]="['/home/Units']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-balance-scale me-2"></i>Units</a></li>
+          <li><a [routerLink]="['/home/Categories']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-folder me-2"></i>Categories</a></li>
+          <li><a [routerLink]="['/home/Brands']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-copyright me-2"></i>Brands</a></li>
+          <li><a [routerLink]="['/home/Warranties']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-shield-alt me-2"></i>Warranties</a></li>
         </ul>
       </li>
 
@@ -76,8 +76,8 @@
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
         <ul *ngIf="purchaseMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['Purchase_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Purchase</a></li>
-          <li><a [routerLink]="['Purchases']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Purchase</a></li>
+          <li><a [routerLink]="['/home/Purchase_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Purchase</a></li>
+          <li><a [routerLink]="['/home/Purchases']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Purchase</a></li>
         </ul>
       </li>
 
@@ -89,10 +89,10 @@
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
         <ul *ngIf="sellMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['sales_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>All Sales</a></li>
-          <li><a [routerLink]="['POS']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>POS</a></li>
-          <li><a [routerLink]="['sale-return']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-undo-alt me-2"></i>List Sell Return</a></li>
-          <li><a [routerLink]="['Discounts']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-percent me-2"></i>Discounts</a></li>
+          <li><a [routerLink]="['/home/sales_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>All Sales</a></li>
+          <li><a [routerLink]="['/home/POS']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>POS</a></li>
+          <li><a [routerLink]="['/home/sale-return']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-undo-alt me-2"></i>List Sell Return</a></li>
+          <li><a [routerLink]="['/home/Discounts']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-percent me-2"></i>Discounts</a></li>
         </ul>
       </li>
 
@@ -104,8 +104,8 @@
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
         <ul *ngIf="stockMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['stockTransfer']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Stock Transfer</a></li>
-          <li><a [routerLink]="['stocktransfer_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Stock Transfer</a></li>
+          <li><a [routerLink]="['/home/stockTransfer']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Stock Transfer</a></li>
+          <li><a [routerLink]="['/home/stocktransfer_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Stock Transfer</a></li>
         </ul>
       </li>
 
@@ -117,8 +117,8 @@
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
         <ul *ngIf="stockAdjMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['stockadjustments']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Stock Adjustment</a></li>
-          <li><a [routerLink]="['stockadjustments_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Stock Adjustment</a></li>
+          <li><a [routerLink]="['/home/stockadjustments']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Stock Adjustment</a></li>
+          <li><a [routerLink]="['/home/stockadjustments_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Stock Adjustment</a></li>
         </ul>
       </li>
 
@@ -130,12 +130,12 @@
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
         <ul *ngIf="reportsMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['Stock-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-boxes me-2"></i>Stocks Report</a></li>
-          <li><a [routerLink]="['adjustment-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-adjust me-2"></i>Stock Adjustment Report</a></li>
-          <li><a [routerLink]="['trasnfer-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-exchange-alt me-2"></i>Stock Transfer Report</a></li>
-          <li><a [routerLink]="['Purchase-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-shopping-cart me-2"></i>Product Purchase Report</a></li>
-          <li><a [routerLink]="['productsale_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-store me-2"></i>Product Sell Report</a></li>
-          <li><a [routerLink]="['sale-return-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-undo-alt me-2"></i>Sale Return Report</a></li>
+          <li><a [routerLink]="['/home/Stock-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-boxes me-2"></i>Stocks Report</a></li>
+          <li><a [routerLink]="['/home/adjustment-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-adjust me-2"></i>Stock Adjustment Report</a></li>
+          <li><a [routerLink]="['/home/trasnfer-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-exchange-alt me-2"></i>Stock Transfer Report</a></li>
+          <li><a [routerLink]="['/home/Purchase-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-shopping-cart me-2"></i>Product Purchase Report</a></li>
+          <li><a [routerLink]="['/home/productsale_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-store me-2"></i>Product Sell Report</a></li>
+          <li><a [routerLink]="['/home/sale-return-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-undo-alt me-2"></i>Sale Return Report</a></li>
         </ul>
       </li>
 
@@ -147,9 +147,9 @@
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
         <ul *ngIf="businessMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['businessLocation']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Business</a></li>
-          <li><a [routerLink]="['location_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Business</a></li>
-          <li><a [routerLink]="['taxRate']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-percentage me-2"></i>Tax Rate</a></li>
+          <li><a [routerLink]="['/home/businessLocation']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Business</a></li>
+          <li><a [routerLink]="['/home/location_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Business</a></li>
+          <li><a [routerLink]="['/home/taxRate']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-percentage me-2"></i>Tax Rate</a></li>
         </ul>
       </li>
 

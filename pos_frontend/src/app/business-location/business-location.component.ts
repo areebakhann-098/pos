@@ -72,7 +72,7 @@ export class BusinessLocationComponent implements OnInit {
       this.locationService.updateLocation(this.editId, this.location).subscribe({
         next: () => {
           alert('✅ Location updated successfully!');
-          this.router.navigate(['/location_list']); // redirect back to list
+          this.router.navigate(['/home/location_list']); // redirect back to list
         },
         error: (err) => console.error('Error updating location:', err)
       });
