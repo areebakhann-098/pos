@@ -1,6 +1,5 @@
 // models/pos.associations.js
 import Contact from "./contact.model.js";
-import User from "./users.model.js";
 import Business from "./business.model.js";
 import Booking from "./booking.model.js";
 import Transaction from "./transaction.model.js";

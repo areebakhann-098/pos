@@ -1,0 +1,55 @@
+<div class="max-w-6xl mx-auto p-4 bg-white rounded-lg shadow-md">
+  <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+    <h2 class="text-lg font-semibold">👥 User List</h2>
+    <button
+      class="bg-blue-600 text-white px-3 py-1.5 rounded hover:bg-blue-700 text-sm"
+      [routerLink]="['/home/AddUser']"
+    >
+      + Add User
+    </button>
+  </div>
+
+  <table class="w-full border border-gray-200">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="p-2 border">Name</th>
+        <th class="p-2 border">Email</th>
+        <th class="p-2 border">Role</th>
+        <th class="p-2 border">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td class="p-2 border">{{ user.name }}</td>
+        <td class="p-2 border">{{ user.email }}</td>
+       <td class="p-2 border capitalize">
+  {{ getRoleNames(user) }}
+</td>
+
+        <td class="p-2 border">
+          <div class="flex justify-center items-center gap-2 h-full">
+            <button
+              class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 text-sm"
+              (click)="onEdit(user)"
+            >
+              Edit
+            </button>
+            <button
+              class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 text-sm"
+              (click)="onDelete(user.id)"
+            >
+              Delete
+            </button>
+          </div>
+        </td>
+      </tr>
+
+      <tr *ngIf="users.length === 0">
+        <td colspan="4" class="text-center p-4 text-gray-500">
+          No users found.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

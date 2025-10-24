@@ -6,13 +6,15 @@ import {
   updateDiscount,
   deleteDiscount,
 } from "../controller/discount.controller.js";
+import { verifyToken } from '../middleware/jwt.middleware.js';
+import { authorize } from '../middleware/accessControl.middleware.js';
 
 const router = express.Router();
 
-router.post("/discounts/create", createDiscount);
-router.get("/discounts/get", getAllDiscounts);
-router.get("/discounts/:id", getDiscountById);
-router.put("/discounts/:id", updateDiscount);
-router.delete("/discounts/delete/:id", deleteDiscount);
+router.post("/discounts/create", verifyToken, authorize('create', 'product', 'any'), createDiscount);
+router.get("/discounts/get", verifyToken, authorize('read', 'sale||product', 'any'), getAllDiscounts);
+router.get("/discounts/:id", verifyToken, authorize('read', 'sale||product', 'any'),getDiscountById);
+router.put("/discounts/:id", verifyToken, authorize('update', 'product', 'any'),updateDiscount);
+router.delete("/discounts/delete/:id",verifyToken, authorize('delete', 'product', 'any'), deleteDiscount);
 
 export default router;

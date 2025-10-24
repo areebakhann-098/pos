@@ -230,11 +230,16 @@ calculateTotal() {
         this.selectedTaxId = null;
         this.calculateTotal();
       },
-      error: (err) => {
-        console.error('❌ Error saving sale:', err);
-        alert('Error creating sale!');
-      },
-    });
+       error: (err) => {
+      console.error('❌ Error saving sale:', err);
+
+      // 🔹 Extract backend error message if available
+      const errorMessage =
+        err?.error?.error || 'Error creating sale. Please try again!';
+      
+      alert(errorMessage); // Show it to the user
+    },
+  });
   }
   generateSaleReport(sale: any) {
   const selectedLocation = this.businessLocations.find(

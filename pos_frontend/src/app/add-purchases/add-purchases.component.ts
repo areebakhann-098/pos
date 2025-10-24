@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { PurchaseService } from '../core/services/purchase/purchase.service';
 import { DiscountService } from '../core/services/discount/discount.service';
 import { ContactService } from '../core/services/contact/contact.service';
@@ -97,87 +98,72 @@ export class AddPurchasesComponent implements OnInit {
     });
   }
 
-/** 🔹 Load purchase data for editing */
-loadPurchaseById(id: number): void {
-  this.purchaseService.getPurchaseById(id).subscribe({
-    next: (res: any) => {
-      const purchase = res.data;
-      if (!purchase) return;
+  /** 🔹 Load purchase data for editing */
+  loadPurchaseById(id: number): void {
+    this.purchaseService.getPurchaseById(id).subscribe({
+      next: (res: any) => {
+        const purchase = res.data;
+        if (!purchase) return;
 
-      console.log('✅ Full purchase data:', purchase);
+        // Populate form fields
+        this.supplier = String(purchase.contact_id);
+        this.refNo = purchase.reference_number || '';
+        this.purchaseDate = purchase.purchase_date?.split('T')[0] || '';
+        this.status = purchase.purchase_status || '';
+        this.location = String(purchase.bussiness_location_id);
+        this.notes = purchase.additional_notes || '';
+        this.amountPaid = Number(purchase.total_paid_amount) || 0;
+        this.datePaid = purchase.date_paid_on?.split('T')[0] || '';
+        this.paymentMethod = purchase.payment_method || '';
 
-      //  Populate form fields
-      this.supplier = String(purchase.contact_id);
-      this.refNo = purchase.reference_number || '';
-      this.purchaseDate = purchase.purchase_date?.split('T')[0] || '';
-      this.status = purchase.purchase_status || '';
-      this.location = String(purchase.bussiness_location_id);
-      this.notes = purchase.additional_notes || '';
-      this.amountPaid = Number(purchase.total_paid_amount) || 0;
-      this.datePaid = purchase.date_paid_on?.split('T')[0] || '';
-      this.paymentMethod = purchase.payment_method || '';
+        // Handle single product (not array)
+        const p = purchase.product;
+        if (p) {
+          const discount = purchase.discount || null;
+          const discountAmount = discount ? Number(discount.discount_amount) : 0;
+          const discountName = discount ? discount.discount_type : 'No Discount';
+          const displayDiscount = discountAmount ? `Rs. ${discountAmount}` : '';
 
-      //  Handle single product (not array)
-      const p = purchase.product;
-      if (p) {
-        const discount = purchase.discount || null;
-        const discountAmount = discount
-          ? Number(discount.discount_amount)
-          : 0;
-        const discountName = discount ? discount.discount_type : 'No Discount';
-        const displayDiscount = discountAmount
-          ? `Rs. ${discountAmount}`
-          : '';
+          this.purchaseItems = [
+            {
+              id: p.id,
+              name: p.product_name,
+              quantity: purchase.quantity || 1,
+              price: p.price?.purchase_price || 0,
+              discount_id: purchase.discount_id || null,
+              discountAmount,
+              discountName,
+              displayDiscount,
+              total: Number(purchase.total_amount) || 0,
+            },
+          ];
+        }
 
-        this.purchaseItems = [
-          {
-            id: p.id,
-            name: p.product_name,
-            quantity: purchase.quantity || 1,
-            price: p.price?.purchase_price || 0,
-            discount_id: purchase.discount_id || null,
-            discountAmount,
-            discountName,
-            displayDiscount,
-            total: Number(purchase.total_amount) || 0,
-          },
-        ];
-      }
-
-      console.log('Purchase items loaded:', this.purchaseItems);
-
-      // Recalculate line totals to ensure UI updates correctly
-      this.purchaseItems.forEach((item) => this.updateLineTotal(item));
-    },
-    error: (err) => {
-      console.error('Error loading purchase:', err);
-    },
-  });
-}
-
+        this.purchaseItems.forEach((item) => this.updateLineTotal(item));
+      },
+      error: (err) => console.error('Error loading purchase:', err),
+    });
+  }
 
   /**  Setup product search listener */
   private setupSearchListener(): void {
-    this.searchSubject
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((q: string) => {
-        const query = q.trim().toLowerCase();
-        if (!query) {
-          this.filteredProducts = [];
-          return;
-        }
+    this.searchSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe((q: string) => {
+      const query = q.trim().toLowerCase();
+      if (!query) {
+        this.filteredProducts = [];
+        return;
+      }
 
-        this.purchaseService.searchProducts(query).subscribe({
-          next: (res: any) => {
-            const products: Product[] = Array.isArray(res?.data) ? res.data : [];
-            this.filteredProducts = products;
-          },
-          error: (err) => {
-            console.error('❌ Error fetching products:', err);
-            this.filteredProducts = [];
-          },
-        });
+      this.purchaseService.searchProducts(query).subscribe({
+        next: (res: any) => {
+          this.filteredProducts = Array.isArray(res?.data) ? res.data : [];
+        },
+        error: (err) => {
+          console.error('❌ Error fetching products:', err);
+          this.filteredProducts = [];
+        },
       });
+    });
   }
 
   onSearchInput(): void {
@@ -211,10 +197,9 @@ loadPurchaseById(id: number): void {
     this.filteredProducts = [];
   }
 
-  /**  Discount selection */
+  /** Discount selection */
   onDiscountSelect(item: PurchaseItem) {
     const selectedDiscount = this.discounts.find((d) => d.id === +(item.discount_id || 0));
-
     if (selectedDiscount) {
       item.discountName = selectedDiscount.name;
       item.discountAmount = Number(selectedDiscount.discount_amount) || 0;
@@ -224,7 +209,6 @@ loadPurchaseById(id: number): void {
       item.discountAmount = 0;
       item.displayDiscount = '';
     }
-
     this.updateLineTotal(item);
   }
 
@@ -246,77 +230,72 @@ loadPurchaseById(id: number): void {
     item.total = totalAfterDiscount > 0 ? totalAfterDiscount : 0;
   }
 
-  /**  Delete product */
+  /** Delete product */
   deleteItem(id: number): void {
     this.purchaseItems = this.purchaseItems.filter((p) => p.id !== id);
   }
 
-  /**  Total items */
+  /** Total items */
   get totalItems(): number {
     return this.purchaseItems.length;
   }
 
-  /**  Net total */
+  /** Net total */
   get netTotal(): number {
     return this.purchaseItems.reduce((sum, item) => sum + item.total, 0);
   }
 
-  /**  Save or Update purchase */
+  /** Save or Update purchase */
   savePurchase(): void {
-    if (!this.supplier || !this.refNo || !this.purchaseDate || !this.status || !this.location) {
+    if (!this.supplier || !this.refNo || !this.purchaseDate || !this.status || !this.location || this.purchaseItems.length === 0) {
       alert('Please fill all required fields and add at least one product.');
       return;
     }
 
-const firstItem = this.purchaseItems[0]; 
+    const firstItem = this.purchaseItems[0];
 
-const payload = {
-  contact_id: Number(this.supplier),
-reference_number: Number(this.refNo),
-  purchase_date: this.purchaseDate,
-  purchase_status: this.status,
-  bussiness_location_id: Number(this.location),
-  additional_notes: this.notes || null,
-  total_paid_amount: Number(this.amountPaid),
-  date_paid_on: this.datePaid,
-  payment_method: this.paymentMethod,
-
-  // ✅ Add single product fields (NOT array)
-  product_id: firstItem.id,
-  quantity: firstItem.quantity,
-  price: firstItem.price,
-  discount_id: firstItem.discount_id || null,
-  total_amount: firstItem.total,
-};
-
+    const payload = {
+      contact_id: Number(this.supplier),
+      reference_number: Number(this.refNo),
+      purchase_date: this.purchaseDate,
+      purchase_status: this.status,
+      bussiness_location_id: Number(this.location),
+      additional_notes: this.notes || null,
+      total_paid_amount: Number(this.amountPaid),
+      date_paid_on: this.datePaid,
+      payment_method: this.paymentMethod,
+      product_id: firstItem.id,
+      quantity: firstItem.quantity,
+      price: firstItem.price,
+      discount_id: firstItem.discount_id || null,
+      total_amount: firstItem.total,
+    };
 
     if (this.isEditMode && this.purchaseId) {
-      //  UPDATE
+      // UPDATE
       this.purchaseService.updatePurchase(this.purchaseId, payload).subscribe({
         next: () => {
-          alert(' Purchase updated successfully!');
+          alert('Purchase updated successfully!');
+          this.generatePurchaseInvoice(payload); // Generate invoice on update
           this.router.navigate(['/home/Purchase_list']);
         },
-        error: (err) => {
-          console.error('❌ Error updating purchase:', err);
-        },
+        error: (err) => console.error('❌ Error updating purchase:', err),
       });
     } else {
-      // ➕ CREATE
+      // CREATE
       this.purchaseService.createPurchase(payload).subscribe({
         next: () => {
-          alert('✅ Purchase created successfully!');
+          alert('Purchase created successfully!');
+          this.generatePurchaseInvoice(payload); // Generate invoice on create
           this.resetForm();
           this.router.navigate(['/home/Purchase_list']);
         },
-        error: (err) => {
-          console.error('❌ Error creating purchase:', err);
-        },
+        error: (err) => console.error('❌ Error creating purchase:', err),
       });
     }
   }
 
-  /**  Reset form */
+  /** Reset form */
   private resetForm(): void {
     this.purchaseItems = [];
     this.supplier = '';
@@ -330,20 +309,25 @@ reference_number: Number(this.refNo),
     this.paymentMethod = '';
   }
 
-  /**  Fetch locations */
-  getBusinessLocations() {
-    this.businessLocationService.getAllLocations().subscribe({
-      next: (res: any) => {
-        const data = res.data || res.locations;
-        if (res.success && Array.isArray(data)) {
-          this.locations = data.map((loc: any) => ({ id: loc.id, name: loc.name }));
-        }
-      },
-      error: (err) => console.error('❌ Error fetching business locations:', err),
-    });
-  }
+ getBusinessLocations() {
+  this.businessLocationService.getAllLocations().subscribe({
+    next: (res: any) => {
+      const data = res.data || res.locations;
+      if (res.success && Array.isArray(data)) {
+        this.locations = data.map((loc: any) => ({
+          id: loc.id,
+          name: loc.name,
+          mobile: loc.mobile || '',
+          email: loc.email || '',
+        }));
+      }
+    },
+    error: (err) => console.error('❌ Error fetching business locations:', err),
+  });
+}
 
-  /** 👥 Fetch suppliers */
+
+  /** Fetch suppliers */
   getSuppliers() {
     this.contactService.getContacts().subscribe({
       next: (res: any) => {
@@ -360,13 +344,74 @@ reference_number: Number(this.refNo),
     });
   }
 
-  /** 🎟 Fetch discounts */
+  /** Fetch discounts */
   getAllDiscounts() {
     this.discountService.getDiscounts().subscribe({
-      next: (res: any) => {
-        this.discounts = Array.isArray(res.data) ? res.data : [];
-      },
+      next: (res: any) => (this.discounts = Array.isArray(res.data) ? res.data : []),
       error: (err) => console.error('❌ Error fetching discounts:', err),
     });
+  }
+
+  /** Generate Purchase Invoice PDF */
+  generatePurchaseInvoice(purchase: any) {
+    const selectedLocation = this.locations.find(b => b.id === Number(this.location));
+
+    const doc = new jsPDF({
+      unit: 'mm',
+      format: [80, 200],
+    });
+
+    doc.setFontSize(10);
+    doc.text(selectedLocation?.name || 'Business Name', 40, 8, { align: 'center' });
+    doc.setFontSize(8);
+    doc.text(`Ph: ${selectedLocation?.mobile || ''}`, 40, 16, { align: 'center' });
+    doc.text(`Email: ${selectedLocation?.email || ''}`, 40, 20, { align: 'center' });
+
+    doc.line(5, 23, 75, 23);
+
+    doc.setFontSize(8);
+    doc.text(`Date: ${this.purchaseDate}`, 5, 27);
+    doc.text(`Ref #: ${this.refNo}`, 60, 27);
+    doc.text(`Supplier: ${this.suppliers.find(s => s.id === Number(this.supplier))?.name || ''}`, 5, 32);
+
+    doc.line(5, 35, 75, 35);
+
+    let y = 38;
+    doc.text('Item', 5, y);
+    doc.text('Qty', 35, y);
+    doc.text('Rate', 45, y);
+    doc.text('Total', 65, y);
+    doc.line(5, y + 1, 75, y + 1);
+
+    y += 5;
+    this.purchaseItems.forEach(item => {
+      doc.text(item.name.substring(0, 15), 5, y);
+      doc.text(String(item.quantity), 35, y);
+      doc.text(item.price.toFixed(2), 55, y, { align: 'right' });
+      doc.text(item.total.toFixed(2), 75, y, { align: 'right' });
+      y += 5;
+    });
+
+    doc.line(5, y - 2, 75, y - 2);
+
+    y += 3;
+    const netTotal = this.purchaseItems.reduce((sum, i) => sum + i.total, 0);
+    doc.text(`Net Total: Rs. ${netTotal.toFixed(2)}`, 5, y);
+    y += 4;
+
+    this.purchaseItems.forEach(item => {
+      if (item.discountAmount && item.discountName !== 'No Discount') {
+        doc.text(`${item.discountName}: -Rs. ${item.discountAmount.toFixed(2)}`, 5, y);
+        y += 4;
+      }
+    });
+
+    doc.text(`Amount Paid: Rs. ${this.amountPaid.toFixed(2)}`, 5, y);
+    y += 6;
+
+    doc.setFontSize(8);
+    doc.text('Thank you for your purchase!', 40, y, { align: 'center' });
+
+    doc.output('dataurlnewwindow');
   }
 }

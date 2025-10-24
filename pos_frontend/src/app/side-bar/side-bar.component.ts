@@ -1,7 +1,7 @@
 import { Component, Input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+ 
 @Component({
   selector: 'app-side-bar',
   standalone: true,
@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class SideBarComponent {
   @Input() sidebarOpen = signal(true);
-
+ 
   // Submenu signals
   userMenuOpen = signal(false);
   contactMenuOpen = signal(false);
@@ -22,7 +22,16 @@ export class SideBarComponent {
   stockAdjMenuOpen = signal(false);
   reportsMenuOpen = signal(false);
   businessMenuOpen = signal(false);
-
+userRole: string | null = null;
+ 
+constructor() {
+  const userData = localStorage.getItem('user');
+  if (userData) {
+    const user = JSON.parse(userData);
+    this.userRole = user.role;
+  }
+  console.log('✅ Logged-in Role:', this.userRole);
+}
   toggle(menu: string) {
     switch (menu) {
       case 'user': this.userMenuOpen.update(v => !v); break;
@@ -37,3 +46,4 @@ export class SideBarComponent {
     }
   }
 }
+ 

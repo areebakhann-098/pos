@@ -11,15 +11,15 @@ import {
 const router = express.Router();
  
 // Create
-router.post('/user-role/assign', verifyToken, authorize('create', 'user', 'any'), assignRoleToUser);
+router.post('/user-role/assign', verifyToken, authorize('create', 'admin', 'any'), assignRoleToUser);
  
 // Read
-router.get('/user-role/get', verifyToken, authorize('read', 'user', 'any'), getAllUserRoles);
+router.get('/user-role/get', verifyToken, authorize('read', 'admin', 'any'), getAllUserRoles);
  
 // Update
-router.patch('/user-role/update/:id', verifyToken, authorize('update', 'user', 'any'), updateUserRole);
+router.patch('/user-role/update/:id', verifyToken, authorize('update', 'admin', 'any'), updateUserRole);
  
 // Delete
-router.delete('/user-role/delete/:id', verifyToken, authorize('delete', 'user', 'any'), deleteUserRole);
+router.delete('/user-role/delete/:id', verifyToken, authorize('delete', 'admin', 'any'), deleteUserRole);
  
 export default router;

@@ -6,12 +6,49 @@ import {
   updateBrand,
   deleteBrand,
 } from "../controller/brand.controller.js";
+import { verifyToken } from "../middleware/jwt.middleware.js";
+import { authorize } from '../middleware/accessControl.middleware.js';
 
 const router = express.Router();
 
-router.post("/brand/create", createBrand);          // POST /api/brands/create
-router.get("/brand/list", getAllBrands);            // GET  /api/brands/list
-router.get("/brand/list/:id", getBrandById);      // GET  /api/brands/detail/:id
-router.put("/brand/update/:id", updateBrand);       // PUT  /api/brands/update/:id
-router.delete("/brand/delete/:id", deleteBrand); 
+// ✅ Create Brand
+router.post(
+  "/brand/create",
+  verifyToken,
+authorize('create', 'product', 'any'),
+  createBrand
+);
+
+// ✅ Get All Brands
+router.get(
+  "/brand/list",
+  verifyToken,
+authorize('read', 'sale||product', 'any'),
+  getAllBrands
+);
+
+// ✅ Get Brand by ID
+router.get(
+  "/brand/list/:id",
+  verifyToken,
+authorize('read', 'sale||product', 'any'),
+  getBrandById
+);
+
+// ✅ Update Brand
+router.put(
+  "/brand/update/:id",
+  verifyToken,
+authorize('update', 'product', 'any'),
+  updateBrand
+);
+
+// ✅ Delete Brand
+router.delete(
+  "/brand/delete/:id",
+  verifyToken,
+authorize('delete', 'product', 'any'),
+  deleteBrand
+);
+
 export default router;

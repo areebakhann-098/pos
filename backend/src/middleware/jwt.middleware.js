@@ -38,7 +38,7 @@ export const verifyToken = async (req, res, next) => {
       id: user.id,
       name: user.name,
       email: user.email,
-      roles, // e.g. ['admin', 'viewer']
+      roles, 
     };
  
     next();

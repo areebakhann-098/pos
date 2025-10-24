@@ -12,16 +12,16 @@ import { authorize } from '../middleware/accessControl.middleware.js';
 const router = express.Router();
  
 // Create
-router.post('/role-permission/assign', verifyToken,  authorize('create', 'user', 'any'), assignPermissionToRole);
+router.post('/role-permission/assign', verifyToken,  authorize('create', 'admin', 'any'), assignPermissionToRole);
  
 // Read
-router.get('/role-permission/get', verifyToken, authorize('read', 'user', 'any'), getAllRolePermissions);
+router.get('/role-permission/get', verifyToken, authorize('read', 'admin', 'any'), getAllRolePermissions);
  
 // Update
-router.put('/role-permission/update/:id', verifyToken, authorize('update', 'user', 'any'), updateRolePermission);
+router.put('/role-permission/update/:id', verifyToken, authorize('update', 'admin', 'any'), updateRolePermission);
  
 // Delete
-router.delete('/role-permission/delete/:id', verifyToken, authorize('delete', 'user', 'any'), deleteRolePermission);
+router.delete('/role-permission/delete/:id', verifyToken, authorize('delete', 'admin', 'any'), deleteRolePermission);
  
  
 export default router;

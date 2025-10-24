@@ -33,6 +33,62 @@ export const routes: Routes = [
             (m) => m.AddContactComponent
           ),
       },
+       {
+        path: 'AddUser',
+        loadComponent: () =>
+          import('./add-user/add-user.component').then(
+            (m) => m.AddUserComponent
+          ),
+      },
+      {
+        path: 'AddRole',
+        loadComponent: () =>
+          import('./add-role/add-role.component').then(
+            (m) => m.AddRoleComponent
+          ),
+      },
+       {
+        path: 'AddPermission',
+        loadComponent: () =>
+          import('./add-permission/add-permission.component').then(
+            (m) => m.AddPermissionComponent
+          ),
+      },
+       {
+        path: 'userList',
+        loadComponent: () =>
+          import('./view-user/view-user.component').then(
+            (m) => m.ViewUserComponent
+          ),
+      },
+        {
+        path: 'roleList',
+        loadComponent: () =>
+          import('./view-roles/view-roles.component').then(
+            (m) => m.ViewRolesComponent
+          ),
+      },
+        {
+        path: 'permissionList',
+        loadComponent: () =>
+          import('./view-permission/view-permission.component').then(
+            (m) => m.ViewPermissionComponent
+          ),
+      },
+      {
+        path: 'add-user/edit/:id',
+         loadComponent: () =>
+          import('./add-user/add-user.component').then(
+            (m) => m.AddUserComponent
+          ),
+      },
+         {
+        path: 'addRole/edit/:id',
+         loadComponent: () =>
+          import('./add-role/add-role.component').then(
+            (m) => m.AddRoleComponent
+               ),
+      },
       {
         path: 'add-contact/edit/:id',
          loadComponent: () =>

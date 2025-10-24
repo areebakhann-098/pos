@@ -14,14 +14,17 @@
       <tr *ngFor="let b of brands" class="hover:bg-gray-50">
         <td class="p-3 border-b">{{ b.name }}</td>
         <td class="p-3 border-b">{{ b.description }}</td>
-        <td class="p-3 border-b text-center">
-          <button (click)="editBrand(b)" class="bg-yellow-500 text-white px-3 py-1 rounded mr-2 hover:bg-yellow-600">
-            Edit
-          </button>
-          <button (click)="deleteBrand(b.id)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-            Delete
-          </button>
-        </td>
+      <td class="p-3 border-b text-center">
+  <div class="flex justify-center gap-2">
+    <button (click)="editBrand(b)" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
+      Edit
+    </button>
+    <button (click)="deleteBrand(b.id)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+      Delete
+    </button>
+  </div>
+</td>
+
       </tr>
     </tbody>
   </table>

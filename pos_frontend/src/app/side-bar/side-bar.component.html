@@ -17,142 +17,429 @@
   <div class="flex-1 overflow-y-auto px-2">
     <ul class="space-y-1 font-medium">
       <!-- Dashboard -->
-      <li>
-        <a href="#" class="flex items-center p-3 rounded-lg hover:bg-red-800 transition">
+      <li *ngIf="userRole === 'admin' || userRole === 'cashier'|| userRole === 'manager'">
+        <a
+          href="#"
+          class="flex items-center p-3 rounded-lg hover:bg-red-800 transition"
+        >
           <i class="fas fa-tachometer-alt w-5 h-5"></i>
           <span *ngIf="sidebarOpen()" class="ms-3">Dashboard</span>
         </a>
       </li>
 
       <!-- User Management -->
-      <li>
-        <button class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition" (click)="toggle('user')">
+      <li *ngIf="userRole === 'admin'">
+        <button
+          class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition"
+          (click)="toggle('user')"
+        >
           <i class="fas fa-users w-5 h-5"></i>
-          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left">User Management</span>
+          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left"
+            >User Management</span
+          >
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
-        <ul *ngIf="userMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a href="#" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-user me-2"></i>User</a></li>
-          <li><a href="#" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-user-tag me-2"></i>Role</a></li>
+        <ul
+          *ngIf="userMenuOpen() && sidebarOpen()"
+          class="py-2 space-y-1 bg-red-800 rounded-lg ms-3"
+        >
+          <li>
+            <a
+              [routerLink]="['/home/AddUser']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-user me-2"></i>Add User</a
+            >
+          </li>
+            <li>
+            <a
+             [routerLink]="['/home/userList']"
+
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-user-tag me-2"></i>User List</a
+            >
+          </li>
+          <li>
+            <a
+             [routerLink]="['/home/AddRole']"
+
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-user-tag me-2"></i>Add Role</a
+            >
+          </li>
+         <li>
+            <a
+             [routerLink]="['/home/roleList']"
+
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-user-tag me-2"></i>Role List</a
+            >
+          </li>
+           <li>
+            <a
+             [routerLink]="['/home/AddPermission']"
+
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-user-tag me-2"></i>Add Permission</a
+            >
+          </li>
+           <li>
+            <a
+             [routerLink]="['/home/permissionList']"
+
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-user-tag me-2"></i>Permission List</a
+            >
+          </li>
+         
         </ul>
       </li>
 
       <!-- Contacts -->
-      <li>
-        <button class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition" (click)="toggle('contact')">
+      <li *ngIf="userRole === 'admin'|| userRole === 'manager'">
+        <button
+          class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition"
+          (click)="toggle('contact')"
+        >
           <i class="fas fa-address-book w-5 h-5"></i>
-          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left">Contacts</span>
+          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left"
+            >Contacts</span
+          >
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
-        <ul *ngIf="contactMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['/home/AddContacts']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-truck me-2"></i>Suppliers</a></li>
-          <li><a [routerLink]="['/home/contact_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-user-friends me-2"></i>Supplier List</a></li>
+        <ul
+          *ngIf="contactMenuOpen() && sidebarOpen()"
+          class="py-2 space-y-1 bg-red-800 rounded-lg ms-3"
+        >
+          <li>
+            <a
+              [routerLink]="['/home/AddContacts']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-truck me-2"></i>Suppliers</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/contact_list']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-user-friends me-2"></i>Supplier List</a
+            >
+          </li>
         </ul>
       </li>
 
-         <!-- Products -->
-      <li>
-        <button class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition" (click)="toggle('product')">
+      <!-- Products -->
+     <li *ngIf="userRole === 'admin'|| userRole === 'manager'">
+        <button
+          class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition"
+          (click)="toggle('product')"
+        >
           <i class="fas fa-box w-5 h-5"></i>
-          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left">Products</span>
+          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left"
+            >Products</span
+          >
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
-        <ul *ngIf="productMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['/home/product_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Products</a></li>
-          <li><a [routerLink]="['/home/AddProducts']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Products</a></li>
-          <li><a [routerLink]="['/home/Variations']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-code-branch me-2"></i>Variations</a></li>
-          <li><a [routerLink]="['/home/Units']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-balance-scale me-2"></i>Units</a></li>
-          <li><a [routerLink]="['/home/Categories']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-folder me-2"></i>Categories</a></li>
-          <li><a [routerLink]="['/home/Brands']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-copyright me-2"></i>Brands</a></li>
-          <li><a [routerLink]="['/home/Warranties']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-shield-alt me-2"></i>Warranties</a></li>
+        <ul
+          *ngIf="productMenuOpen() && sidebarOpen()"
+          class="py-2 space-y-1 bg-red-800 rounded-lg ms-3"
+        >
+          <li>
+            <a
+              [routerLink]="['/home/product_list']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-list me-2"></i>List Products</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/AddProducts']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-plus-circle me-2"></i>Add Products</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/Variations']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-code-branch me-2"></i>Variations</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/Units']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-balance-scale me-2"></i>Units</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/Categories']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-folder me-2"></i>Categories</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/Brands']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-copyright me-2"></i>Brands</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/Warranties']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-shield-alt me-2"></i>Warranties</a
+            >
+          </li>
         </ul>
       </li>
 
       <!-- Purchases -->
-      <li>
-        <button class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition" (click)="toggle('purchase')">
+        <li *ngIf="userRole === 'admin'|| userRole === 'manager'">
+        <button
+          class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition"
+          (click)="toggle('purchase')"
+        >
           <i class="fas fa-shopping-cart w-5 h-5"></i>
-          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left">Purchases</span>
+          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left"
+            >Purchases</span
+          >
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
-        <ul *ngIf="purchaseMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['/home/Purchase_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Purchase</a></li>
-          <li><a [routerLink]="['/home/Purchases']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Purchase</a></li>
+        <ul
+          *ngIf="purchaseMenuOpen() && sidebarOpen()"
+          class="py-2 space-y-1 bg-red-800 rounded-lg ms-3"
+        >
+          <li>
+            <a
+              [routerLink]="['/home/Purchase_list']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-list me-2"></i>List Purchase</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/Purchases']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-plus-circle me-2"></i>Add Purchase</a
+            >
+          </li>
         </ul>
       </li>
 
       <!-- Sell -->
-      <li>
-        <button class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition" (click)="toggle('sell')">
+      <li *ngIf="userRole === 'admin' || userRole === 'cashier'">
+        <button
+          class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition"
+          (click)="toggle('sell')"
+        >
           <i class="fas fa-cash-register w-5 h-5"></i>
           <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left">Sell</span>
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
-        <ul *ngIf="sellMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['/home/sales_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>All Sales</a></li>
-          <li><a [routerLink]="['/home/POS']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>POS</a></li>
-          <li><a [routerLink]="['/home/sale-return']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-undo-alt me-2"></i>List Sell Return</a></li>
-          <li><a [routerLink]="['/home/Discounts']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-percent me-2"></i>Discounts</a></li>
+        <ul
+          *ngIf="sellMenuOpen() && sidebarOpen()"
+          class="py-2 space-y-1 bg-red-800 rounded-lg ms-3"
+        >
+          <li>
+            <a
+              [routerLink]="['/home/sales_list']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-list me-2"></i>All Sales</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/POS']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-plus-circle me-2"></i>POS</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/sale-return']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-undo-alt me-2"></i>List Sell Return</a
+            >
+          </li>
+          <li *ngIf="userRole === 'admin'">
+            <a
+              [routerLink]="['/home/Discounts']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-percent me-2"></i>Discounts</a
+            >
+          </li>
         </ul>
       </li>
 
       <!-- Stock Transfer -->
-      <li>
-        <button class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition" (click)="toggle('stock')">
+         <li *ngIf="userRole === 'admin'|| userRole === 'manager'">
+        <button
+          class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition"
+          (click)="toggle('stock')"
+        >
           <i class="fas fa-exchange-alt w-5 h-5"></i>
-          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left">Stock Transfer</span>
+          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left"
+            >Stock Transfer</span
+          >
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
-        <ul *ngIf="stockMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['/home/stockTransfer']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Stock Transfer</a></li>
-          <li><a [routerLink]="['/home/stocktransfer_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Stock Transfer</a></li>
+        <ul
+          *ngIf="stockMenuOpen() && sidebarOpen()"
+          class="py-2 space-y-1 bg-red-800 rounded-lg ms-3"
+        >
+          <li>
+            <a
+              [routerLink]="['/home/stockTransfer']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-plus-circle me-2"></i>Add Stock Transfer</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/stocktransfer_list']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-list me-2"></i>List Stock Transfer</a
+            >
+          </li>
         </ul>
       </li>
 
       <!-- Stock Adjustment -->
-      <li>
-        <button class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition" (click)="toggle('stockAdj')">
+        <li *ngIf="userRole === 'admin'|| userRole === 'manager'">
+        <button
+          class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition"
+          (click)="toggle('stockAdj')"
+        >
           <i class="fas fa-sliders-h w-5 h-5"></i>
-          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left">Stock Adjustment</span>
+          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left"
+            >Stock Adjustment</span
+          >
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
-        <ul *ngIf="stockAdjMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['/home/stockadjustments']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Stock Adjustment</a></li>
-          <li><a [routerLink]="['/home/stockadjustments_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Stock Adjustment</a></li>
+        <ul
+          *ngIf="stockAdjMenuOpen() && sidebarOpen()"
+          class="py-2 space-y-1 bg-red-800 rounded-lg ms-3"
+        >
+          <li>
+            <a
+              [routerLink]="['/home/stockadjustments']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-plus-circle me-2"></i>Add Stock Adjustment</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/stockadjustments_list']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-list me-2"></i>List Stock Adjustment</a
+            >
+          </li>
         </ul>
       </li>
 
       <!-- Reports -->
-      <li>
-        <button class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition" (click)="toggle('reports')">
+      <li *ngIf="userRole === 'admin'">
+        <button
+          class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition"
+          (click)="toggle('reports')"
+        >
           <i class="fas fa-chart-line w-5 h-5"></i>
-          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left">Reports</span>
+          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left"
+            >Reports</span
+          >
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
-        <ul *ngIf="reportsMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['/home/Stock-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-boxes me-2"></i>Stocks Report</a></li>
-          <li><a [routerLink]="['/home/adjustment-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-adjust me-2"></i>Stock Adjustment Report</a></li>
-          <li><a [routerLink]="['/home/trasnfer-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-exchange-alt me-2"></i>Stock Transfer Report</a></li>
-          <li><a [routerLink]="['/home/Purchase-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-shopping-cart me-2"></i>Product Purchase Report</a></li>
-          <li><a [routerLink]="['/home/productsale_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-store me-2"></i>Product Sell Report</a></li>
-          <li><a [routerLink]="['/home/sale-return-report']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-undo-alt me-2"></i>Sale Return Report</a></li>
+        <ul
+          *ngIf="reportsMenuOpen() && sidebarOpen()"
+          class="py-2 space-y-1 bg-red-800 rounded-lg ms-3"
+        >
+          <li>
+            <a
+              [routerLink]="['/home/Stock-report']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-boxes me-2"></i>Stocks Report</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/adjustment-report']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-adjust me-2"></i>Stock Adjustment Report</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/trasnfer-report']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-exchange-alt me-2"></i>Stock Transfer Report</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/Purchase-report']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-shopping-cart me-2"></i>Product Purchase
+              Report</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/productsale_list']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-store me-2"></i>Product Sell Report</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/sale-return-report']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-undo-alt me-2"></i>Sale Return Report</a
+            >
+          </li>
         </ul>
       </li>
 
       <!-- Business -->
-      <li>
-        <button class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition" (click)="toggle('business')">
+       <li *ngIf="userRole === 'admin'|| userRole === 'manager'">
+        <button
+          class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition"
+          (click)="toggle('business')"
+        >
           <i class="fas fa-building w-5 h-5"></i>
-          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left">Business</span>
+          <span *ngIf="sidebarOpen()" class="flex-1 ms-3 text-left"
+            >Business</span
+          >
           <i *ngIf="sidebarOpen()" class="fas fa-chevron-down w-3 h-3"></i>
         </button>
-        <ul *ngIf="businessMenuOpen() && sidebarOpen()" class="py-2 space-y-1 bg-red-800 rounded-lg ms-3">
-          <li><a [routerLink]="['/home/businessLocation']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-plus-circle me-2"></i>Add Business</a></li>
-          <li><a [routerLink]="['/home/location_list']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-list me-2"></i>List Business</a></li>
-          <li><a [routerLink]="['/home/taxRate']" class="flex items-center p-2 ps-10 hover:bg-red-900 transition"><i class="fas fa-percentage me-2"></i>Tax Rate</a></li>
+        <ul
+          *ngIf="businessMenuOpen() && sidebarOpen()"
+          class="py-2 space-y-1 bg-red-800 rounded-lg ms-3"
+        >
+          <li>
+            <a
+              [routerLink]="['/home/businessLocation']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-plus-circle me-2"></i>Add Business</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/location_list']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-list me-2"></i>List Business</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/home/taxRate']"
+              class="flex items-center p-2 ps-10 hover:bg-red-900 transition"
+              ><i class="fas fa-percentage me-2"></i>Tax Rate</a
+            >
+          </li>
         </ul>
       </li>
-
     </ul>
-  </div>
+  </div>
 </div>
