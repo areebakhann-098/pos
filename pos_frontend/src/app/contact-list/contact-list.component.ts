@@ -22,7 +22,6 @@ export class ContactListComponent {
   getAllContacts() {
     this.contactService.getContacts().subscribe({
       next: (res: any) => {
-        console.log('📇 Contact data:', res);
         this.contacts = Array.isArray(res) ? res : res?.data || [];
       },
       error: (err) => console.error('❌ Error fetching contacts:', err)

@@ -245,7 +245,6 @@ export class StockAdjustmentsComponent implements OnInit {
     products: productsArray, // ✅ send products array
   };
 
-  console.log('🧾 Final Payload:', payload);
 
   if (this.isEditMode && this.editId) {
     this.stockService.updateAdjustment(this.editId, payload).subscribe({

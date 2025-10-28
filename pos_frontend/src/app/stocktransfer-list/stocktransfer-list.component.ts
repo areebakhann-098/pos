@@ -26,7 +26,6 @@ export class StocktransferListComponent implements OnInit {
   getAllTransfers(): void {
     this.stockTransferService.getStockTransfers().subscribe({
       next: (res: any) => {
-        console.log('📦 Stock Transfer List:', res);
         this.stockTransfers = Array.isArray(res)
           ? res
           : res?.data || [];

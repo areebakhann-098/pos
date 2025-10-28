@@ -170,7 +170,6 @@ export class SaleReturnComponent implements OnInit {
       products: productsArray,
     };
 
-    console.log('🧾 Final Sale Return Payload:', payload);
 
     this.loading = true;
     this.saleReturnService.createSaleReturn(payload).subscribe({

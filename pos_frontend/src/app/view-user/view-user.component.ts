@@ -27,7 +27,6 @@ export class ViewUserComponent implements OnInit {
 getAllUsers(): void {
   this.userService.getUsers().subscribe({
     next: (res: any) => {
-      console.log('✅ Users data:', res);
       // handle if API returns either an array or an object with data
       this.users = Array.isArray(res) ? res : res?.data || [];
     },

@@ -30,7 +30,6 @@ export class PurchaseReportComponent implements OnInit {
   getAllPurchases(): void {
     this.purchaseService.getPurchases().subscribe({
       next: (res: any) => {
-        console.log('🧾 Purchase data:', res);
 
         if (Array.isArray(res)) {
           this.purchases = res;

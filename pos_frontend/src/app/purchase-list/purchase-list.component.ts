@@ -26,7 +26,6 @@ export class PurchaseListComponent implements OnInit {
       next: (res: any) => {
         if (res.success && Array.isArray(res.data)) {
           this.purchases = res.data;
-          console.log('✅ Purchases Loaded:', this.purchases);
         } else {
           console.warn('⚠️ Invalid response format:', res);
           this.purchases = [];

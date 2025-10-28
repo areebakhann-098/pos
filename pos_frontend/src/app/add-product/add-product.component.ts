@@ -91,7 +91,6 @@ export class AddProductComponent implements OnInit {
     this.productService.getProductById(id).subscribe({
       next: (res: any) => {
         const product = res?.data;
-        console.log("🧾 Product for edit:", product);
 
         if (product) {
           this.productData = {

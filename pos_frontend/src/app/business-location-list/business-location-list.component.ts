@@ -26,7 +26,6 @@ export class BusinessLocationListComponent implements OnInit {
     this.locationService.getAllLocations().subscribe({
       next: (res: any) => {
         this.locations = res.locations || [];
-        console.log("location", this.locations)
       },
       error: (err) => console.error('❌ Error fetching locations:', err)
     });

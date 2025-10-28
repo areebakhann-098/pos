@@ -26,7 +26,6 @@ export class StocktransferReportComponent {
   getAllTransfers(): void {
     this.stockTransferService.getStockTransfers().subscribe({
       next: (res: any) => {
-        console.log('📦 Stock Transfers:', res);
         this.stockTransfers = Array.isArray(res) ? res : res?.data || [];
 
         // ✅ Normalize and compute values

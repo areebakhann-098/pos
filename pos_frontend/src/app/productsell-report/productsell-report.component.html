@@ -34,13 +34,24 @@
           <td class="py-2 px-3 border">{{ sale.amount_paid | number: '1.0-2' }}</td>
 
           <!-- 🔹 Expand Button -->
+
           <td class="py-2 px-3 border text-center">
-            <button
+            <div class=" flex gap-3">
+   <button
               (click)="toggleSaleDetails(i)"
               class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
             >
               {{ expandedIndex === i ? 'Hide' : 'View' }}
             </button>
+              <!-- 🖨️ Print Button -->
+  <button
+    (click)="generateSaleReport(sale)"
+    class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+  >
+    Print
+  </button>
+            </div>
+         
           </td>
         </tr>
 

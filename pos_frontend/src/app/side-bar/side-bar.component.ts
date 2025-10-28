@@ -30,7 +30,6 @@ constructor() {
     const user = JSON.parse(userData);
     this.userRole = user.role;
   }
-  console.log('✅ Logged-in Role:', this.userRole);
 }
   toggle(menu: string) {
     switch (menu) {

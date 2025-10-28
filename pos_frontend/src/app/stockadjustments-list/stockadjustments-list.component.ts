@@ -27,7 +27,7 @@ export class StockadjustmentsListComponent implements OnInit {
     this.adjustmentsService.getAllAdjustments().subscribe({
       next: (res: any) => {
         this.adjustments = Array.isArray(res) ? res : res?.data || [];
-        console.log('Stock Adjustments:', this.adjustments);
+      
       },
       error: err => console.error('Error fetching stock adjustments:', err)
     });

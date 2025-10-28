@@ -56,7 +56,6 @@ export class AddContactComponent {
 loadContactData(id: number) {
   this.contactService.getContactById(id).subscribe({
     next: (res) => {
-      console.log('🟢 Contact details:', res);
       const contactData = res?.data || res;
 
       // Normalize values

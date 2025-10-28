@@ -44,7 +44,6 @@ onEdit(product: any) {
   getAllProducts() {
     this.productService.getAllProducts().subscribe({
       next: (res: any) => {
-        console.log('📦 Product data:', res);
 
         // 🔹 API response structure handle karne ke liye
         if (Array.isArray(res)) {

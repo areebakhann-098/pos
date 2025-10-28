@@ -27,7 +27,6 @@ export class SaleListComponent {
   getAllSales() {
     this.saleService.getAllSales().subscribe({
       next: (res: any) => {
-        console.log('🧾 Sale data:', res);
         if (Array.isArray(res)) {
           this.sales = res;
         } else if (res?.data) {

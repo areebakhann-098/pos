@@ -29,7 +29,6 @@ export class StockReportComponent implements OnInit {
   getAllProducts() {
     this.productService.getAllProducts().subscribe({
       next: (res: any) => {
-        console.log('📦 Product data:', res);
 
         if (Array.isArray(res)) {
           this.products = res;

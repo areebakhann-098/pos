@@ -87,7 +87,6 @@ private loadTransferData(id: number): void {
     next: (res: any) => {
       const data = res?.data || res;
 
-      console.log('🧭 Extracted Data:', data);
 
       // Basic Info
       this.referenceNo = data.reference_no || '';

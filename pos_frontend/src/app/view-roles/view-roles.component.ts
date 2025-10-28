@@ -30,7 +30,6 @@ export class ViewRolesComponent implements OnInit {
     this.loading = true;
     this.roleService.getAllRoles().subscribe({
       next: (data) => {
-        console.log('🔥 Roles Response:', data);
         this.roles = data;
         this.loading = false;
       },
