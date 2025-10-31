@@ -27,9 +27,9 @@ import SaleReturn from "./routes/saleReturn.routes.js"
 
 const app = express();
 
-// ✅ Enable CORS
+//  Enable CORS
 app.use(cors({
-  origin: '*', // 🔓 Allow Angular frontend
+  origin: '*',
   credentials: true
 }));
 

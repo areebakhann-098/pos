@@ -30,7 +30,7 @@ export class AddPermissionComponent implements OnInit {
       attributes: ['']
     });
 
-    // ✅ Check edit mode
+    //  Check edit mode
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isEditMode = true;
@@ -39,7 +39,7 @@ export class AddPermissionComponent implements OnInit {
     }
   }
 
-  // ✅ Load existing permission data
+  //  Load existing permission data
   loadPermissionData(id: number): void {
     this.permissionService.getPermissionById(id).subscribe({
       next: (data: Permission) => {
@@ -57,7 +57,7 @@ export class AddPermissionComponent implements OnInit {
  onSubmit(): void {
   if (this.permissionForm.invalid) return;
 
-  // ✅ Convert all input values to lowercase before saving
+  //  Convert all input values to lowercase before saving
   const payload: Permission = {
     resource: this.permissionForm.value.resource.toLowerCase(),
     action: this.permissionForm.value.action.toLowerCase(),
@@ -72,15 +72,15 @@ export class AddPermissionComponent implements OnInit {
   if (this.isEditMode && this.permissionId) {
     this.permissionService.updatePermission(this.permissionId, payload).subscribe({
       next: () => {
-        alert('✅ Permission updated successfully!');
-        this.router.navigate(['/home/permissionList']);
+        alert(' Permission updated successfully!');
+        this.router.navigate(['/home/permi1ssionList']);
       },
       error: (err) => console.error('Failed to update permission:', err)
     });
   } else {
     this.permissionService.createPermission(payload).subscribe({
       next: () => {
-        alert('✅ Permission created successfully!');
+        alert(' Permission created successfully!');
         this.permissionForm.reset();
         this.router.navigate(['/home/permissionList']);
       },

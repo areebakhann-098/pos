@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { authGuard, loginGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-  // 🔹 Login Page — Public (Prevent access if logged in)
   {
     path: '',
     canActivate: [loginGuard],
@@ -10,10 +9,9 @@ export const routes: Routes = [
       import('./auth/auth.component').then((m) => m.AuthComponent),
   },
 
-  // 🔹 Protected Home + Child Routes
   {
     path: 'home',
-    canActivate: [authGuard],  // ✅ Apply guard only here
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./home/home.component').then((m) => m.HomeComponent),
     children: [

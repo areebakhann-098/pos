@@ -70,14 +70,12 @@ export class StockTransferComponent implements OnInit {
     }
   }
 
-  /** Load Locations */
   private loadLocations(): void {
     this.businessLocationService.getAllLocations().subscribe({
       next: (res: any) => {
         this.locations = res.locations || [];
       },
       error: () => {
-        // silently handle errors
       },
     });
   }
@@ -88,7 +86,6 @@ private loadTransferData(id: number): void {
       const data = res?.data || res;
 
 
-      // Basic Info
       this.referenceNo = data.reference_no || '';
       this.date = data.date || '';
       this.status = data.status || 'pending';
@@ -97,16 +94,13 @@ private loadTransferData(id: number): void {
       this.additionalNotes = data.additional_notes || '';
       this.shippingCharges = Number(data.shipment_charges) || 0;
 
-      // Ensure products are an array
       const productsArray = Array.isArray(data.products) ? data.products : [data];
 
-      // Map Products
       this.items = productsArray.map((p: any, index: number) => {
         const productId = Number(p.product_id ?? p.id ?? p.product?.id ?? 0);
         const name = p.product?.product_name || p.product_name || 'Unnamed Product';
         const quantity = Number(p.quantity) || 1;
 
-        // ✅ Correct path for price
         const price = Number(p.product?.price?.purchase_price) || 0;
 
         console.log(`Product: ${name}, Quantity: ${quantity}, Price: ${price}`);
@@ -115,18 +109,16 @@ private loadTransferData(id: number): void {
         return { product_id: productId, name, quantity, price, total };
       });
 
-      // Update totals
       this.items.forEach((item) => this.updateLineTotal(item));
     },
     error: (err) => {
-      console.error('❌ Error loading transfer:', err);
+      console.error(' Error loading transfer:', err);
     },
   });
 }
 
 
 
-  /** Search Products (Debounced) */
   private setupSearchListener(): void {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -152,7 +144,6 @@ private loadTransferData(id: number): void {
     this.searchSubject.next(this.searchQuery);
   }
 
-  /** Add Product */
   addProduct(product: Product): void {
     const productId = Number(
       product.id ?? product._id ?? product.product_id ?? product.productId ?? 0
@@ -182,25 +173,21 @@ private loadTransferData(id: number): void {
     this.filteredProducts = [];
   }
 
-  /** Update Line Total */
   updateLineTotal(item: TransferItem): void {
     item.total = (Number(item.quantity) || 0) * (Number(item.price) || 0);
   }
 
-  /** Remove Item */
   removeItem(product_id: number | string): void {
     this.items = this.items.filter((i) => i.product_id !== product_id);
   }
 
-  /** Total Amount */
   get totalAmount(): number {
     return this.items.reduce((sum, i) => sum + i.total, 0) + (this.shippingCharges || 0);
   }
 
- /** Save or Update Transfer */
 saveTransfer(): void {
   if (!this.referenceNo || !this.date || !this.fromLocation || !this.toLocation) {
-    alert('⚠️ Please fill all required fields before saving.');
+    alert(' Please fill all required fields before saving.');
     return;
   }
 
@@ -208,7 +195,7 @@ saveTransfer(): void {
     from_location_id: this.fromLocation,
     to_location_id: this.toLocation,
     reference_no: this.referenceNo,
-      total_amount: this.totalAmount, // ✅ NEW FIELD ADDED HERE
+      total_amount: this.totalAmount, 
 
     date: this.date,
     status: this.status,
@@ -223,34 +210,31 @@ saveTransfer(): void {
   };
 
   if (this.isEditMode && this.transferId) {
-    // ✏️ UPDATE transfer
     this.stockTransferService.updateStockTransfer(this.transferId, payload).subscribe({
       next: () => {
-        alert('✅ Stock Transfer updated successfully!');
-        this.router.navigate(['/home/stocktransfer_list']); // go to list
+        alert(' Stock Transfer updated successfully!');
+        this.router.navigate(['/home/stocktransfer_list']);
       },
       error: (err) => {
-        console.error('❌ Error updating stock transfer:', err);
-        alert('❌ Failed to update stock transfer!');
+        console.error(' Error updating stock transfer:', err);
+        alert(' Failed to update stock transfer!');
       },
     });
   } else {
-    // ➕ CREATE new transfer
     this.stockTransferService.createStockTransfer(payload).subscribe({
       next: () => {
-        alert('✅ Stock Transfer created successfully!');
+        alert(' Stock Transfer created successfully!');
         this.resetForm();
-        this.router.navigate(['/home/stocktransfer_list']); // go to list
+        this.router.navigate(['/home/stocktransfer_list']);
       },
       error: (err) => {
-        console.error('❌ Error creating stock transfer:', err);
-        alert('❌ Failed to create stock transfer!');
+        console.error(' Error creating stock transfer:', err);
+        alert(' Failed to create stock transfer!');
       },
     });
   }
 }
 
-  /** Reset Form */
   resetForm(): void {
     this.referenceNo = '';
     this.date = '';

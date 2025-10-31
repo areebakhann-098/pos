@@ -71,26 +71,26 @@ loadContactData(id: number) {
       this.contactForm.patchValue(contactData);
     },
     error: (err) => {
-      console.error('❌ Error loading contact:', err);
+      console.error(' Error loading contact:', err);
       alert('Failed to load contact data!');
     },
   });
 }
 
 
-  // 🧩 Submit — Add or Update
+  //  Submit — Add or Update
   onSubmit() {
     if (this.contactForm.invalid) return;
 
     if (this.isEditMode) {
-      // 🔁 Update existing contact
+      //  Update existing contact
       this.contactService.updateContact(this.contactId, this.contactForm.value).subscribe({
         next: () => {
-          alert('✅ Contact updated successfully!');
+          alert(' Contact updated successfully!');
           this.router.navigate(['/home/contact_list']);
         },
         error: (err) => {
-          console.error('❌ Error updating contact:', err);
+          console.error(' Error updating contact:', err);
           alert('Failed to update contact');
         }
       });
@@ -98,12 +98,12 @@ loadContactData(id: number) {
       // ➕ Create new contact
       this.contactService.createContact(this.contactForm.value).subscribe({
         next: () => {
-          alert('✅ Contact added successfully!');
+          alert(' Contact added successfully!');
           this.contactForm.reset();
           this.router.navigate(['/home/contact_list']);
         },
         error: (err) => {
-          console.error('❌ Error adding contact:', err);
+          console.error(' Error adding contact:', err);
           alert('Failed to add contact');
         }
       });

@@ -12,7 +12,7 @@ import { SaleService } from '../core/services/sale/sale.service';
 })
 export class SaleListComponent {
   sales: any[] = [];
-  expandedIndex: number | null = null; // 👈 Track which row is expanded
+  expandedIndex: number | null = null; 
 
   constructor(private saleService: SaleService, private router: Router) {}
 
@@ -36,7 +36,7 @@ export class SaleListComponent {
         }
       },
       error: (err) => {
-        console.error('❌ Error fetching sales:', err);
+        console.error(' Error fetching sales:', err);
       },
     });
   }

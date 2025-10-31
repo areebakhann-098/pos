@@ -20,7 +20,7 @@ export const verifyToken = async (req, res, next) => {
       return res.status(404).json({ message: 'User not found' });
     }
  
-    // 🔥 Actual Role fetch from UserRole -> Role
+    //  Actual Role fetch from UserRole -> Role
     const userRoles = await UserRole.findAll({
       where: { userId: user.id },
     });

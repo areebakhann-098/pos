@@ -62,7 +62,6 @@ export class SaleReturnComponent implements OnInit {
     this.getAllReturns();
   }
 
-  // Getter for products FormArray
   get products(): FormArray {
     return this.saleReturnForm.get('products') as FormArray;
   }
@@ -71,7 +70,6 @@ export class SaleReturnComponent implements OnInit {
     return this.saleReturnForm.get('searchQuery')!;
   }
 
-  // Load business locations
   private loadLocations() {
     this.locationService.getAllLocations().subscribe({
       next: (res: any) => (this.locations = res.locations || []),
@@ -79,7 +77,6 @@ export class SaleReturnComponent implements OnInit {
     });
   }
 
-  // Debounced Product Search
   private setupSearchListener() {
     this.searchSubject
       .pipe(debounceTime(300), distinctUntilChanged())
@@ -103,7 +100,6 @@ export class SaleReturnComponent implements OnInit {
     this.searchSubject.next(value);
   }
 
-  // Add Product Row
   addProduct(product: Product) {
     if (!product) return;
 
@@ -132,7 +128,6 @@ export class SaleReturnComponent implements OnInit {
     this.filteredProducts = [];
   }
 
-  // Remove Product
   removeItem(productId: number | string) {
     const index = this.products.controls.findIndex(
       (ctrl) => ctrl.get('productId')?.value === productId
@@ -141,7 +136,6 @@ export class SaleReturnComponent implements OnInit {
     this.calculateTotalRefund();
   }
 
-  // Calculate total refund
   calculateTotalRefund() {
     const total = this.products.controls.reduce((sum, ctrl) => {
       return sum + (ctrl.get('lineTotal')?.value || 0);
@@ -149,7 +143,6 @@ export class SaleReturnComponent implements OnInit {
     this.saleReturnForm.get('totalRefund')?.setValue(total);
   }
 
-  // Submit Sale Return
   submitSaleReturn() {
     if (this.saleReturnForm.invalid) {
       this.saleReturnForm.markAllAsTouched();
@@ -174,14 +167,14 @@ export class SaleReturnComponent implements OnInit {
     this.loading = true;
     this.saleReturnService.createSaleReturn(payload).subscribe({
       next: () => {
-        alert('✅ Sale Return created successfully!');
+        alert(' Sale Return created successfully!');
         this.loading = false;
         this.resetForm();
         this.getAllReturns();
       },
       error: (err) => {
-        console.error('❌ Error creating sale return:', err);
-        alert('❌ Failed to create sale return!');
+        console.error('Error creating sale return:', err);
+        alert('Failed to create sale return!');
         this.loading = false;
       },
     });

@@ -76,7 +76,7 @@ export class AddProductComponent implements OnInit {
     this.getAllTaxRates();
     this.getAllLocations();
 
-    // 🧠 Check if edit mode
+    //  Check if edit mode
     this.route.queryParams.subscribe((params) => {
       if (params['id']) {
         this.isEditMode = true;
@@ -86,7 +86,7 @@ export class AddProductComponent implements OnInit {
     });
   }
 
-  // ✅ Load Product for Edit
+  //Load Product for Edit
   loadProductData(id: number) {
     this.productService.getProductById(id).subscribe({
       next: (res: any) => {
@@ -114,32 +114,32 @@ export class AddProductComponent implements OnInit {
           };
 
           if (product.variation?.id) {
-            this.onVariationChange(); // preload variation values
+            this.onVariationChange(); 
           }
         }
       },
-      error: (err) => console.error('❌ Error fetching product:', err),
+      error: (err) => console.error('Error fetching product:', err),
     });
   }
 
-  // ✅ Variation Change
+  //Variation Change
   onVariationChange() {
     const selected = this.variations.find(v => v.id == this.productData.variation_id);
     this.selectedVariationValues = selected ? selected.values || [] : [];
-    this.productData.variation_value = ''; // reset
+    this.productData.variation_value = ''; 
   }
 
-  // ✅ Submit Product
+  //Submit Product
   onSubmit() {
     if (this.isEditMode && this.productId) {
-      // ✏️ Update existing product
+      // Update existing product
       this.productService.updateProduct(this.productId, this.productData).subscribe({
         next: () => {
-          alert('✅ Product updated successfully!');
+          alert('Product updated successfully!');
           this.router.navigate(['/home/product_list']);
         },
         error: (err) => {
-          console.error('❌ Error updating product:', err);
+          console.error('Error updating product:', err);
           alert('Update failed: ' + err.error.message);
         },
       });
@@ -147,11 +147,11 @@ export class AddProductComponent implements OnInit {
       // ➕ Create new product
       this.productService.createProduct(this.productData).subscribe({
         next: () => {
-          alert('✅ Product added successfully!');
+          alert('Product added successfully!');
           this.router.navigate(['/home/product_list']);
         },
         error: (err) => {
-          console.error('❌ Error adding product:', err);
+          console.error('Error adding product:', err);
           alert('Error: ' + err.error.message);
         },
       });
@@ -208,15 +208,13 @@ export class AddProductComponent implements OnInit {
     });
   }
 
-  // ✅ Auto Price Calculation
+  //Auto Price Calculation
   calculateSellPrice() {
     const purchase = Number(this.productData.purchase_price) || 0;
     const profit = Number(this.productData.profit_percent) || 0;
 
-    // 💰 Base sell price before tax
     let sellPrice = purchase + (purchase * profit / 100);
 
-    // 🧾 If tax is selected, add tax to the sell price
     const selectedTax = this.taxRates.find(t => t.id == this.productData.tax_rate_id);
     if (selectedTax && selectedTax.amount) {
       const taxAmount = Number(selectedTax.amount);

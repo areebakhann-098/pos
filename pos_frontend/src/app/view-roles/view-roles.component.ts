@@ -35,13 +35,12 @@ export class ViewRolesComponent implements OnInit {
       },
       error: (err) => {
         this.loading = false;
-        console.error('❌ Error loading roles:', err);
+        console.error(' Error loading roles:', err);
         this.toastr.error('Failed to load roles', 'Error');
       },
     });
   }
 
-  // ✅ Delete Role
   deleteRole(id: number | undefined): void {
     if (!id) return;
 
@@ -52,7 +51,7 @@ export class ViewRolesComponent implements OnInit {
           this.loadRoles();
         },
         error: (err) => {
-          console.error('❌ Error deleting role:', err);
+          console.error(' Error deleting role:', err);
           this.toastr.error('Failed to delete role', 'Error');
         },
       });

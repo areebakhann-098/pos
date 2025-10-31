@@ -39,7 +39,7 @@ export class LoginComponent {
         localStorage.setItem('user', JSON.stringify(res.user));
         this.loginForm.reset();
 
-        // ✅ Navigate to Home after successful login
+        //  Navigate to Home after successful login
         this.router.navigate(['/home']);
       },
       error: (err) => {

@@ -11,7 +11,7 @@ import { RegisterComponent } from '../components/register/register.component';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent {
-  // signal for login/register toggle
+
   isLoginView = signal(true);
 
   toggleView() {

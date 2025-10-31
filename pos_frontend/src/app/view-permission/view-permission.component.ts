@@ -22,7 +22,6 @@ export class ViewPermissionComponent implements OnInit {
     this.loadPermissions();
   }
 
-  // ✅ Fetch all permissions
   loadPermissions(): void {
     this.permissionService.getAllPermissions().subscribe({
       next: (data) => {
@@ -34,7 +33,6 @@ export class ViewPermissionComponent implements OnInit {
     });
   }
 
-  // ✅ Delete permission by ID
   deletePermission(id: number | undefined): void {
     if (!id) return;
 
@@ -42,7 +40,7 @@ export class ViewPermissionComponent implements OnInit {
     if (confirmed) {
       this.permissionService.deletePermission(id).subscribe({
         next: () => {
-          this.loadPermissions(); // Refresh table
+          this.loadPermissions(); 
         },
         error: (err) => {
           console.error('Error deleting permission:', err);
@@ -51,7 +49,6 @@ export class ViewPermissionComponent implements OnInit {
     }
   }
 
-  // ✅ Edit permission
   editPermission(permission: Permission): void {
     this.router.navigate(['/dashboard/add-permission'], {
       queryParams: { id: permission.id },

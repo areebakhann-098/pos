@@ -7,9 +7,9 @@ export interface Permission {
 }
 
 export interface Role {
-  id: number;         // Optional for creation
-  name: string;        // Role name
-  permissions?: Permission[]; // Optional list of permissions
-  createdAt?: string;  // Optional timestamps
+  id: number;         
+  name: string;        
+  permissions?: Permission[]; 
+  createdAt?: string; 
   updatedAt?: string;
 }

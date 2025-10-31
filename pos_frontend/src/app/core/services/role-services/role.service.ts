@@ -20,40 +20,35 @@ export class RoleService {
     });
   }
 
-  // ✅ Get All Roles
   getAllRoles(): Observable<Role[]> {
     return this.http.get<Role[]>(`${this.apiUrl}/get`, { headers: this.getHeaders() })
   }
 
-  // ✅ Get Role by ID
   getRoleById(id: number): Observable<Role> {
-    console.log('📡 Fetching Role by ID:', id);
+    console.log(' Fetching Role by ID:', id);
     return this.http.get<Role>(`${this.apiUrl}/get/${id}`, { headers: this.getHeaders() })
   }
 
-  // ✅ Create Role
   createRole(role: { name: string }): Observable<Role> {
-    console.log('🟢 Creating Role with data:', role);
+    console.log(' Creating Role with data:', role);
     return this.http.post<Role>(`${this.apiUrl}/create`, role, { headers: this.getHeaders() })
   }
 
 updateRole(id: number, data: { name: string; permissionIds?: number[] }): Observable<Role> {
-  console.log(`🟡 Updating Role #${id} with data:`, data);
+  console.log(`Updating Role #${id} with data:`, data);
   return this.http.put<Role>(`${this.apiUrl}/update/${id}`, data, {
     headers: this.getHeaders(),
   })
 }
 
 
-  // ✅ Delete Role
   deleteRole(id: number): Observable<void> {
-    console.log(`🔴 Deleting Role #${id}...`);
+    console.log(` Deleting Role #${id}...`);
     return this.http.delete<void>(`${this.apiUrl}/delete/${id}`, { headers: this.getHeaders() })
   }
 
-  // ✅ Assign Permission to Role
   assignPermissionToRole(data: { roleId: number; permissionId: number }): Observable<any> {
-    console.log('🔗 Assigning Permission to Role:', data);
+    console.log('Assigning Permission to Role:', data);
     return this.http.post(`${environment.apiUrl}/role-permissions`, data, {
       headers: this.getHeaders(),
     })

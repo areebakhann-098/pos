@@ -29,7 +29,6 @@ export class WarrantiesComponent implements OnInit {
     this.getAllWarranties();
   }
 
-  // 📋 Fetch all warranties
   getAllWarranties() {
     this.warrantyService.getWarranties().subscribe({
       next: (res) => {
@@ -39,7 +38,6 @@ export class WarrantiesComponent implements OnInit {
     });
   }
 
-  // ➕ Create warranty
   addWarranty() {
     if (!this.warranty.name.trim() || !this.warranty.duration || !this.warranty.duration_type.trim()) {
       alert('⚠️ Please fill all required fields!');
@@ -48,7 +46,7 @@ export class WarrantiesComponent implements OnInit {
 
     this.warrantyService.createWarranty(this.warranty).subscribe({
       next: () => {
-        alert('✅ Warranty added successfully!');
+        alert(' Warranty added successfully!');
         this.resetForm();
         this.getAllWarranties();
       },
@@ -56,7 +54,6 @@ export class WarrantiesComponent implements OnInit {
     });
   }
 
-  // ✏️ Edit warranty
   editWarranty(w: any) {
     this.isEditMode = true;
     this.editId = w.id;
@@ -68,13 +65,12 @@ export class WarrantiesComponent implements OnInit {
     };
   }
 
-  // 🔁 Update warranty
   updateWarranty() {
     if (!this.editId) return;
 
     this.warrantyService.updateWarranty(this.editId, this.warranty).subscribe({
       next: () => {
-        alert('✅ Warranty updated successfully!');
+        alert(' Warranty updated successfully!');
         this.cancelEdit();
         this.getAllWarranties();
       },
@@ -82,7 +78,6 @@ export class WarrantiesComponent implements OnInit {
     });
   }
 
-  // ❌ Delete warranty
   deleteWarranty(id: number) {
     if (confirm('Are you sure you want to delete this warranty?')) {
       this.warrantyService.deleteWarranty(id).subscribe({
@@ -95,14 +90,12 @@ export class WarrantiesComponent implements OnInit {
     }
   }
 
-  // 🚫 Cancel edit mode
   cancelEdit() {
     this.isEditMode = false;
     this.editId = null;
     this.resetForm();
   }
 
-  // ♻️ Reset form
   resetForm() {
     this.warranty = {
       name: '',

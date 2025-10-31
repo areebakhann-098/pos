@@ -33,12 +33,10 @@ export class StockadjustmentsListComponent implements OnInit {
     });
   }
 
-  /** Edit Adjustment */
   onEdit(adjustment: any): void {
     this.router.navigate(['/home/stockadjustments/edit', adjustment.id]);
   }
 
-  /** Delete Adjustment */
   onDelete(id: number): void {
     if (!confirm('Are you sure you want to delete this adjustment?')) return;
 

@@ -25,7 +25,6 @@
           <td class="px-6 py-4 capitalize">{{ role.name }}</td>
 
           <td class="px-6 py-4">
-            <!-- ✅ Permission Display -->
             <ng-container
               *ngIf="role.permissions && role.permissions.length > 0; else noPermissions"
             >
@@ -39,7 +38,6 @@
               </div>
             </ng-container>
 
-            <!-- 🚫 No Permissions Template -->
             <ng-template #noPermissions>
               <span class="text-gray-400 italic">No permissions</span>
             </ng-template>

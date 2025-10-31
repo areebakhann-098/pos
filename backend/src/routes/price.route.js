@@ -10,18 +10,17 @@ import {
 const router = express.Router();
 
 // Create Price
-router.post("/price/create", createPrice);          // POST   /api/price/create
+router.post("/price/create", createPrice);          
 
 // Get all Prices
-router.get("/price/list", getAllPrices);           // GET    /api/price/list
+router.get("/price/list", getAllPrices);          
 
 // Get Price by ID
-router.get("/price/detail/:id", getPriceById);     // GET    /api/price/detail/:id
-
+router.get("/price/detail/:id", getPriceById);     
 // Update Price
-router.put("/price/update/:id", updatePrice);      // PUT    /api/price/update/:id
+router.put("/price/update/:id", updatePrice);    
 
 // Delete Price
-router.delete("/price/delete/:id", deletePrice);   // DELETE /api/price/delete/:id
+router.delete("/price/delete/:id", deletePrice); 
 
 export default router;

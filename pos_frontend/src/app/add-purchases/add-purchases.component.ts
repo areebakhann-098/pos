@@ -44,7 +44,7 @@ interface PurchaseItem {
   templateUrl: './add-purchases.component.html',
 })
 export class AddPurchasesComponent implements OnInit {
-  // 🧾 Form fields
+  //  Form fields
   supplier = '';
   refNo = '';
   purchaseDate = '';
@@ -55,18 +55,18 @@ export class AddPurchasesComponent implements OnInit {
   datePaid = '';
   paymentMethod = '';
 
-  // 🔍 Search & Lists
+  //  Search & Lists
   searchQuery = '';
   filteredProducts: Product[] = [];
   discounts: Discount[] = [];
   suppliers: any[] = [];
   locations: any[] = [];
 
-  // 💡 For edit mode
+  //  For edit mode
   isEditMode = false;
   purchaseId: number | null = null;
 
-  // 🛒 Purchase items
+  //  Purchase items
   purchaseItems: PurchaseItem[] = [];
 
   private searchSubject = new Subject<string>();
@@ -87,7 +87,7 @@ export class AddPurchasesComponent implements OnInit {
     this.getSuppliers();
     this.getBusinessLocations();
 
-    // 🟢 Check if route contains an ID (for edit mode)
+    //  Check if route contains an ID (for edit mode)
     this.route.paramMap.subscribe((params) => {
       const idParam = params.get('id');
       if (idParam) {
@@ -98,7 +98,7 @@ export class AddPurchasesComponent implements OnInit {
     });
   }
 
-  /** 🔹 Load purchase data for editing */
+  /**  Load purchase data for editing */
   loadPurchaseById(id: number): void {
     this.purchaseService.getPurchaseById(id).subscribe({
       next: (res: any) => {
@@ -159,7 +159,7 @@ export class AddPurchasesComponent implements OnInit {
           this.filteredProducts = Array.isArray(res?.data) ? res.data : [];
         },
         error: (err) => {
-          console.error('❌ Error fetching products:', err);
+          console.error(' Error fetching products:', err);
           this.filteredProducts = [];
         },
       });
@@ -276,21 +276,21 @@ export class AddPurchasesComponent implements OnInit {
       this.purchaseService.updatePurchase(this.purchaseId, payload).subscribe({
         next: () => {
           alert('Purchase updated successfully!');
-          this.generatePurchaseInvoice(payload); // Generate invoice on update
+          this.generatePurchaseInvoice(payload); 
           this.router.navigate(['/home/Purchase_list']);
         },
-        error: (err) => console.error('❌ Error updating purchase:', err),
+        error: (err) => console.error(' Error updating purchase:', err),
       });
     } else {
       // CREATE
       this.purchaseService.createPurchase(payload).subscribe({
         next: () => {
           alert('Purchase created successfully!');
-          this.generatePurchaseInvoice(payload); // Generate invoice on create
+          this.generatePurchaseInvoice(payload); 
           this.resetForm();
           this.router.navigate(['/home/Purchase_list']);
         },
-        error: (err) => console.error('❌ Error creating purchase:', err),
+        error: (err) => console.error(' Error creating purchase:', err),
       });
     }
   }
@@ -322,7 +322,7 @@ export class AddPurchasesComponent implements OnInit {
         }));
       }
     },
-    error: (err) => console.error('❌ Error fetching business locations:', err),
+    error: (err) => console.error(' Error fetching business locations:', err),
   });
 }
 
@@ -340,7 +340,7 @@ export class AddPurchasesComponent implements OnInit {
             }));
         }
       },
-      error: (err) => console.error('❌ Error fetching suppliers:', err),
+      error: (err) => console.error(' Error fetching suppliers:', err),
     });
   }
 
@@ -348,7 +348,7 @@ export class AddPurchasesComponent implements OnInit {
   getAllDiscounts() {
     this.discountService.getDiscounts().subscribe({
       next: (res: any) => (this.discounts = Array.isArray(res.data) ? res.data : []),
-      error: (err) => console.error('❌ Error fetching discounts:', err),
+      error: (err) => console.error(' Error fetching discounts:', err),
     });
   }
 

@@ -23,27 +23,27 @@ export class AddRoleComponent implements OnInit {
   permissions: Permission[] = [];
 
   ngOnInit(): void {
-    // ✅ Initialize form
+    //  Initialize form
     this.roleForm = this.fb.group({
       roleName: ['', Validators.required],
       permissions: [[]],
     });
 
-    // ✅ Load all permissions
+    //  Load all permissions
     this.loadPermissions();
   }
 
-  // ✅ Load all permissions from backend
+  //  Load all permissions from backend
   loadPermissions(): void {
     this.permissionService.getAllPermissions().subscribe({
       next: (data) => {
         this.permissions = data;
       },
-      error: (err) => console.error('❌ Failed to load permissions:', err),
+      error: (err) => console.error(' Failed to load permissions:', err),
     });
   }
 
-  // ✅ Checkbox change handler
+  //  Checkbox change handler
   onCheckboxChange(event: Event): void {
     const checkbox = event.target as HTMLInputElement;
     const selected: number[] = this.roleForm.get('permissions')?.value || [];
@@ -60,41 +60,41 @@ export class AddRoleComponent implements OnInit {
     this.roleForm.get('permissions')?.setValue([...selected]);
   }
 
-  // ✅ Submit form (Add new role)
+  //  Submit form (Add new role)
   onSubmit(): void {
     if (this.roleForm.invalid) return;
 
     const { roleName, permissions } = this.roleForm.value;
-    const lowerCaseRoleName = roleName.toLowerCase(); // Convert role name to lowercase
+    const lowerCaseRoleName = roleName.toLowerCase(); 
 
-    console.log('📤 Submitting Role Form:', {
+    console.log('Submitting Role Form:', {
       name: lowerCaseRoleName,
       permissions,
     });
 
     const newRoleData = { name: lowerCaseRoleName, permissionIds: permissions };
 
-    // 🟢 Create new role
+    //  Create new role
     this.roleService.createRole(newRoleData).subscribe({
       next: (res) => {
         // Assign permissions after role is created
         this.assignPermissions(res.id, permissions);
-        alert('✅ Role created successfully!');
+        alert(' Role created successfully!');
         this.router.navigate(['/home/roleList']);
       },
-      error: (err) => console.error('❌ Failed to create role:', err),
+      error: (err) => console.error(' Failed to create role:', err),
     });
   }
 
-  // ✅ Assign selected permissions to role
+  //  Assign selected permissions to role
   private assignPermissions(roleId: number, permissionIds: number[]): void {
     if (!permissionIds || permissionIds.length === 0) return;
     console.log(`🔗 Assigning ${permissionIds.length} permissions to role #${roleId}`);
 
     permissionIds.forEach((pid) => {
       this.roleService.assignPermissionToRole({ roleId, permissionId: pid }).subscribe({
-        next: () => console.log(`✅ Permission #${pid} assigned to role #${roleId}`),
-        error: (err) => console.error('❌ Failed to assign permission:', err),
+        next: () => console.log(` Permission #${pid} assigned to role #${roleId}`),
+        error: (err) => console.error(' Failed to assign permission:', err),
       });
     });
   }

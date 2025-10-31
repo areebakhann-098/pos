@@ -11,9 +11,8 @@ export class SaleReturnService {
 
   constructor(private http: HttpClient) {}
 
-  // 🔹 Helper method to include JWT in request headers
   private getAuthHeaders(): { headers: HttpHeaders } {
-    const token = localStorage.getItem('token'); // 🔑 Get JWT token from localStorage
+    const token = localStorage.getItem('token'); 
     return {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${token || ''}`,
@@ -22,12 +21,10 @@ export class SaleReturnService {
     };
   }
 
-  // ✅ Create Sale Return
   createSaleReturn(payload: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/sale-return/create`, payload, this.getAuthHeaders());
   }
 
-  // ✅ Get All Sale Returns
   getAllSaleReturns(): Observable<any> {
     return this.http.get(`${this.apiUrl}/sale-return/get`, this.getAuthHeaders());
   }

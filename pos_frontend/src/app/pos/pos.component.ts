@@ -274,15 +274,12 @@ calculateTotal() {
     { align: 'center' }
   );
 
-  // 🔹 Line separator
   doc.line(5, 23, 75, 23);
 
-  // 🔹 Date & Invoice Info
   doc.setFontSize(8);
   doc.text(`Date: ${new Date().toLocaleString()}`, 5, 27);
   doc.text(`Invoice #: ${sale.id || 'N/A'}`, 60, 27);
 
-  // 🔹 Table Header
   doc.setFontSize(8);
   let y = 32;
   doc.text('Item', 5, y);
@@ -291,19 +288,17 @@ calculateTotal() {
   doc.text('Total', 65, y);
   doc.line(5, y + 1, 75, y + 1);
 
-  // 🔹 Table Body
   y += 5;
   this.cart.forEach((item) => {
     doc.text(item.product_name.substring(0, 15), 5, y);
-    doc.text(String(item.qty), 35, y); // Qty - left aligned
+    doc.text(String(item.qty), 35, y); 
     doc.text(item.price.toFixed(2), 55, y, { align: 'right' }); 
-    doc.text((item.qty * item.price).toFixed(2), 75, y, { align: 'right' }); // Total
+    doc.text((item.qty * item.price).toFixed(2), 75, y, { align: 'right' }); 
     y += 5;
   });
 
   doc.line(5, y - 2, 75, y - 2);
 
-  // 🔹 Summary
   y += 3;
   doc.text(`Subtotal: Rs. ${this.subtotal.toFixed(2)}`, 5, y);
   y += 4;
@@ -328,18 +323,15 @@ calculateTotal() {
   doc.text(`Total Payable: Rs. ${this.totalAfterTax.toFixed(2)}`, 5, y);
   y += 6;
 
-  // 🔹 Payment Method
   doc.setFontSize(8);
   doc.text(`Payment Method: Cash`, 5, y);
   y += 8;
 
-  // 🔹 Footer
   doc.setFontSize(8);
   doc.text('Thank you for shopping with us!', 40, y, { align: 'center' });
   y += 4;
   doc.text('Powered by Areeba/Usman POS System', 40, y, { align: 'center' });
 
-  // 🔹 Open in new tab
   doc.output('dataurlnewwindow');
 }
 

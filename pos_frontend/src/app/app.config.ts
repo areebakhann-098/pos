@@ -10,11 +10,11 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
-    provideAnimations(), // ✅ Required for Toastr
+    provideAnimations(), 
     provideToastr({
       timeOut: 3000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
-    }), // ✅ Toastr configuration
+    }), 
   ],
 };

@@ -10,7 +10,7 @@ export const sequelize = new Sequelize({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   dialect: 'postgres',
-  logging: false, // optional: turn off SQL logs
+  logging: false, 
 });
  
 export const connectDb = async () => {
@@ -18,7 +18,7 @@ export const connectDb = async () => {
     await sequelize.authenticate();
     console.log(' PostgreSQL connected successfully.');
  
-    await sequelize.sync({ alter: true }); // ensures all tables are kept in sync
+    await sequelize.sync({ alter: true }); 
     console.log(' All models synchronized.');
   } catch (err) {
     console.error(' Unable to connect to the database:', err.message);

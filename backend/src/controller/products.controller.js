@@ -25,7 +25,6 @@ const ensureExists = async (Model, id, fieldName) => {
 export const createProduct = async (req, res) => {
   try {
     const body = req.body;
-    console.log("Product Body Received:", req.body);
 
     // validate required FKs
     await ensureExists(Warranty, body.warranty_id, "warranty_id");

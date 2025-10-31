@@ -18,7 +18,7 @@ const seedUsersAndRoles = async () => {
     defineRolePermissionRelation();
     await connectDb();
 
-    // 📌 Define all permissions
+    // Define all permissions
     const allPermissions = [
       // user CRUD
       { resource: 'user', action: 'create', possession: 'any' },
@@ -44,10 +44,10 @@ const seedUsersAndRoles = async () => {
       createdPermissions.push(p);
     }
 
-    // 🔐 Create Admin Role
+    //  Create Admin Role
     const [adminRole] = await Role.findOrCreate({ where: { name: 'admin' } });
 
-    // ✅ Assign all permissions to admin
+    //  Assign all permissions to admin
     await adminRole.setPermissions(createdPermissions);
 
     // 👤 Create Admin User (areeba)
@@ -61,14 +61,14 @@ const seedUsersAndRoles = async () => {
         Role: 'admin',
       });
       await adminUser.addRole(adminRole);
-      console.log('✅ Admin user "areeba" created and assigned "admin" role.');
+      console.log('Admin user "areeba" created and assigned "admin" role.');
     } else {
       console.log('ℹ Admin user "areeba" already exists.');
     }
 
-    console.log('✅ Seeding completed successfully!');
+    console.log(' Seeding completed successfully!');
   } catch (error) {
-    console.error('❌ Seeder Error:', error.message);
+    console.error(' Seeder Error:', error.message);
   }
 };
 

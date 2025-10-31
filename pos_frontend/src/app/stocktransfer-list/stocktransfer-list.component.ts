@@ -22,7 +22,6 @@ export class StocktransferListComponent implements OnInit {
     this.getAllTransfers();
   }
 
-  /** ✅ Get all stock transfers */
   getAllTransfers(): void {
     this.stockTransferService.getStockTransfers().subscribe({
       next: (res: any) => {
@@ -31,17 +30,15 @@ export class StocktransferListComponent implements OnInit {
           : res?.data || [];
       },
       error: (err) => {
-        console.error('❌ Error fetching stock transfers:', err);
+        console.error(' Error fetching stock transfers:', err);
       },
     });
   }
 
-  /** ✏️ Edit transfer */
   onEdit(transfer: any): void {
     this.router.navigate(['/home/stocktransfer/edit', transfer.id]);
   }
 
-  /** 🗑️ Delete transfer */
   onDelete(id: number): void {
     if (confirm('Are you sure you want to delete this stock transfer?')) {
       this.stockTransferService.deleteStockTransfer(id).subscribe({
@@ -50,7 +47,7 @@ export class StocktransferListComponent implements OnInit {
           this.getAllTransfers();
         },
         error: (err) => {
-          console.error('❌ Error deleting transfer:', err);
+          console.error(' Error deleting transfer:', err);
           alert('Failed to delete stock transfer!');
         },
       });

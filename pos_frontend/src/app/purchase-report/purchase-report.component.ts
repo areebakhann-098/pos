@@ -41,7 +41,6 @@ export class PurchaseReportComponent implements OnInit {
           this.purchases = [];
         }
 
-        // ✅ Convert all numeric fields to safe numbers
         this.purchases = this.purchases.map(p => ({
           ...p,
           quantity: Number(p.quantity) || 0,
@@ -50,16 +49,14 @@ export class PurchaseReportComponent implements OnInit {
           total_paid_amount: Number(p.total_paid_amount) || 0
         }));
 
-        // Calculate totals after conversion
         this.calculateTotals();
       },
       error: (err) => {
-        console.error('❌ Error fetching purchases:', err);
+        console.error(' Error fetching purchases:', err);
       },
     });
   }
 
-  /** Calculate totals */
   calculateTotals(): void {
     this.totalPurchases = this.purchases.length;
     this.totalQty = this.purchases.reduce((sum, p) => sum + p.quantity, 0);

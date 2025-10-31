@@ -7,7 +7,7 @@ const VariationValue = sequelize.define(
   {
     value_name: {
       type: DataTypes.STRING,
-      allowNull: false, // e.g. Red, Blue, Small
+      allowNull: false, 
     },
     variation_id: {
       type: DataTypes.INTEGER,

@@ -1,7 +1,5 @@
 <div class="min-h-screen bg-white text-yellow-700">
-  <!-- Header -->
 <div class="flex justify-between items-center bg-red-700 text-white px-6 py-3 shadow-md">
-   <!-- Location Selector -->
   <div class="flex items-center gap-3">
     <label for="location" class="font-medium ">Select Location:</label>
     <select
@@ -64,9 +62,7 @@
         </table>
       </div>
 
-      <!-- Totals + Buttons -->
       <div class="mt-4">
-        <!-- Subtotal + Discount -->
         <div class="flex justify-between items-center text-sm mb-2">
           <p>Items: <span class="font-bold">{{ totalItems }}</span></p>
           <p>Subtotal: <span class="font-bold">{{ subtotal }}</span></p>
@@ -102,9 +98,7 @@
           <p class="font-bold text-red-700">{{ totalAfterTax }}</p>
         </div>
 
-        <!-- Discount & Tax Dropdowns -->
         <div class="flex justify-between gap-2">
-          <!-- Discount -->
           <select
             [(ngModel)]="selectedDiscountId"
             (change)="onDiscountChange()"
@@ -118,7 +112,6 @@
             </option>
           </select>
 
-          <!-- Tax -->
           <select
             [(ngModel)]="selectedTaxId"
             (change)="onTaxChange()"
@@ -133,13 +126,11 @@
       </div>
     </div>
 
-    <!-- Right: Product Grid -->
     <div
       class="bg-white border border-red-200 rounded-lg shadow-lg p-4 overflow-hidden"
     >
       <h2 class="text-lg font-semibold text-red-700 mb-3">Products</h2>
 
-      <!-- Category Dropdown -->
       <div class="flex gap-3 mb-4">
         <select
           [(ngModel)]="selectedCategory"
@@ -150,7 +141,6 @@
         </select>
       </div>
 
-      <!-- Products Grid -->
       <div class="grid grid-cols-2 gap-4 overflow-y-auto max-h-[70vh]">
         <div
           *ngFor="let p of filteredProducts"
@@ -165,7 +155,6 @@
     </div>
   </div>
 
-  <!-- Bottom Buttons -->
   <div
     class="flex justify-between items-center bg-red-100 border-t border-red-200 px-6 py-4"
   >

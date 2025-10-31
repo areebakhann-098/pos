@@ -40,7 +40,6 @@ export class SaleChartComponent implements OnInit {
     this.getDailySales();
   }
 
-  /** 🔹 Fetch all sales and prepare daily totals */
   getDailySales() {
     this.saleService.getAllSales().subscribe({
       next: (res: any) => {
@@ -49,12 +48,11 @@ export class SaleChartComponent implements OnInit {
         this.initializeChart(dailyTotals);
       },
       error: (err) => {
-        console.error('❌ Error fetching sales:', err);
+        console.error(' Error fetching sales:', err);
       },
     });
   }
 
-  /** 🔹 Group sales by date and sum up integer amounts */
   calculateDailySales(sales: any[]) {
     const dailyMap: { [key: string]: number } = {};
 
@@ -64,7 +62,7 @@ export class SaleChartComponent implements OnInit {
         day: 'numeric',
       });
 
-      const amount = Math.round(sale.final_amount || 0); // ✅ ensure integer
+      const amount = Math.round(sale.final_amount || 0); 
       dailyMap[date] = (dailyMap[date] || 0) + amount;
     }
 
@@ -73,7 +71,6 @@ export class SaleChartComponent implements OnInit {
     return { labels, values };
   }
 
-  /** 🔹 Initialize Sales Chart */
   initializeChart(dailyTotals: { labels: string[]; values: number[] }) {
     this.chartOptions = {
       series: [

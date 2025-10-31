@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, } from '@angular/router';
-import { ToastrService } from 'ngx-toastr'; // ✅ For toast messages
+import { ToastrService } from 'ngx-toastr'; 
 import { AddUserService } from '../core/services/add-user/add-user.service';
 
 @Component({
@@ -27,18 +27,16 @@ export class ViewUserComponent implements OnInit {
 getAllUsers(): void {
   this.userService.getUsers().subscribe({
     next: (res: any) => {
-      // handle if API returns either an array or an object with data
       this.users = Array.isArray(res) ? res : res?.data || [];
     },
     error: (err) => {
-      console.error('❌ Error fetching users:', err);
+      console.error(' Error fetching users:', err);
       this.toastr.error('Failed to fetch users', 'Error');
     },
   });
 }
 
 
-  // ✅ Navigate to Edit
   onEdit(user: any): void {
     this.router.navigate(['/home/add-user/edit/:id'], {
       queryParams: { id: user.id, name: user.name, email: user.email },
@@ -50,7 +48,6 @@ getRoleNames(user: any): string {
   }
   return '—';
 }
-  // ✅ Delete user
   onDelete(id: number): void {
     if (confirm('Are you sure you want to delete this user?')) {
       this.userService.deleteUser(id).subscribe({
@@ -59,7 +56,7 @@ getRoleNames(user: any): string {
           this.getAllUsers();
         },
         error: (err) => {
-          console.error('❌ Error deleting user:', err);
+          console.error(' Error deleting user:', err);
           this.toastr.error('Failed to delete user', 'Error');
         },
       });

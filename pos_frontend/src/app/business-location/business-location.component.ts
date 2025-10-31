@@ -18,7 +18,7 @@ export class BusinessLocationComponent implements OnInit {
     zip_code: '',
     country: '',
     email: '',
-        mobile: '', // ✅ Added mobile here
+        mobile: '', 
 
     state: '',
     landmark: ''
@@ -64,22 +64,22 @@ export class BusinessLocationComponent implements OnInit {
 
   onSubmit() {
     if (!this.location.name.trim() || !this.location.city.trim()) {
-      alert('⚠️ Please fill required fields!');
+      alert(' Please fill required fields!');
       return;
     }
 
     if (this.isEditMode && this.editId) {
       this.locationService.updateLocation(this.editId, this.location).subscribe({
         next: () => {
-          alert('✅ Location updated successfully!');
-          this.router.navigate(['/home/location_list']); // redirect back to list
+          alert(' Location updated successfully!');
+          this.router.navigate(['/home/location_list']); 
         },
         error: (err) => console.error('Error updating location:', err)
       });
     } else {
       this.locationService.createLocation(this.location).subscribe({
         next: () => {
-          alert('✅ Location added successfully!');
+          alert(' Location added successfully!');
           this.resetForm();
         },
         error: (err) => console.error('Error adding location:', err)

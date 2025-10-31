@@ -27,7 +27,7 @@ export class BrandsComponent implements OnInit {
     this.getAllBrands();
   }
 
-  // 🔹 Fetch all brands
+  //  Fetch all brands
   getAllBrands() {
     this.brandService.getAllBrands().subscribe({
       next: (res) => {
@@ -37,7 +37,7 @@ export class BrandsComponent implements OnInit {
     });
   }
 
-  // 🔹 Add new brand
+  //  Add new brand
   addBrand() {
     if (!this.brand.name.trim()) {
       alert('Please enter brand name!');
@@ -54,7 +54,7 @@ export class BrandsComponent implements OnInit {
     });
   }
 
-  // 🔹 Edit brand
+  //  Edit brand
   editBrand(b: any) {
     this.isEditMode = true;
     this.editId = b.id;
@@ -75,7 +75,7 @@ export class BrandsComponent implements OnInit {
     });
   }
 
-  // 🔹 Delete brand
+  //  Delete brand
   deleteBrand(id: string) {
     if (confirm('Are you sure you want to delete this brand?')) {
       this.brandService.deleteBrand(id).subscribe({
@@ -85,7 +85,7 @@ export class BrandsComponent implements OnInit {
     }
   }
 
-  // 🔹 Cancel edit
+  //  Cancel edit
   cancelEdit() {
     this.isEditMode = false;
     this.editId = null;

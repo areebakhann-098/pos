@@ -24,7 +24,7 @@ export class ContactListComponent {
       next: (res: any) => {
         this.contacts = Array.isArray(res) ? res : res?.data || [];
       },
-      error: (err) => console.error('❌ Error fetching contacts:', err)
+      error: (err) => console.error(' Error fetching contacts:', err)
     });
   }
 
@@ -34,7 +34,6 @@ this.router.navigate(['/home/add-contact/edit', contact.id]);
   }
 
 
-  // Delete Contact
   onDelete(id: number) {
     if (confirm('Are you sure you want to delete this contact?')) {
       this.contactService.deleteContact(id).subscribe({
@@ -43,7 +42,7 @@ this.router.navigate(['/home/add-contact/edit', contact.id]);
           this.getAllContacts();
         },
         error: (err) => {
-          console.error('❌ Error deleting contact:', err);
+          console.error(' Error deleting contact:', err);
           alert('Failed to delete contact!');
         }
       });

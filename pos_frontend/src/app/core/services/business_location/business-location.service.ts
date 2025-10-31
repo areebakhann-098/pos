@@ -11,9 +11,8 @@ export class BusinessLocationService {
 
   constructor(private http: HttpClient) {}
 
-  // 🔹 Helper method to add JWT token to headers
   private getAuthHeaders(): { headers: HttpHeaders } {
-    const token = localStorage.getItem('token'); // Assuming JWT is stored in localStorage
+    const token = localStorage.getItem('token');
     return {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${token || ''}`,
@@ -22,27 +21,22 @@ export class BusinessLocationService {
     };
   }
 
-  // ✅ Create Location
   createLocation(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/create`, data, this.getAuthHeaders());
   }
 
-  // ✅ Get All Locations
   getAllLocations(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/get`, this.getAuthHeaders());
   }
 
-  // ✅ Get Location by ID
   getLocationById(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/${id}`, this.getAuthHeaders());
   }
 
-  // ✅ Update Location
   updateLocation(id: number, data: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, data, this.getAuthHeaders());
   }
 
-  // ✅ Delete Location
   deleteLocation(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, this.getAuthHeaders());
   }

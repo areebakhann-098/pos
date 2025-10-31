@@ -61,7 +61,7 @@ export class AddUserComponent implements OnInit {
       },
       error: (err) => {
         console.error('Role load error:', err);
-        alert('❌ Failed to load roles. Please try again later.');
+        alert(' Failed to load roles. Please try again later.');
       }
     });
   }
@@ -69,7 +69,7 @@ export class AddUserComponent implements OnInit {
   
   onSubmit() {
     if (this.registerForm.invalid) {
-      alert('⚠️ Please fill all required fields correctly.');
+      alert(' Please fill all required fields correctly.');
       this.registerForm.markAllAsTouched();
       return;
     }
@@ -87,17 +87,17 @@ export class AddUserComponent implements OnInit {
 
       this.userService.updateUser(this.editUserId, updatedUser).subscribe({
         next: () => {
-          alert('✅ User updated successfully!');
+          alert(' User updated successfully!');
           this.router.navigate(['/home/userList']);
         },
         error: (err) => {
           console.error('Update error:', err);
           if (err.status === 401) {
-            alert('❌ Unauthorized! Please login again.');
+            alert(' Unauthorized! Please login again.');
           } else if (err.status === 404) {
-            alert('❌ User not found.');
+            alert(' User not found.');
           } else {
-            alert('❌ Failed to update user. Please try again.');
+            alert(' Failed to update user. Please try again.');
           }
         }
       });
@@ -112,30 +112,30 @@ export class AddUserComponent implements OnInit {
 
       this.userService.createUser(newUser).subscribe({
         next: (res: any) => {
-          alert('✅ User added successfully!');
+          alert(' User added successfully!');
           this.router.navigate(['/home/userList']);
         },
         error: (err) => {
           console.error('Create user error:', err);
 
-          // ✅ Handle specific error codes & messages
+          //  Handle specific error codes & messages
           if (err.status === 401) {
-            alert('❌ Unauthorized! No token provided. Please login again.');
+            alert(' Unauthorized! No token provided. Please login again.');
           } 
           else if (err.status === 400) {
-            alert('⚠️ Invalid data! Please check your inputs.');
+            alert(' Invalid data! Please check your inputs.');
           } 
-          else if (err.status === 409) { // ✅ Email already exists
-            alert(`⚠️ ${err.error?.message || 'User already exists with this email!'}`);
+          else if (err.status === 409) { 
+            alert(` ${err.error?.message || 'User already exists with this email!'}`);
           } 
           else if (err.status === 403) {
-            alert('❌ Access denied! You are not authorized to add users.');
+            alert(' Access denied! You are not authorized to add users.');
           }
           else if (err.error?.message?.includes('role')) {
-            alert('⚠️ Invalid role selected.');
+            alert(' Invalid role selected.');
           } 
           else {
-            alert('❌ Failed to add user! Please try again later.');
+            alert(' Failed to add user! Please try again later.');
           }
         }
       });

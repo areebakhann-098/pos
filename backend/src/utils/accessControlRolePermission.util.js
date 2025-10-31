@@ -5,7 +5,6 @@ import RolePermission from '../model/rolePermission.model.js';
 export const buildAccessControlFromDB = async () => {
   const accessControl = {};
 
-  // 🔍 Find all entries from RolePermission with Role & Permission included
   const rolePermissions = await RolePermission.findAll({
     include: [
       {

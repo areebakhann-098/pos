@@ -11,7 +11,7 @@ import { authorize } from '../middleware/accessControl.middleware.js';
 
 const router = express.Router();
 
-// ✅ Create Brand
+//  Create Brand
 router.post(
   "/brand/create",
   verifyToken,
@@ -19,7 +19,7 @@ authorize('create', 'product', 'any'),
   createBrand
 );
 
-// ✅ Get All Brands
+//  Get All Brands
 router.get(
   "/brand/list",
   verifyToken,
@@ -27,7 +27,7 @@ authorize('read', 'sale||product', 'any'),
   getAllBrands
 );
 
-// ✅ Get Brand by ID
+//  Get Brand by ID
 router.get(
   "/brand/list/:id",
   verifyToken,
@@ -35,7 +35,7 @@ authorize('read', 'sale||product', 'any'),
   getBrandById
 );
 
-// ✅ Update Brand
+//  Update Brand
 router.put(
   "/brand/update/:id",
   verifyToken,
@@ -43,7 +43,7 @@ authorize('update', 'product', 'any'),
   updateBrand
 );
 
-// ✅ Delete Brand
+//  Delete Brand
 router.delete(
   "/brand/delete/:id",
   verifyToken,

@@ -11,7 +11,7 @@ import { RegisterService } from '../../core/services/auth/register.service';
   templateUrl: './register.component.html'
 })
 export class RegisterComponent {
-  @Output() registerSuccess = new EventEmitter<void>(); // ✅ Emit event to parent
+  @Output() registerSuccess = new EventEmitter<void>(); 
 
   registerForm: FormGroup;
   successMessage = '';
@@ -38,7 +38,7 @@ export class RegisterComponent {
         this.loading = false;
         this.registerForm.reset();
 
-        // ✅ Emit event after short delay (to allow message to show)
+        //  Emit event after short delay (to allow message to show)
         setTimeout(() => {
           this.registerSuccess.emit();
         }, 1000);

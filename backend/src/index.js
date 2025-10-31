@@ -2,7 +2,7 @@ import {app} from './app.js';
 import { connectDb } from './config/db.js';
 import dotenv from 'dotenv';
  
-// ✅ IMPORT association setup BEFORE db connect
+//  IMPORT association setup BEFORE db connect
 import {
   defineUserRoleRelation,
   defineRolePermissionRelation,
@@ -15,7 +15,7 @@ dotenv.config();
 const PORT = process.env.PORT || 8000;
  
 const startServer = async () => {
-  // ✅ Set up model relationships
+  //  Set up model relationships
   defineUserRoleRelation();
   defineRolePermissionRelation();
   defineMigrationAssociations();
@@ -23,11 +23,11 @@ const startServer = async () => {
   defineSaleAssociations()
 
  
-  // ✅ Then connect DB (sync will now include associations)
+  //  Then connect DB (sync will now include associations)
   await connectDb();
  
   app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
+    console.log(` Server running on http://localhost:${PORT}`);
   });
 };
  

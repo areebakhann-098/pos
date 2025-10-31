@@ -6,7 +6,7 @@ const Variation = sequelize.define(
   {
     variation_name: {
       type: DataTypes.STRING,
-      allowNull: false, // e.g. Color, Size
+      allowNull: false, 
     },
   },
   {

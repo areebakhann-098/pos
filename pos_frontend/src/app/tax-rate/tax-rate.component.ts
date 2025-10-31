@@ -26,7 +26,6 @@ export class TaxRateComponent implements OnInit {
     this.getAllTaxRates();
   }
 
-  // 📋 Get all tax rates
   getAllTaxRates() {
     this.taxRateService.getAllTaxRates().subscribe({
       next: (res) => {
@@ -36,7 +35,6 @@ export class TaxRateComponent implements OnInit {
     });
   }
 
-  // ➕ Add new tax rate
   addTaxRate() {
     if (!this.tax.name.trim() || !this.tax.amount) {
       alert('Please fill all fields!');
@@ -53,7 +51,6 @@ export class TaxRateComponent implements OnInit {
     });
   }
 
-  // ✏️ Edit tax rate
   editTaxRate(t: any) {
     this.isEditMode = true;
     this.editId = t.id;
@@ -63,7 +60,6 @@ export class TaxRateComponent implements OnInit {
     };
   }
 
-  // 🔄 Update tax rate
   updateTaxRate() {
     if (!this.editId) return;
 
@@ -77,7 +73,6 @@ export class TaxRateComponent implements OnInit {
     });
   }
 
-  // ❌ Delete tax rate
   deleteTaxRate(id: number) {
     if (confirm('Are you sure you want to delete this tax rate?')) {
       this.taxRateService.deleteTaxRate(id).subscribe({
@@ -90,7 +85,6 @@ export class TaxRateComponent implements OnInit {
     }
   }
 
-  // 🔙 Cancel edit
   cancelEdit() {
     this.isEditMode = false;
     this.editId = null;

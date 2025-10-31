@@ -340,7 +340,7 @@
       </li>
 
       <!-- Reports -->
-      <li *ngIf="userRole === 'admin'">
+       <li *ngIf="userRole === 'admin'|| userRole === 'manager'">
         <button
           class="flex items-center w-full p-3 rounded-lg hover:bg-red-800 transition"
           (click)="toggle('reports')"

@@ -26,7 +26,7 @@ export class CategoriesComponent implements OnInit {
     this.getCategories();
   }
 
-  // ✅ Get all categories
+  //  Get all categories
   getCategories() {
     this.categoriesService.getAllCategories().subscribe({
       next: (res) => (this.categories = res),
@@ -34,7 +34,7 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
-  // ✅ Add new category
+  //  Add new category
   onSubmit() {
     if (!this.category.name) return alert('Category name is required');
 
@@ -48,13 +48,13 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
-  // ✅ Edit existing category
+  //  Edit existing category
   editCategory(cat: any) {
     this.isEditMode = true;
     this.category = { ...cat };
   }
 
-  // ✅ Update category
+  //  Update category
   updateCategory() {
     if (!this.category.id) return alert('No category selected');
 
@@ -69,13 +69,13 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
-  // ✅ Cancel edit
+  //  Cancel edit
   cancelEdit() {
     this.isEditMode = false;
     this.category = { id: '', name: '', description: '', sub_category: '' };
   }
 
-  // ✅ Delete category
+  //  Delete category
   deleteCategory(id: string) {
     if (!confirm('Are you sure you want to delete this category?')) return;
     this.categoriesService.deleteCategory(id).subscribe({

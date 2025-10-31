@@ -94,7 +94,7 @@ export class StockAdjustmentsComponent implements OnInit {
             }));
         }
       },
-      error: (err) => console.error('❌ Error fetching suppliers:', err)
+      error: (err) => console.error(' Error fetching suppliers:', err)
     });
   }
 
@@ -216,11 +216,10 @@ export class StockAdjustmentsComponent implements OnInit {
 
         this.calculateTotalRecovered();
       },
-      error: (err) => console.error('❌ Error loading adjustment:', err)
+      error: (err) => console.error(' Error loading adjustment:', err)
     });
   }
 
-  /** ✅ Submit for Create or Update */
  onSubmit() {
   if (this.stockForm.invalid) {
     this.stockForm.markAllAsTouched();
@@ -228,7 +227,6 @@ export class StockAdjustmentsComponent implements OnInit {
     return;
   }
 
-  // ✅ Create proper products array for backend
   const productsArray = this.products.controls.map((ctrl) => ({
     product_id: ctrl.get('productId')?.value,
     quantity: ctrl.get('quantity')?.value,
@@ -242,39 +240,38 @@ export class StockAdjustmentsComponent implements OnInit {
     adjustment_date: this.stockForm.value.adjustmentDate,
     adjustment_type: this.stockForm.value.adjustmentType,
     reason: this.stockForm.value.reason,
-    products: productsArray, // ✅ send products array
+    products: productsArray, 
   };
 
 
   if (this.isEditMode && this.editId) {
     this.stockService.updateAdjustment(this.editId, payload).subscribe({
       next: () => {
-        alert('✅ Stock Adjustment updated successfully!');
+        alert(' Stock Adjustment updated successfully!');
         this.resetForm();
         this.router.navigate(['/home/stockadjustments_list']);
       },
       error: (err) => {
-        console.error('❌ Error updating adjustment:', err);
-        alert('❌ Failed to update stock adjustment!');
+        console.error(' Error updating adjustment:', err);
+        alert(' Failed to update stock adjustment!');
       },
     });
   } else {
     this.stockService.createStockAdjustment(payload).subscribe({
       next: () => {
-        alert('✅ Stock Adjustment created successfully!');
+        alert(' Stock Adjustment created successfully!');
         this.resetForm();
         this.router.navigate(['/home/stockadjustments_list']);
       },
       error: (err) => {
-        console.error('❌ Error saving adjustment:', err);
-        alert('❌ Failed to save stock adjustment!');
+        console.error(' Error saving adjustment:', err);
+        alert(' Failed to save stock adjustment!');
       },
     });
   }
 }
 
 
-  /** 🔁 Reset form after submit */
   private resetForm() {
     this.stockForm.reset();
     this.products.clear();

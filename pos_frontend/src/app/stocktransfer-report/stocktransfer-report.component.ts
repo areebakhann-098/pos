@@ -11,7 +11,6 @@ import { CommonModule } from '@angular/common';
 export class StocktransferReportComponent {
   stockTransfers: any[] = [];
 
-  // ✅ Totals
   totalQty = 0;
   totalShipment = 0;
   totalAmount = 0;
@@ -22,13 +21,11 @@ export class StocktransferReportComponent {
     this.getAllTransfers();
   }
 
-  /** ✅ Fetch All Stock Transfers */
   getAllTransfers(): void {
     this.stockTransferService.getStockTransfers().subscribe({
       next: (res: any) => {
         this.stockTransfers = Array.isArray(res) ? res : res?.data || [];
 
-        // ✅ Normalize and compute values
         this.stockTransfers = this.stockTransfers.map((t: any) => ({
           ...t,
           quantity: Number(t.quantity) || 0,
@@ -41,11 +38,11 @@ export class StocktransferReportComponent {
 
         this.calculateTotals();
       },
-      error: (err) => console.error('❌ Error fetching stock transfers:', err)
+      error: (err) => console.error(' Error fetching stock transfers:', err)
     });
   }
 
-  /** ✅ Calculate Totals */
+  /**  Calculate Totals */
   calculateTotals(): void {
     this.totalQty = this.stockTransfers.reduce((sum, t) => sum + t.quantity, 0);
     this.totalShipment = this.stockTransfers.reduce(

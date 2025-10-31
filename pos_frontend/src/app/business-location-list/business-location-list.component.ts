@@ -27,7 +27,7 @@ export class BusinessLocationListComponent implements OnInit {
       next: (res: any) => {
         this.locations = res.locations || [];
       },
-      error: (err) => console.error('❌ Error fetching locations:', err)
+      error: (err) => console.error(' Error fetching locations:', err)
     });
   }
 
@@ -35,7 +35,7 @@ export class BusinessLocationListComponent implements OnInit {
     if (confirm('🗑️ Are you sure you want to delete this location?')) {
       this.locationService.deleteLocation(id).subscribe({
         next: () => {
-          alert('✅ Location deleted successfully!');
+          alert(' Location deleted successfully!');
           this.getAllLocations();
         },
         error: (err) => console.error('Error deleting location:', err)

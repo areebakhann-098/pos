@@ -1,14 +1,12 @@
 <div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
   <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">
-    🧾 Sale Return Report
+     Sale Return Report
   </h2>
 
-  <!-- Loading -->
   <div *ngIf="loading" class="text-center py-6 text-gray-500">
     Loading report...
   </div>
 
-  <!-- Empty State -->
   <div
     *ngIf="!loading && saleReturns.length === 0"
     class="text-center py-6 text-gray-500 italic"
@@ -16,7 +14,6 @@
     No sale returns found.
   </div>
 
-  <!-- Table -->
   <div *ngIf="!loading && saleReturns.length > 0" class="overflow-x-auto">
     <table
       class="min-w-full border border-gray-300 rounded-lg text-sm text-gray-700"
@@ -33,7 +30,6 @@
       </thead>
 
       <tbody>
-        <!-- Main Sale Return Rows -->
         <ng-container *ngFor="let returnData of saleReturns; let i = index">
           <tr class="hover:bg-gray-50 transition">
             <td class="py-2 px-3 border text-center font-medium">
@@ -52,7 +48,6 @@
             </td>
           </tr>
 
-          <!-- Nested Returned Items -->
           <tr *ngIf="returnData.returnItems?.length">
             <td colspan="6" class="bg-gray-50 border px-4 py-2">
               <div>
@@ -80,7 +75,6 @@
           </tr>
         </ng-container>
 
-        <!-- Totals Row -->
         <tr class="bg-gray-200 font-semibold text-gray-900">
           <td colspan="5" class="py-2 px-3 border text-right">Total Refunds:</td>
           <td class="py-2 px-3 border text-right">
@@ -88,7 +82,6 @@
           </td>
         </tr>
 
-        <!-- Total Items Returned Row -->
         <tr class="bg-gray-100 font-semibold text-gray-800">
           <td colspan="5" class="py-2 px-3 border text-right">
             Total Items Returned:

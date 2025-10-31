@@ -2,7 +2,7 @@ import { buildAccessControlFromDB } from '../utils/accessControlRolePermission.u
 
 export const authorize = (action, resource, possession) => {
   return async (req, res, next) => {
-    console.log('🟢 Authorize middleware called');
+    console.log(' Authorize middleware called');
 
     // Step 1: get user role
     const role = req.user?.roles?.[0] || req.body?.role || 'guest';
@@ -10,8 +10,8 @@ export const authorize = (action, resource, possession) => {
 
     // Step 2: If admin, skip permission checks
     if (role === 'admin') {
-      console.log('🟢 Admin detected — full access granted');
-      return next(); // Skip all checks for admin
+      console.log('Admin detected — full access granted');
+      return next(); 
     }
 
     // Step 3: build access control from DB
@@ -43,11 +43,11 @@ export const authorize = (action, resource, possession) => {
 
     // Step 7: result
     if (!isAllowed) {
-      console.log('❌ Access denied for role:', role);
+      console.log(' Access denied for role:', role);
       return res.status(403).json({ message: 'Access Denied' });
     }
 
-    console.log('✅ Access granted');
+    console.log(' Access granted');
     next();
   };
 };

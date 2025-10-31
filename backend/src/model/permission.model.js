@@ -7,15 +7,15 @@ const Permission = sequelize.define('Permission', {
     allowNull: false,
   },
   action: {
-    type: DataTypes.STRING, // create, read, update, delete
+    type: DataTypes.STRING, 
     allowNull: false,
   },
   possession: {
-    type: DataTypes.STRING, // own, any
+    type: DataTypes.STRING, 
     allowNull: false,
   },
   attributes: {
-    type: DataTypes.ARRAY(DataTypes.STRING), // e.g. ['*'] or ['name', 'email']
+    type: DataTypes.ARRAY(DataTypes.STRING), 
     defaultValue: ['*'],
   }
 });

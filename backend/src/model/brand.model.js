@@ -19,7 +19,7 @@ const Brand = sequelize.define("Brand", {
   timestamps: true,
   createdAt: "created_at",
   updatedAt: "updated_at",
-  paranoid: true,   // ✅ Soft delete
+  paranoid: true,   
   deletedAt: "deleted_at",
 });
  

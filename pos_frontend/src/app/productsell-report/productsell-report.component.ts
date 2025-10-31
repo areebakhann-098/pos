@@ -36,17 +36,15 @@ export class ProductsellReportComponent {
   }
 
   
- // ✅ Fetch all business locations
 getAllBusinessLocations(): void {
   this.businessLocationService.getAllLocations().subscribe({
     next: (res: any) => {
-      // 👇 Backend response ke hisaab se handling
       this.businessLocations = res.locations || res.businessLocations || [];
 
-      console.log('📍 Locations fetched in Report:', this.businessLocations);
+      console.log(' Locations fetched in Report:', this.businessLocations);
     },
     error: (err) => {
-      console.error('❌ Error fetching locations:', err);
+      console.error(' Error fetching locations:', err);
     },
   });
 }
@@ -67,11 +65,10 @@ getAllBusinessLocations(): void {
           this.sales = [];
         }
 
-        // 🔹 Calculate totals
         this.calculateTotals();
       },
       error: (err) => {
-        console.error('❌ Error fetching sales:', err);
+        console.error(' Error fetching sales:', err);
       },
     });
   }
@@ -84,19 +81,16 @@ getAllBusinessLocations(): void {
     this.totalPaidAmount = this.sales.reduce((sum, s) => sum + (s.amount_paid || 0), 0);
   }
 
-  // ✅ Generate Sale Report PDF with Business Info
   generateSaleReport(sale: any) {
-    // 🔹 Get business location for this sale (if any)
     const selectedLocation = this.businessLocations.find(
       (b) => b.id === sale.business_location_id
     );
 
     const doc = new jsPDF({
       unit: 'mm',
-      format: [80, 200], // thermal printer size
+      format: [80, 200], 
     });
 
-    // 🔹 Header
     doc.setFontSize(10);
     doc.text(selectedLocation?.name || 'Business Name', 40, 8, { align: 'center' });
     doc.setFontSize(8);
@@ -110,11 +104,9 @@ getAllBusinessLocations(): void {
     doc.text(`Email: ${selectedLocation?.email || 'N/A'}`, 40, 20, { align: 'center' });
     doc.line(5, 23, 75, 23);
 
-    // 🔹 Invoice Info
     doc.text(`Date: ${new Date(sale.sale_date).toLocaleString()}`, 5, 27);
     doc.text(`Invoice #: ${sale.id || 'N/A'}`, 60, 27);
 
-    // 🔹 Table Header
     doc.setFontSize(8);
     let y = 32;
     doc.text('Item', 5, y);
@@ -123,7 +115,6 @@ getAllBusinessLocations(): void {
     doc.text('Total', 65, y);
     doc.line(5, y + 1, 75, y + 1);
 
-    // 🔹 Table Body
     y += 5;
     (sale.saleItems || []).forEach((item: any) => {
       const name = item.product?.product_name || '—';
@@ -140,7 +131,6 @@ getAllBusinessLocations(): void {
 
     doc.line(5, y - 2, 75, y - 2);
 
-    // 🔹 Summary
     y += 3;
     doc.text(`Subtotal: Rs. ${sale.total_amount.toFixed(2)}`, 5, y);
     y += 4;
@@ -158,17 +148,14 @@ getAllBusinessLocations(): void {
     doc.text(`Total Payable: Rs. ${sale.final_amount.toFixed(2)}`, 5, y);
     y += 6;
 
-    // 🔹 Payment Method
     doc.setFontSize(8);
     doc.text(`Payment Method: ${sale.payment_method || 'Cash'}`, 5, y);
     y += 8;
 
-    // 🔹 Footer
     doc.text('Thank you for shopping with us!', 40, y, { align: 'center' });
     y += 4;
     doc.text('Powered by Areeba/Usman POS System', 40, y, { align: 'center' });
 
-    // 🔹 Open in new tab
     doc.output('dataurlnewwindow');
   }
 }

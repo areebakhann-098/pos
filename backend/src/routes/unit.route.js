@@ -10,7 +10,7 @@ import { verifyToken } from '../middleware/jwt.middleware.js';
 import { authorize } from '../middleware/accessControl.middleware.js';
 const router = express.Router();
 
-// ✅ Explicit route names
+//  Explicit route names
 router.post("/units/create",verifyToken,authorize('create', 'product', 'any'), createUnit);          // POST   /api/units/create
 router.get("/units/list",verifyToken,authorize('read', 'sale||product', 'any'), getAllUnits);            // GET    /api/units/list
 router.get("/units/list/:id",verifyToken,authorize('read', 'sale||product', 'any'), getUnitById);      // GET    /api/units/detail/:id

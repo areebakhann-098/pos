@@ -40,7 +40,7 @@ export class PourchaseChartComponent implements OnInit {
     this.getDailyPurchases();
   }
 
-  /** 🔹 Fetch all purchases from API */
+  /**  Fetch all purchases from API */
   getDailyPurchases() {
     this.purchaseService.getPurchases().subscribe({
       next: (res: any) => {
@@ -49,12 +49,12 @@ export class PourchaseChartComponent implements OnInit {
         this.initializeChart(dailyTotals);
       },
       error: (err) => {
-        console.error('❌ Error fetching purchases:', err);
+        console.error(' Error fetching purchases:', err);
       },
     });
   }
 
-  /** 🔹 Calculate daily purchase totals and round to integers */
+  /**  Calculate daily purchase totals and round to integers */
   calculateDailyPurchases(purchases: any[]) {
     const dailyMap: { [key: string]: number } = {};
 

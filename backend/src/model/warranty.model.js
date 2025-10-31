@@ -34,8 +34,8 @@ const Warranty = sequelize.define('Warranty', {
   sequelize,
   modelName: 'Warranties',
   tableName: 'warranties',
-  timestamps: true,          // Sequelize will handle createdAt & updatedAt
-   paranoid: true, // ✅ soft delete
+  timestamps: true, 
+   paranoid: true, 
   createdAt: 'created_at',
   updatedAt: 'updated_at',
 });

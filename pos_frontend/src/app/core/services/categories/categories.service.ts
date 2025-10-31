@@ -8,13 +8,12 @@ import { environment } from '../../../../environment/environment';
 })
 export class CategoriesService {
 
-  private apiUrl = `${environment.apiUrl}/categories`; // ✅ use env base URL
+  private apiUrl = `${environment.apiUrl}/categories`; 
 
   constructor(private http: HttpClient) {}
 
-  // 🔹 Helper method to add JWT token to headers
   private getAuthHeaders(): { headers: HttpHeaders } {
-    const token = localStorage.getItem('token'); // Assuming JWT is stored in localStorage
+    const token = localStorage.getItem('token'); 
     return {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${token || ''}`,
@@ -23,27 +22,22 @@ export class CategoriesService {
     };
   }
 
-  // ➕ Create Category
   createCategory(categoryData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/create`, categoryData, this.getAuthHeaders());
   }
 
-  // 📋 Get All Categories
   getAllCategories(): Observable<any> {
     return this.http.get(`${this.apiUrl}/list`, this.getAuthHeaders());
   }
 
-  // 🔍 Get Category by ID
   getCategoryById(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/list/${id}`, this.getAuthHeaders());
   }
 
-  // ✏️ Update Category
   updateCategory(id: string, categoryData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/update/${id}`, categoryData, this.getAuthHeaders());
   }
 
-  // 🗑️ Delete Category
   deleteCategory(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/delete/${id}`, this.getAuthHeaders());
   }

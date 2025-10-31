@@ -17,7 +17,7 @@ export class StockReportComponent implements OnInit {
   totalQty = 0;
   totalPurchasePrice = 0;
   totalSellPrice = 0;
-    totalProfit = 0; // ✅ New
+    totalProfit = 0; 
 
 
   constructor(private productService: ProductService, private router: Router) {}
@@ -40,7 +40,6 @@ export class StockReportComponent implements OnInit {
           this.products = [];
         }
 
-        // ✅ Convert numeric fields to safe numbers
         this.products = this.products.map(p => ({
           ...p,
           quantity: Number(p.quantity) || 0,
@@ -51,12 +50,11 @@ export class StockReportComponent implements OnInit {
         this.calculateTotals();
       },
       error: (err) => {
-        console.error('❌ Error fetching products:', err);
+        console.error(' Error fetching products:', err);
       }
     });
   }
 
-  /** Calculate totals */
   calculateTotals(): void {
     this.totalQty = this.products.reduce((sum, p) => sum + p.quantity, 0);
     this.totalPurchasePrice = this.products.reduce((sum, p) => sum + p.purchase_price, 0);

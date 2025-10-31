@@ -11,10 +11,8 @@ import { DiscountService } from '../core/services/discount/discount.service';
   styleUrls: ['./discount.component.css']
 })
 export class DiscountComponent implements OnInit {
-  // 🧾 Discount list
   discounts: any[] = [];
 
-  // ✏️ Form fields
   discount = {
     id: null,
     name: '',
@@ -22,7 +20,6 @@ export class DiscountComponent implements OnInit {
     discount_amount: null,
   };
 
-  // Edit mode flag
   isEditMode = false;
 
   constructor(private discountService: DiscountService) {}
@@ -31,19 +28,17 @@ export class DiscountComponent implements OnInit {
     this.getAllDiscounts();
   }
 
-  // ✅ Fetch all discounts
   getAllDiscounts() {
     this.discountService.getDiscounts().subscribe({
       next: (res) => {
         this.discounts = res.data || [];
       },
       error: (err) => {
-        console.error('❌ Error fetching discounts:', err);
+        console.error(' Error fetching discounts:', err);
       },
     });
   }
 
-  // ✅ Create new discount
   addDiscount() {
     if (!this.discount.name || !this.discount.discount_type || !this.discount.discount_amount) {
       alert('Please fill all fields!');
@@ -58,42 +53,39 @@ export class DiscountComponent implements OnInit {
 
     this.discountService.createDiscount(payload).subscribe({
       next: (res) => {
-        alert('✅ Discount added successfully!');
+        alert(' Discount added successfully!');
         this.resetForm();
         this.getAllDiscounts();
       },
       error: (err) => {
-        console.error('❌ Error creating discount:', err);
+        console.error(' Error creating discount:', err);
         alert('Error saving discount!');
       },
     });
   }
 
-  // ✏️ Edit Discount
   editDiscount(d: any) {
-    this.discount = { ...d }; // copy data
+    this.discount = { ...d }; 
     this.isEditMode = true;
   }
 
-  // 🔄 Update Discount
   updateDiscount() {
     if (!this.discount.id) return;
 
     this.discountService.updateDiscount(this.discount.id, this.discount).subscribe({
       next: (res) => {
-        alert('✅ Discount updated successfully!');
+        alert(' Discount updated successfully!');
         this.resetForm();
         this.getAllDiscounts();
         this.isEditMode = false;
       },
       error: (err) => {
-        console.error('❌ Error updating discount:', err);
+        console.error(' Error updating discount:', err);
         alert('Error updating discount!');
       },
     });
   }
 
-  // 🗑️ Delete Discount
   deleteDiscount(id: number) {
     if (!confirm('Are you sure you want to delete this discount?')) return;
 
@@ -103,13 +95,12 @@ export class DiscountComponent implements OnInit {
         this.getAllDiscounts();
       },
       error: (err) => {
-        console.error('❌ Error deleting discount:', err);
+        console.error(' Error deleting discount:', err);
         alert('Error deleting discount!');
       },
     });
   }
 
-  // 🔁 Reset form
   resetForm() {
     this.discount = {
       id: null,
@@ -120,7 +111,6 @@ export class DiscountComponent implements OnInit {
     this.isEditMode = false;
   }
 
-  // ❌ Cancel edit mode
   cancelEdit() {
     this.resetForm();
   }

@@ -13,7 +13,6 @@ import { VariationService } from '../core/services/variation/variation.service';
 export class VariationsComponent implements OnInit {
   variations: any[] = [];
 
-  // 👇 For input fields
   variation = {
     name: '',
     valuesText: ''
@@ -28,7 +27,6 @@ export class VariationsComponent implements OnInit {
     this.getAllVariations();
   }
 
-  // 🔹 Fetch all variations
   getAllVariations() {
     this.variationService.getAllVariations().subscribe({
       next: (res) => (this.variations = res.data || []),
@@ -36,7 +34,6 @@ export class VariationsComponent implements OnInit {
     });
   }
 
-  // 🔹 Create a new variation
   addVariation() {
     if (!this.variation.name.trim()) {
       alert('Please enter a variation name!');
@@ -68,7 +65,6 @@ export class VariationsComponent implements OnInit {
     });
   }
 
-  // 🔹 Edit variation
   editVariation(v: any) {
     this.isEditMode = true;
     this.editId = v.id;
@@ -76,7 +72,6 @@ export class VariationsComponent implements OnInit {
     this.variation.valuesText = v.values.map((val: any) => val.value_name).join(', ');
   }
 
-  // 🔹 Update variation
   updateVariation() {
     if (!this.editId) return;
 
@@ -100,7 +95,6 @@ export class VariationsComponent implements OnInit {
     });
   }
 
-  // 🔹 Delete variation
   deleteVariation(id: number) {
     if (confirm('Are you sure you want to delete this variation?')) {
       this.variationService.deleteVariation(id).subscribe({
@@ -113,14 +107,12 @@ export class VariationsComponent implements OnInit {
     }
   }
 
-  // 🔹 Cancel edit mode
   cancelEdit() {
     this.isEditMode = false;
     this.editId = null;
     this.resetForm();
   }
 
-  // 🔹 Reset form
   resetForm() {
     this.variation = { name: '', valuesText: '' };
   }

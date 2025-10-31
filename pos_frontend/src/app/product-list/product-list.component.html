@@ -3,7 +3,7 @@
   <div
     class="flex justify-between items-center mb-4 sticky top-0 bg-white py-3 z-10 border-b border-gray-200"
   >
-    <h2 class="text-xl font-bold">📦 Product List</h2>
+    <h2 class="text-xl font-bold">Product List</h2>
     <button
       class="bg-blue-600 text-white px-3 h-9 rounded hover:bg-blue-700 text-sm"
       [routerLink]="['/home/AddProducts']"
@@ -23,7 +23,6 @@
           <th class="py-2 px-3 border">Warranty</th>
           <th class="py-2 px-3 border">Unit</th>
           <th class="py-2 px-3 border">Variation</th>
-          <th class="py-2 px-3 border">Variation Value</th>
           <th class="py-2 px-3 border">Category</th>
           <th class="py-2 px-3 border">Sub Category</th>
           <th class="py-2 px-3 border">Brand</th>
@@ -55,9 +54,7 @@
           <td class="py-2 px-3 border">
             {{ product.variation?.variation_name || "—" }}
           </td>
-          <td class="py-2 px-3 border">
-            {{ product.variation?.variation_value || "—" }}
-          </td>
+         
           <td class="py-2 px-3 border">{{ product.Category?.name || "—" }}</td>
           <td class="py-2 px-3 border">
             {{ product.Category?.sub_category || "—" }}

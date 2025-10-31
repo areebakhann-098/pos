@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  sidebarOpen = signal(true);     // Sidebar toggle
-  toggleDropdown = false;         // Profile dropdown toggle
+  sidebarOpen = signal(true);    
+  toggleDropdown = false;         
 
   constructor(private router: Router) {}
 
@@ -20,13 +20,10 @@ export class NavbarComponent {
     this.sidebarOpen.update(v => !v);
   }
 
-  // ✅ Logout function
   logout() {
-    // Remove token & user from localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('user');
 
-    // Redirect to login page (root '/')
     this.router.navigate(['/']);
   }
 }

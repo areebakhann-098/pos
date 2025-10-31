@@ -28,7 +28,7 @@ const Price = sequelize.define(
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
-    paranoid: true, // ✅ soft delete enable
+    paranoid: true, 
     deletedAt: "deleted_at",
   }
 );

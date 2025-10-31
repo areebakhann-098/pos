@@ -20,7 +20,7 @@ const Products = sequelize.define(
     tax_rate_id: { type: DataTypes.INTEGER, allowNull: true },
     price_id: { type: DataTypes.INTEGER, allowNull: true },
 
-    // ✅ new: BusinessLocation foreign key
+    //  new: BusinessLocation foreign key
     business_location_id: { type: DataTypes.INTEGER, allowNull: true },
 
     // expiry date

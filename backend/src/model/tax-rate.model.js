@@ -8,7 +8,7 @@ const TaxRate = sequelize.define("TaxRate", {
     allowNull: false,
   },
   amount: {
-    type: DataTypes.DOUBLE, // ✅ Tax Rate % like 5.00, 10.50
+    type: DataTypes.DOUBLE, 
     allowNull: false,
   },
 
@@ -19,7 +19,7 @@ const TaxRate = sequelize.define("TaxRate", {
   timestamps: true,
   createdAt: "created_at",
   updatedAt: "updated_at",
-  paranoid: true,   // ✅ Soft delete
+  paranoid: true,   
   deletedAt: "deleted_at",
 });
 

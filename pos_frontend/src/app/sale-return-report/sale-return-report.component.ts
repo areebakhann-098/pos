@@ -19,7 +19,6 @@ export class SaleReturnReportComponent implements OnInit {
     this.fetchSaleReturns();
   }
 
-  /** Fetch all sale return records from backend */
   fetchSaleReturns() {
     this.loading = true;
     this.saleReturnService.getAllSaleReturns().subscribe({
@@ -34,7 +33,6 @@ export class SaleReturnReportComponent implements OnInit {
     });
   }
 
-  /** ✅ Calculate total refund amount safely */
   get totalRefundAmount(): number {
     return this.saleReturns.reduce(
       (sum, r) => sum + (r.total_refund_amount || 0),
@@ -42,8 +40,7 @@ export class SaleReturnReportComponent implements OnInit {
     );
   }
 
-  /** ✅ Calculate total returned items count (based on quantity) */
-  get totalReturnedItems(): number {
+    get totalReturnedItems(): number {
     return this.saleReturns.reduce((count, r) => {
       if (r.returnItems?.length) {
         const itemCount = r.returnItems.reduce(

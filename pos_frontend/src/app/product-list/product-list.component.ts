@@ -11,8 +11,7 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class ProductListComponent {
   products: any[] = [];
-    loading: boolean = true; // ✅ Add this line
-
+    loading: boolean = true; 
 
   constructor(private productService: ProductService, private router: Router) {}
 
@@ -25,7 +24,6 @@ onEdit(product: any) {
     });
   }
 
-  // 🔴 Delete Product
   onDelete(id: number) {
     if (confirm('Are you sure you want to delete this product?')) {
       this.productService.deleteProduct(id).subscribe({
@@ -45,7 +43,6 @@ onEdit(product: any) {
     this.productService.getAllProducts().subscribe({
       next: (res: any) => {
 
-        // 🔹 API response structure handle karne ke liye
         if (Array.isArray(res)) {
           this.products = res;
         } else if (res?.data) {
@@ -57,7 +54,7 @@ onEdit(product: any) {
         }
       },
       error: (err) => {
-        console.error('❌ Error fetching products:', err);
+        console.error(' Error fetching products:', err);
       }
     });
   }
